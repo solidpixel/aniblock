@@ -1,0 +1,27 @@
+{
+  "name": "aniblock",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "expose-loader": "^0.7.5",
+    "prettier": "^1.18.2",
+    "prettier-webpack-plugin": "^1.2.0",
+    "ts-loader": "^6.0.4",
+    "typedoc": "^0.15.0",
+    "typedoc-webpack-plugin": "^1.1.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "gsap": "^2.1.3"
+  }
+}

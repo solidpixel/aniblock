@@ -1,0 +1,118 @@
+body {
+    margin: 1px;
+}
+
+svg#animation {
+    fill-opacity: 0;
+    stroke-dasharray: 100%;
+    stroke-dashoffset: 100%;
+}
+
+svg#animation #canvas {
+    fill-opacity: 1;
+    fill: rgb(255, 255, 255);
+    stroke: rgb(200, 200, 200);
+    stroke-width: 2px;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0%;
+}
+
+svg#animation text {
+    stroke-width: 0px;
+    font-family: "Lato";
+    font-size: 25px;
+}
+
+svg#animation .lt text {
+    font-size: 40px;
+}
+
+svg#animation line.AGuide {
+    fill-opacity: 1;
+    stroke: rgb(235, 197, 230);
+    stroke-width: 1px;
+    stroke-dasharray: 4px 4px;
+    stroke-dashoffset: none;
+}
+
+svg#animation text.AGuide {
+    fill-opacity: 1;
+    fill: rgb(221, 159, 213);
+    font-size: 10px;
+}
+
+svg#animation g.AGuide rect.ABlock {
+    fill: rgb(211, 162, 204);
+}
+
+svg#animation rect.ALoad {
+    stroke: rgb(120, 122, 122);
+    fill: rgba(255,255,255,0);
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    stroke-width: 2px;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0%;
+}
+
+svg#animation rect.ALoadMeter {
+    fill: rgb(0,255,0);
+    fill-opacity: 0;
+    stroke-width: 0px;
+}
+
+svg#animation rect.ABlock {
+    fill: rgb(250, 250, 250);
+    stroke-width: 6px;
+}
+
+svg#animation .s1 rect.ABlock {
+    stroke: rgb(0, 145, 169);
+}
+
+svg#animation .s1 text {
+    fill: rgb(0, 145, 169);;
+}
+
+svg#animation .s2 rect.ABlock {
+    stroke: rgb(149, 214, 0);
+}
+
+svg#animation .s2 text {
+    fill: rgb(149, 214, 0);
+}
+
+svg#animation .s3 rect.ABlock {
+    stroke: rgb(255, 107, 09);
+}
+
+svg#animation .s3 text {
+    fill: rgb(255, 107, 09);
+}
+
+svg#animation .s4 rect.ABlock {
+    stroke: rgb(0, 43, 73);
+}
+
+svg#animation .s4 text {
+    fill: rgb(0, 43, 73);
+}
+
+svg#animation .b1 rect.ABlock {
+    stroke: rgb(203, 207, 209);
+    fill: rgb(203, 207, 209);
+}
+
+svg#animation .b1 text {
+    fill: rgb(82, 92, 99);
+}
+
+svg#animation .l1 rect {
+    stroke: rgb(203, 207, 209);
+    fill: rgb(203, 207, 209);
+    stroke-width: 0px;
+}
+
+svg#animation .l1 text {
+    fill: rgb(100, 100, 100);
+}
