@@ -300,8 +300,10 @@ export class AScene implements EventListenerObject {
     public handleEvent(event): void {
         if (event.type == 'keydown' && this.isPaused) {
             this.isPaused = false
-            this.isPausedIndicator[0].hide_now()
-            this.isPausedIndicator[1].hide_now()
+            if (this.debug) {
+                this.isPausedIndicator[0].hide_now()
+                this.isPausedIndicator[1].hide_now()
+            }
             this.tl.play()
         }
     }
