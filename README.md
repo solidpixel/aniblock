@@ -1,7 +1,8 @@
-Aniblock is a lightweight library for creating animated block diagrams
-that can be shown in a browser. It provides an API to create a structured
-scene canvas, and then animate elements being placed on, moved on, and
-removed from that canvas.
+Aniblock is a library for creating animated SVG block diagrams that are
+rendered in a web browser. The API provides a means to render blocks on the
+diagram appearing, moving, linking to other blocks, and disappearing.
+
+![A sample block diagram using Aniblock](docs/sample.gif)
 
 There are two fundamental elements types which can be used: Blocks, and Links.
 Blocks define the major elements of the diagram, Links define the pathways

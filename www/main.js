@@ -2,49 +2,38 @@
 var lnkW = 50;
 
 var blkW = 180;
-var blkHL = 130;
-var blkHM = 80;
+var blkHL = 80;
+var blkHM = 70;
 var blkHS = 50;
 
-params = {
-    showTime: 1,
-    hideTime: 1,
-    morphTime: 4,
-    linkTime: 0.2,
-    moveTime: 1,
-}
-
 // Set up the Canvas
-var sc = new ABox.AScene('animation', 1280, 720, true);
-sc.configure(params);
+var sc = new ABox.AScene('animation', 800, 600, false);
 
 sc.add_vguide('c', '50%');
-sc.add_vguide_rel('c-1', 'c', -blkW);
-sc.add_vguide_rel('c+1', 'c', +blkW);
+sc.add_vguide_rel('c-1', 'c', -(blkW-20));
+sc.add_vguide_rel('c+1', 'c', +(blkW-20));
 
-sc.add_hguide('bus', '45%');
-sc.add_hguide_rel('pro', 'bus', -(blkHL + 60));
-sc.add_hguide_rel('mif', 'bus', +(blkHS + 50));
-sc.add_hguide_rel('ext', 'bus', +(blkHL + 80));
+sc.add_hguide('bus', '35%');
+sc.add_hguide_rel('pro', 'bus', -(blkHL + 25));
+sc.add_hguide_rel('mif', 'bus', +(blkHM + 20));
+sc.add_hguide_rel('ext', 'mif', +(blkHS + 40));
+
+//sc.add_wait();
 
 // Show the CPU
-var cpu = new ABox.ABlockLoad(sc, 'bCPU1', 's1', 'CPU', 'c', 'pro', blkW, blkHL);
+var cpu = new ABox.ABlock(sc, 'bCPU1', 's1', 'CPU', 'c', 'pro', blkW, blkHL);
+sc.add_wait();
 var dur = cpu.show();
-cpu.show_load();
-cpu.set_load(90, 25);
-sc.add_idle(5);
-cpu.set_load(10, 5);
-sc.add_idle(5);
+
+
 
 // Show the DRAM
 var dram = new ABox.ABlock(sc, 'bDRAM', 's4', 'DRAM', 'c', 'ext', blkW, blkHS);
 dur = dram.show();
 
 // Link CPU and DRAM to memory bus
-var bus = new ABox.ABlock(sc, 'bBUS', 'b1', 'Memory Bus', 'c', 'bus', blkW, blkHS);
+var bus = new ABox.ABlock(sc, 'bBUS', 'b1', 'Memory Bus', 'c', 'bus', blkW, 40);
 dur = bus.show();
-
-cpu.set_load(10, 15);
 
 var cpuLnk = new ABox.ALink(sc, 'lCPU1', 'l1', null, cpu, bus, ABox.Edge.Bottom, lnkW, false);
 var dramLnk = new ABox.ALink(sc, 'lDRAM', 'l1', null, dram, bus, ABox.Edge.Top, lnkW, false);
@@ -56,8 +45,6 @@ dramLnk.unplug();
 var dmc = new ABox.ABlock(sc, 'bDMC', 's4', 'Memory\nController', 'c', 'mif', blkW, blkHM);
 dur = dmc.show();
 dramLnk.plug();
-
-cpu.set_load(50, 15);
 
 // Add SMC
 dur = bus.change_width(460, ABox.Dir.Center);

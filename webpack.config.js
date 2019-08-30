@@ -42,7 +42,7 @@ module.exports = {
     }),
     new typedocPlugin({
       mode: 'file',
-      out: '../../docs',
+      out: '../../apidocs',
       excludeExternals: true,
       excludePrivate: true,
       readme: 'README.md'
