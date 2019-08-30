@@ -19,7 +19,7 @@ module.exports = {
             include : path.resolve(__dirname, 'ts'),
             use: [{
               loader: 'expose-loader',
-              options: 'ABox'
+              options: 'ABlk'
               }, {
                 loader: 'ts-loader'
             }]
