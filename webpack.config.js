@@ -1,7 +1,9 @@
 const path = require('path');
 var webpack = require('webpack');
-var prettierPlugin = require("prettier-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+var prettierPlugin = require('prettier-webpack-plugin');
 var typedocPlugin = require('typedoc-webpack-plugin');
+
 
 module.exports = {
   entry: './ts/main.ts',
@@ -44,6 +46,7 @@ module.exports = {
       excludeExternals: true,
       excludePrivate: true,
       readme: 'README.md'
-    })
+    }),
+    new CleanWebpackPlugin(),
   ],
 };
