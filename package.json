@@ -1,14 +1,14 @@
 {
   "name": "aniblock",
   "version": "0.0.0",
-  "description": "",
+  "description": "Library to build animated SVG block diagrams",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   },
   "keywords": [],
-  "author": "",
+  "author": "Peter Harris",
   "license": "MIT",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
