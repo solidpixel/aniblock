@@ -28,6 +28,8 @@ export enum ZOrder {
 /**
  * The ABlock provides the main building block for the diagrams, representing
  * a physical component in the device.
+ *
+ *   <img src="media://sample.gif" alt="A sample Aniblock animation" />
  */
 export class ABlock {
     public baseType: String

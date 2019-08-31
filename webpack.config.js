@@ -45,7 +45,8 @@ module.exports = {
       out: '../../docs',
       excludeExternals: true,
       excludePrivate: true,
-      readme: 'README.md'
+      readme: 'READMEGP.md',
+      media: 'media'
     }),
     new CleanWebpackPlugin(),
   ],
