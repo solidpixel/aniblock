@@ -5,7 +5,7 @@ disappearing. An example containing most of the supported animations is shown
 below:
 
 <p align="center">
-  <img src="./mdocs/sample.gif" alt="A sample Aniblock animation" />
+  <img src="./media/sample.gif" alt="A sample Aniblock animation" />
 </p>
 
 The underlying animation engine is provided by the [GreenSock Animation
