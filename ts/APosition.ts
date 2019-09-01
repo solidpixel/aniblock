@@ -23,9 +23,14 @@ export class APosition {
      *               integer percentage literals, or the symbolic name of a
      *               guides. Operators may be "-" or "+".
      */
-    constructor(scene: AScene, axis: string, format: string) {
-        if (axis != 'x' && axis != 'y') {
+    constructor(scene: AScene, axis: string, format: string | number) {
+        if (axis != 'x' && axis != 'y' && axis != 'k') {
             throw new Error('APosition: Bad axis ' + axis);
+        }
+
+        if (typeof format == 'number') {
+            this.pos = format;
+            return;
         }
 
         let tokens = format.split(/\s+/);
@@ -40,6 +45,9 @@ export class APosition {
         for (let i = 1; i < tokens.length; i += 2) {
             let op = this.parse_operator(tokens[i]);
             let val = this.parse_value(scene, axis, tokens[i + 1]);
+            if (val == undefined) {
+                throw new Error('APosition: Bad value "' + tokens[i + 1] + '"');
+            }
             this.pos = op(this.pos, val);
         }
     }
@@ -60,14 +68,26 @@ export class APosition {
             let percent = Number(token.match(/\d+/)[0]) / 100.0;
             if (axis == 'x') {
                 return scene.width * percent;
-            } else {
+            } else if (axis == 'y') {
                 return scene.height * percent;
+            } else {
+                throw new Error('APosition: Bad constant percentage');
             }
         } else {
             if (axis == 'x') {
-                return scene.get_vguide(token);
+                let guide = scene.get_vguide(token);
+                if (guide === undefined) {
+                    guide = scene.get_constant(token);
+                }
+                return guide;
+            } else if (axis == 'y') {
+                let guide = scene.get_hguide(token);
+                if (guide === undefined) {
+                    guide = scene.get_constant(token);
+                }
+                return guide;
             } else {
-                return scene.get_hguide(token);
+                return scene.get_constant(token);
             }
         }
     }

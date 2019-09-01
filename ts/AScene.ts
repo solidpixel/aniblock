@@ -3,17 +3,20 @@
  */
 import { ABlock } from './ABlock';
 import { TimelineLite } from 'gsap/TweenMax';
+import { APosition } from './APosition';
 
 /**
- * The AScene provides the root element for building a diagram, and owns the
- * scene canvas creation and any guide setup.
+ * An AScene is the root element used for constructing an animation.
+ *
+ * Each AScene wraps a single SVG element in the document, and the animation process will create new
+ * elements inside the SVG to provide the element of the diagram.
  */
 export class AScene implements EventListenerObject {
     /* Namespace for creating SVG elements. */
     private readonly ns = 'http://www.w3.org/2000/svg';
 
     /* Canvas DOM element ID. */
-    private id: string;
+    private readonly id: string;
 
     /* Width of the canvas, in pixels. */
     public readonly width: number;
@@ -22,10 +25,13 @@ export class AScene implements EventListenerObject {
     public readonly height: number;
 
     /* True if this instance is in debug mode. */
-    private debug: boolean;
+    private readonly debug: boolean;
 
     /* List of all blocks in the scene. */
     private blocks: any[];
+
+    /* Map of all constants in the scene. */
+    private constants: { [id: string]: number };
 
     /* Map of all horizontal (y-axis) guides in the scene. */
     private hguides: { [id: string]: number };
@@ -55,7 +61,7 @@ export class AScene implements EventListenerObject {
     public linkTime: number;
 
     /** @hidden The internal GSAP animation timeline. */
-    tl: TimelineLite;
+    public readonly tl: TimelineLite;
 
     /**
      * Create a new scene.
@@ -77,6 +83,7 @@ export class AScene implements EventListenerObject {
         this.blocks = [];
         this.hguides = {};
         this.vguides = {};
+        this.constants = {};
 
         this.tl = new TimelineLite();
         this.isPaused = false;
@@ -145,6 +152,33 @@ export class AScene implements EventListenerObject {
     }
 
     /**
+     * Add a new constant for guide computations.
+     *
+     * @param name The name of the constant.
+     * @param value The value of the constant, which may be an expression involving other constants
+     *              that have already been defined.
+     */
+    public add_constant(name: string, value: string | number) {
+        // Constants must be unique in all namespaces namespace
+        if (name in this.constants || name in this.hguides || name in this.vguides) {
+            throw new Error('AScene: Constant name collision "' + name + '"');
+        }
+
+        let epos = new APosition(this, 'k', value);
+        this.constants[name] = epos.pos;
+        console.log();
+    }
+
+    /**
+     * Get a constant value.
+     *
+     * @param name The name of the constant.
+     */
+    public get_constant(name: string): number {
+        return this.constants[name];
+    }
+
+    /**
      * Add a horizontal (y-axis) drawing guide.
      *
      * @param name The name of the guide.
@@ -152,11 +186,14 @@ export class AScene implements EventListenerObject {
      *     gives the position in pixels, or a string which gives the position
      *     as a percentage.
      */
-    public add_hguide(name: string, loc: any) {
-        if (typeof loc == 'string') {
-            loc = Number(loc.match(/\d+/)[0]) / 100;
-            loc = this.height * loc;
+    public add_hguide(name: string, loc: string | number) {
+        // Guides must be unique in both their orientation and constants namespace
+        if (name in this.constants || name in this.hguides) {
+            throw new Error('AScene: HGuide name collision "' + name + '"');
         }
+
+        let epos = new APosition(this, 'y', loc);
+        loc = epos.pos;
 
         this.hguides[name] = loc;
 
@@ -182,24 +219,6 @@ export class AScene implements EventListenerObject {
     }
 
     /**
-     * Add a horizontal (y-axis) drawing guide relative to another guide.
-     *
-     * @param name The name of the guide.
-     * @param parent The name of the parent horizontal guide.
-     * @param loc The location of the guide, specified as either a number which
-     *     gives the position in pixels, or a string which gives the position
-     *     as a percentage.
-     */
-    public add_hguide_rel(name: string, parent: string, loc: any): void {
-        if (typeof loc == 'string') {
-            loc = Number(loc.match(/-?\d+/)[0]) / 100;
-            loc = this.height * loc;
-        }
-
-        this.add_hguide(name, this.hguides[parent] + loc);
-    }
-
-    /**
      * Get the location of a horizontal guide, in pixels.
      *
      * @param name The name of the guide.
@@ -216,11 +235,14 @@ export class AScene implements EventListenerObject {
      *     gives the position in pixels, or a string which gives the position
      *     as a percentage.
      */
-    public add_vguide(name: string, loc: any) {
-        if (typeof loc == 'string') {
-            loc = Number(loc.match(/\d+/)[0]) / 100;
-            loc = this.width * loc;
+    public add_vguide(name: string, loc: string | number) {
+        // Guides must be unique in both their orientation and constants namespace
+        if (name in this.constants || name in this.vguides) {
+            throw new Error('AScene: VGuide name collision "' + name + '"');
         }
+
+        let epos = new APosition(this, 'x', loc);
+        loc = epos.pos;
 
         this.vguides[name] = loc;
 
@@ -243,24 +265,6 @@ export class AScene implements EventListenerObject {
             text.innerHTML = name + ' (' + String(Math.round(loc)) + ')';
             svg.insertBefore(text, line.nextSibling);
         }
-    }
-
-    /**
-     * Add a vertical (x-axis) drawing guide relative to another guide.
-     *
-     * @param name The name of the guide.
-     * @param parent The name of the parent vertical guide.
-     * @param loc The location of the guide, specified as either a number which
-     *     gives the position in pixels, or a string which gives the position
-     *     as a percentage.
-     */
-    public add_vguide_rel(name: string, parent: string, loc: any): void {
-        if (typeof loc == 'string') {
-            loc = Number(loc.match(/-?\d+/)[0]) / 100;
-            loc = this.width * loc;
-        }
-
-        this.add_vguide(name, this.vguides[parent] + loc);
     }
 
     /**
@@ -349,7 +353,7 @@ export class AScene implements EventListenerObject {
      * In debug runs a pause indicator is shown in the top left of the screen,
      * as a small square.
      */
-    public add_wait(event): void {
+    public add_wait(): void {
         if (this.debug && this.isPausedIndicator == null) {
             var ind0 = new ABlock(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12);
             var ind1 = new ABlock(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12);

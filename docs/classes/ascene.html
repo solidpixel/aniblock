@@ -67,9 +67,10 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The AScene provides the root element for building a diagram, and owns the
-						scene canvas creation and any guide setup.</p>
+						<p>An AScene is the root element used for constructing an animation.</p>
 					</div>
+					<p>Each AScene wraps a single SVG element in the document, and the animation process will create new
+					elements inside the SVG to provide the element of the diagram.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -107,13 +108,13 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_block" class="tsd-kind-icon">add_<wbr>block</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_constant" class="tsd-kind-icon">add_<wbr>constant</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_hguide" class="tsd-kind-icon">add_<wbr>hguide</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_hguide_rel" class="tsd-kind-icon">add_<wbr>hguide_<wbr>rel</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_idle" class="tsd-kind-icon">add_<wbr>idle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_vguide" class="tsd-kind-icon">add_<wbr>vguide</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#add_vguide_rel" class="tsd-kind-icon">add_<wbr>vguide_<wbr>rel</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#configure" class="tsd-kind-icon">configure</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#fastforward" class="tsd-kind-icon">fastforward</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#get_constant" class="tsd-kind-icon">get_<wbr>constant</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#get_hguide" class="tsd-kind-icon">get_<wbr>hguide</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ascene.html#get_vguide" class="tsd-kind-icon">get_<wbr>vguide</a></li>
 							</ul>
@@ -133,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L58">AScene.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L64">AScene.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -191,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L22">AScene.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L25">AScene.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L19">AScene.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L22">AScene.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -218,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L280">AScene.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L284">AScene.ts:284</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,16 +241,54 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="add_hguide" class="tsd-anchor"></a>
-					<h3>add_<wbr>hguide</h3>
+					<a name="add_constant" class="tsd-anchor"></a>
+					<h3>add_<wbr>constant</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>hguide<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add_<wbr>constant<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L155">AScene.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L161">AScene.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a new constant for guide computations.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the constant.</p>
+									</div>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The value of the constant, which may be an expression involving other constants
+										that have already been defined.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="add_hguide" class="tsd-anchor"></a>
+					<h3>add_<wbr>hguide</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add_<wbr>hguide<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L189">AScene.ts:189</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,52 +305,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>loc: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The location of the guide, specified as either a number which
-											gives the position in pixels, or a string which gives the position
-										as a percentage.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="add_hguide_rel" class="tsd-anchor"></a>
-					<h3>add_<wbr>hguide_<wbr>rel</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>hguide_<wbr>rel<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L193">AScene.ts:193</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a horizontal (y-axis) drawing guide relative to another guide.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The name of the guide.</p>
-									</div>
-								</li>
-								<li>
-									<h5>parent: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The name of the parent horizontal guide.</p>
-									</div>
-								</li>
-								<li>
-									<h5>loc: <span class="tsd-signature-type">any</span></h5>
+									<h5>loc: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The location of the guide, specified as either a number which
 											gives the position in pixels, or a string which gives the position
@@ -333,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L291">AScene.ts:291</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L295">AScene.ts:295</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,13 +352,13 @@
 					<a name="add_vguide" class="tsd-anchor"></a>
 					<h3>add_<wbr>vguide</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>vguide<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add_<wbr>vguide<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L219">AScene.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L238">AScene.ts:238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,52 +375,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>loc: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The location of the guide, specified as either a number which
-											gives the position in pixels, or a string which gives the position
-										as a percentage.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="add_vguide_rel" class="tsd-anchor"></a>
-					<h3>add_<wbr>vguide_<wbr>rel</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>vguide_<wbr>rel<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, loc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L257">AScene.ts:257</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a vertical (x-axis) drawing guide relative to another guide.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The name of the guide.</p>
-									</div>
-								</li>
-								<li>
-									<h5>parent: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The name of the parent vertical guide.</p>
-									</div>
-								</li>
-								<li>
-									<h5>loc: <span class="tsd-signature-type">any</span></h5>
+									<h5>loc: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The location of the guide, specified as either a number which
 											gives the position in pixels, or a string which gives the position
@@ -448,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L117">AScene.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L124">AScene.ts:124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,7 +437,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L298">AScene.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L302">AScene.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -497,6 +446,37 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get_constant" class="tsd-anchor"></a>
+					<h3>get_<wbr>constant</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get_<wbr>constant<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L177">AScene.ts:177</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a constant value.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the constant.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -510,7 +490,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L207">AScene.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L226">AScene.ts:226</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -541,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/dfa3be2/ts/AScene.ts#L271">AScene.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/AScene.ts#L275">AScene.ts:275</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -613,10 +593,10 @@
 								<a href="ascene.html#add_block" class="tsd-kind-icon">add_<wbr>block</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ascene.html#add_hguide" class="tsd-kind-icon">add_<wbr>hguide</a>
+								<a href="ascene.html#add_constant" class="tsd-kind-icon">add_<wbr>constant</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ascene.html#add_hguide_rel" class="tsd-kind-icon">add_<wbr>hguide_<wbr>rel</a>
+								<a href="ascene.html#add_hguide" class="tsd-kind-icon">add_<wbr>hguide</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ascene.html#add_idle" class="tsd-kind-icon">add_<wbr>idle</a>
@@ -625,13 +605,13 @@
 								<a href="ascene.html#add_vguide" class="tsd-kind-icon">add_<wbr>vguide</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ascene.html#add_vguide_rel" class="tsd-kind-icon">add_<wbr>vguide_<wbr>rel</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ascene.html#configure" class="tsd-kind-icon">configure</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ascene.html#fastforward" class="tsd-kind-icon">fastforward</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="ascene.html#get_constant" class="tsd-kind-icon">get_<wbr>constant</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="ascene.html#get_hguide" class="tsd-kind-icon">get_<wbr>hguide</a>

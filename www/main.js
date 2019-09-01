@@ -10,15 +10,19 @@ var blkHS = 50;
 var sc = new ABlk.AScene('animation', 960, 540, true);
 var bookmark = null;
 
+sc.add_constant('BLK_W', blkW);
+sc.add_constant('BLK_HL', blkHL);
+sc.add_constant('BLK_HM', blkHM);
+sc.add_constant('BLK_HS', blkHS);
+
 sc.add_vguide('c', '50%');
-sc.add_vguide_rel('c-1', 'c', -(blkW-20));
-sc.add_vguide_rel('c+1', 'c', +(blkW-20));
+sc.add_vguide('c-1', 'c - BLK_W + 20');
+sc.add_vguide('c+1', 'c + BLK_W - 20');
 
 sc.add_hguide('bus', '35%');
-sc.add_hguide_rel('pro', 'bus', -(blkHL + 25));
-sc.add_hguide_rel('mif', 'bus', +(blkHM + 20));
-sc.add_hguide_rel('ext', 'mif', +(blkHS + 40));
-
+sc.add_hguide('pro', 'bus - BLK_HL - 25');
+sc.add_hguide('mif', 'bus + BLK_HM + 20');
+sc.add_hguide('ext', 'mif + BLK_HS + 40');
 
 // Show the CPU
 var cpu = new ABlk.ABlock(sc, 'bCPU1', 's1', 'CPU', 'c', 'pro', blkW, blkHL);
