@@ -419,7 +419,6 @@ export class ABlock {
             var time = this.scene.moveTime;
         }
         tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, startTime);
-        console.log('BBB', startTime);
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -506,7 +505,6 @@ export class ABlock {
             tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, startTime);
         }
 
-        console.log('CCC', startTime);
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -570,7 +568,6 @@ export class ABlock {
             );
         }
 
-        console.log('DDD', startTime);
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -584,7 +581,6 @@ export class ABlock {
      *                  animation should be appended to the end of the timeline.
      */
     public update_links(startTime: number = null): void {
-        console.log(startTime);
         for (let i = 0; i < this.links.length; i++) {
             // Force update animations to use block timing so the link
             // stays in sync with the block it is connected to.
