@@ -89,6 +89,10 @@ export class AScene implements EventListenerObject {
         this.linkTime = 1
 
         document.addEventListener('keydown', this)
+
+        let svg = document.getElementById(this.id)
+        svg.setAttribute('width', String(w))
+        svg.setAttribute('height', String(h))
     }
 
     /**
@@ -166,7 +170,7 @@ export class AScene implements EventListenerObject {
             text.setAttribute('class', 'AGuide')
             text.setAttribute('x', '5')
             text.setAttribute('y', String(loc + 12))
-            text.innerHTML = name + ' (' + String(loc) + ')'
+            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')'
             svg.insertBefore(text, line.nextSibling)
         }
     }

@@ -7,7 +7,7 @@ var blkHM = 70;
 var blkHS = 50;
 
 // Set up the Canvas
-var sc = new ABlk.AScene('animation', 800, 600, false);
+var sc = new ABlk.AScene('animation', 1280, 720, true);
 
 sc.add_vguide('c', '50%');
 sc.add_vguide_rel('c-1', 'c', -(blkW-20));
@@ -18,14 +18,9 @@ sc.add_hguide_rel('pro', 'bus', -(blkHL + 25));
 sc.add_hguide_rel('mif', 'bus', +(blkHM + 20));
 sc.add_hguide_rel('ext', 'mif', +(blkHS + 40));
 
-//sc.add_wait();
-
 // Show the CPU
 var cpu = new ABlk.ABlock(sc, 'bCPU1', 's1', 'CPU', 'c', 'pro', blkW, blkHL);
-sc.add_wait();
 var dur = cpu.show();
-
-
 
 // Show the DRAM
 var dram = new ABlk.ABlock(sc, 'bDRAM', 's4', 'DRAM', 'c', 'ext', blkW, blkHS);
