@@ -252,27 +252,6 @@ export class ABlock {
     }
 
     /**
-     * @hidden
-     *
-     * Turn a time offset number into a string form.
-     *
-     * @param timeOffset The time offset in seconds (may be negative).
-     *
-     * @returns The time offset string.
-     */
-    protected get_timeoffset(timeOffset: number): string {
-        let timeStr = null;
-        if (timeOffset) {
-            if (timeOffset > 0) {
-                timeStr = '+=' + String(timeOffset);
-            } else {
-                timeStr = '-=' + String(-timeOffset);
-            }
-        }
-        return timeStr;
-    }
-
-    /**
      * Instantly show this block (irrespective of animation timeline).
      */
     public show_now(): void {
@@ -298,14 +277,16 @@ export class ABlock {
      * If the block has a zero width or zero height the show animation is
      * instant with no tweening.
      *
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public show(timeOffset: number = null): number {
+    public show(startTime: number = null): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
+
         let grpId = '#' + this.id;
         let rectId = '#' + this.id + ' rect.ABlock';
 
@@ -314,20 +295,17 @@ export class ABlock {
         let stroke = style.getPropertyValue('stroke-width');
         let strokeSize = Number(stroke.match(/\d+/)[0]);
 
-        let duration = null;
         if (strokeSize > 0) {
             let time = this.scene.showTime;
-            tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, timeStr);
+            tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, startTime);
             let offset = '-=' + time * 0.75;
             tl.to(grpId, time * 0.66, { fillOpacity: 1 }, offset);
-            duration = time;
         } else {
-            tl.to(grpId, 0, { fillOpacity: 1 }, timeStr);
-            duration = 0;
+            tl.to(grpId, 0, { fillOpacity: 1 }, startTime);
         }
 
         this.isVisible = true;
-        return duration;
+        return tlEndTime;
     }
 
     /**
@@ -336,14 +314,16 @@ export class ABlock {
      * If the block has a zero width or zero height the show animation is
      * instant with no tweening.
      *
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public hide(timeOffset: number = null): number {
+    public hide(startTime: number = null): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
+
         let grpId = '#' + this.id;
         let rectId = '#' + this.id + ' rect';
 
@@ -352,33 +332,33 @@ export class ABlock {
         let stroke = style.getPropertyValue('stroke-width');
         let strokeSize = Number(stroke.match(/\d+/)[0]);
 
-        let duration = null;
         if (strokeSize > 0) {
             let time = this.scene.hideTime;
-            tl.to(grpId, time * 0.66, { fillOpacity: 0 }, timeStr);
+            tl.to(grpId, time * 0.66, { fillOpacity: 0 }, startTime);
             let offset = '-=' + time;
             tl.to(rectId, time, { strokeDashoffset: '100%', ease: Sine.easeOut }, offset);
-            duration = time;
         } else {
-            tl.to(grpId, 0, { fillOpacity: 0 }, timeStr);
-            duration = 0;
+            tl.to(grpId, 0, { fillOpacity: 0 }, startTime);
         }
 
-        return duration;
+        this.isVisible = false;
+        return tlEndTime;
     }
 
     /**
      * Animate this block moving left or right by a relative pixel count.
      *
      * @param offset The pixel offset relative to the current position.
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public move_by_x(offset: number, timeOffset: number = null, isMorph: boolean = false): number {
+    public move_by_x(offset: number, startTime: number = null, isMorph: boolean = false): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
+
         let grpId = '#' + this.id;
         this.xOffset += offset;
 
@@ -390,40 +370,42 @@ export class ABlock {
         } else {
             var time = this.scene.moveTime;
         }
-        tl.to(grpId, time, { x: this.xOffset - this.x, ease: Sine.easeOut }, timeStr);
-        this.update_links(-time);
-        return time;
+
+        tl.to(grpId, time, { x: this.xOffset - this.x, ease: Sine.easeOut }, startTime);
+        this.update_links(startTime);
+        return tlEndTime;
     }
 
     /**
      * Animate this block moving to an absolute X coordinate.
      *
      * @param x The X coordinate; a pixel count or a vertical guide.
-     * @param timeOffset The time offset to apply, in seconds, relative to the
+     * @param startTime The time offset to apply, in seconds, relative to the
      *                   current end of the timeline (may be negative).
      *
      * @returns The length of this animation in seconds.
      */
-    public move_to_x(x: any, timeOffset: number = null): number {
+    public move_to_x(x: any, startTime: number = null): number {
         if (typeof x == 'string') {
             x = this.scene.get_vguide(x);
         }
         let newOffset = x - this.xOffset;
-        return this.move_by_x(newOffset, timeOffset);
+        return this.move_by_x(newOffset, startTime);
     }
 
     /**
      * Animate this block moving up or down by a relative pixel count.
      *
      * @param offset The pixel offset relative to the current position.
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public move_by_y(offset: number, timeOffset: number = null, isMorph: boolean = false): number {
+    public move_by_y(offset: number, startTime: number = null, isMorph: boolean = false): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
         this.yOffset += offset;
@@ -436,26 +418,27 @@ export class ABlock {
         } else {
             var time = this.scene.moveTime;
         }
-        tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, timeStr);
-        this.update_links(-time);
-        return time;
+        tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, startTime);
+        console.log('BBB', startTime);
+        this.update_links(startTime);
+        return tlEndTime;
     }
 
     /**
      * Animate this block moving to an absolute U coordinate.
      *
      * @param y The Y coordinate; a pixel count or a horizontal guide.
-     * @param timeOffset The time offset to apply, in seconds, relative to the
+     * @param startTime The time offset to apply, in seconds, relative to the
      *                   current end of the timeline (may be negative).
      *
      * @returns The length of this animation in seconds.
      */
-    public move_to_y(y: any, timeOffset: number = null): number {
+    public move_to_y(y: any, startTime: number = null): number {
         if (typeof y == 'string') {
             y = this.scene.get_hguide(y);
         }
         let newOffset = y - this.yOffset;
-        return this.move_by_y(newOffset, timeOffset);
+        return this.move_by_y(newOffset, startTime);
     }
 
     /**
@@ -464,14 +447,15 @@ export class ABlock {
      * @param w The new width.
      * @param direction The direction of the width change: ((l)eft, (c)enter,
      *                  or (r)ight).
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public change_width(w: number, direction: Dir, timeOffset: number = null): number {
+    public change_width(w: number, direction: Dir, startTime: number = null): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
 
         let rctId = '#' + this.id + ' rect';
         let textId = '#' + this.id + ' text';
@@ -492,38 +476,39 @@ export class ABlock {
 
         let perimeter = this.w * 2 + this.h * 2 + 20;
         if ((deltaW > 0 && direction == Dir.Left) || (deltaW < 0 && direction == Dir.Right)) {
-            let deltaT = this.move_by_x(-deltaW, timeOffset, true);
+            this.move_by_x(-deltaW, startTime, true);
             tl.to(
                 rctId,
                 time,
                 { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                '-=' + String(deltaT)
+                startTime
             );
         } else if (direction == Dir.Center) {
-            let deltaT = this.move_by_x(-deltaW2, timeOffset, true);
+            this.move_by_x(-deltaW2, startTime, true);
             tl.to(
                 rctId,
                 time,
                 { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                '-=' + String(deltaT)
+                startTime
             );
         } else {
             tl.to(
                 rctId,
                 time,
                 { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                timeStr
+                startTime
             );
         }
 
         let lines = document.querySelectorAll(textId);
         for (let i = 0; i < lines.length; i++) {
             let node = lines[i];
-            tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, '-=' + String(time));
+            tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, startTime);
         }
 
-        this.update_links(-time);
-        return time;
+        console.log('CCC', startTime);
+        this.update_links(startTime);
+        return tlEndTime;
     }
 
     /**
@@ -532,14 +517,15 @@ export class ABlock {
      * @param w The new width.
      * @param direction The direction of the height change: ((u)p, (c)enter,
      *                  or (d)own).
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.s.
      */
-    public change_height(h: number, direction: Dir, timeOffset: number = null): number {
+    public change_height(h: number, direction: Dir, startTime: number = null): number {
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
 
         let rctId = '#' + this.id + ' rect';
 
@@ -560,32 +546,33 @@ export class ABlock {
 
         let perimeter = this.w * 2 + this.h * 2 + 20;
         if ((deltaH > 0 && direction == Dir.Up) || (deltaH < 0 && direction == Dir.Down)) {
-            let deltaT = this.move_by_y(-deltaH, timeOffset, true);
+            this.move_by_y(-deltaH, startTime, true);
             tl.to(
                 rctId,
                 time,
                 { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                '-=' + String(deltaT)
+                startTime
             );
         } else if (direction == Dir.Center) {
-            let deltaT = this.move_by_y(-deltaH2, timeOffset, true);
+            this.move_by_y(-deltaH2, startTime, true);
             tl.to(
                 rctId,
                 time,
                 { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                '-=' + String(deltaT)
+                startTime
             );
         } else {
             tl.to(
                 rctId,
                 time,
                 { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                timeStr
+                startTime
             );
         }
 
-        this.update_links(-time);
-        return time;
+        console.log('DDD', startTime);
+        this.update_links(startTime);
+        return tlEndTime;
     }
 
     /**
@@ -593,15 +580,16 @@ export class ABlock {
      *
      * Update all links owned by this block to move with the block.
      *
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative)
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      */
-    public update_links(timeOffset: number = null): void {
+    public update_links(startTime: number = null): void {
+        console.log(startTime);
         for (let i = 0; i < this.links.length; i++) {
             // Force update animations to use block timing so the link
             // stays in sync with the block it is connected to.
             this.links[i].baseType = 'Block';
-            this.links[i].update(timeOffset);
+            this.links[i].update(startTime);
             this.links[i].baseType = 'Link';
         }
     }

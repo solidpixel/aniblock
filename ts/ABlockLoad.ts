@@ -83,25 +83,27 @@ export class ABlockLoad extends ABlock {
      * If the block has a zero width or zero height the show animation is
      * instant with no tweening.
      *
-     * @param timeOffset The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * @param startTime The start time on the animation timeline, in seconds, or null if the
+     *                  animation should be appended to the end of the timeline.
      *
-     * @returns The length of this animation in seconds.
+     * @returns The start time of this animation.
      */
-    public show_load(timeOffset: number = null): number {
+    public show_load(startTime: number = null): number {
         this.isMeterVisible = true;
 
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
+
         let time = 1;
 
         let rectId = '#' + this.id + ' rect.ALoad';
-        tl.to(rectId, time, { strokeOpacity: 1 }, timeStr);
+        tl.to(rectId, time, { strokeOpacity: 1 }, startTime);
 
         let rectId2 = '#' + this.id + ' rect.ALoadMeter';
         tl.to(rectId2, time, { fillOpacity: 1, strokeOpacity: 1 }, '-=1');
 
-        return time;
+        return tlEndTime;
     }
 
     /**
@@ -110,7 +112,7 @@ export class ABlockLoad extends ABlock {
     public set_load(
         load: number,
         range: number = 0,
-        timeOffset: number = null,
+        startTime: number = null,
         update: boolean = false
     ): number {
         let rand = Math.random() * range * 2;
@@ -120,10 +122,11 @@ export class ABlockLoad extends ABlock {
         randLoad = randLoad / 100.0;
 
         let tl = this.scene.tl;
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
+
         if (update) {
-            var timeStr = tl.time();
-        } else {
-            var timeStr = this.get_timeoffset(timeOffset);
+            var startTime = tl.time();
         }
         let rectId = '#' + this.id + ' rect.ALoadMeter';
 
@@ -146,9 +149,9 @@ export class ABlockLoad extends ABlock {
                 callbackScope: this,
                 onCompleteParams: [load, range],
             },
-            timeStr
+            startTime
         );
-        return time;
+        return tlEndTime;
     }
 
     private complete_callback(load: number, range: number) {
@@ -161,18 +164,19 @@ export class ABlockLoad extends ABlock {
     /**
      * Set load ...
      */
-    public hide_load(timeOffset: number = null): number {
+    public hide_load(startTime: number = null): number {
         this.isMeterVisible = false;
 
         let tl = this.scene.tl;
-        let timeStr = this.get_timeoffset(timeOffset);
+        let tlEndTime = tl.endTime();
+        startTime = startTime == null ? tlEndTime : startTime;
 
         let time = 1;
         let rectId = '#' + this.id + ' rect.ALoad';
-        tl.to(rectId, time, { fillOpacity: 0, strokeOpacity: 0 }, timeStr);
+        tl.to(rectId, time, { fillOpacity: 0, strokeOpacity: 0 }, startTime);
 
         let rectId2 = '#' + this.id + ' rect.ALoadMeter';
         tl.to(rectId2, time, { fillOpacity: 0, strokeOpacity: 0 }, '-=1');
-        return time;
+        return tlEndTime;
     }
 }

@@ -83,92 +83,89 @@ export class ALink extends ABlock {
     }
 
     /** @hidden */
-    public update(timeOffset: number = null): number {
-        let dur = null;
+    public update(startTime: number = null): number {
         if (this.exit == Edge.Top) {
             let src = this.src.get_edge(Edge.Top);
             let cur = this.get_edge(Edge.Bottom);
             let newH = this.h - (cur - src);
             if (newH < this.h) {
-                dur = this.change_height(newH, Dir.Up, timeOffset);
+                this.change_height(newH, Dir.Up, startTime);
             } else {
-                dur = this.change_height(newH, Dir.Down, timeOffset);
+                this.change_height(newH, Dir.Down, startTime);
             }
             let dX = this.src.get_x() - this.xOffset;
-            dur = this.move_by_x(dX, -dur);
+            this.move_by_x(dX, startTime);
         } else if (this.exit == Edge.Right) {
             let src = this.src.get_edge(Edge.Right);
             let cur = this.get_edge(Edge.Left);
             let newW = this.w - (src - cur);
             if (newW < this.w) {
-                dur = this.change_width(newW, Dir.Right, timeOffset);
+                this.change_width(newW, Dir.Right, startTime);
             } else {
-                dur = this.change_width(newW, Dir.Left, timeOffset);
+                this.change_width(newW, Dir.Left, startTime);
             }
             let dY = this.src.get_y() - this.yOffset;
-            dur = this.move_by_y(dY, -dur);
+            this.move_by_y(dY, startTime);
         } else if (this.exit == Edge.Bottom) {
             let src = this.src.get_edge(Edge.Bottom);
             let cur = this.get_edge(Edge.Top);
             let newH = this.h - (src - cur);
             if (newH < this.h) {
-                dur = this.change_height(newH, Dir.Down, timeOffset);
+                this.change_height(newH, Dir.Down, startTime);
             } else {
-                dur = this.change_height(newH, Dir.Up, timeOffset);
+                this.change_height(newH, Dir.Up, startTime);
             }
             let dX = this.src.get_x() - this.xOffset;
-            dur = this.move_by_x(dX, -dur);
+            this.move_by_x(dX, startTime);
         } else {
             // if (this.exit == Edge.Left)
             let src = this.src.get_edge(Edge.Left);
             let cur = this.get_edge(Edge.Right);
             let newW = this.w - (cur - src);
             if (newW < this.w) {
-                dur = this.change_width(newW, Dir.Left, timeOffset);
+                this.change_width(newW, Dir.Left, startTime);
             } else {
-                dur = this.change_width(newW, Dir.Right, timeOffset);
+                this.change_width(newW, Dir.Right, startTime);
             }
             let dY = this.src.get_y() - this.yOffset;
-            dur = this.move_by_y(dY, -dur);
+            this.move_by_y(dY, startTime);
         }
-        return dur;
+        return startTime;
     }
 
-    public unplug(timeOffset: number = null): number {
-        let dur = null;
+    public unplug(startTime: number = null): number {
+        let tlEndTime = null;
         if (this.exit == Edge.Top) {
-            dur = this.change_height(0, Dir.Down, timeOffset);
+            tlEndTime = this.change_height(0, Dir.Down, startTime);
         } else if (this.exit == Edge.Right) {
-            dur = this.change_width(0, Dir.Left, timeOffset);
+            tlEndTime = this.change_width(0, Dir.Left, startTime);
         } else if (this.exit == Edge.Bottom) {
-            dur = this.change_height(0, Dir.Up, timeOffset);
+            tlEndTime = this.change_height(0, Dir.Up, startTime);
         } else {
-            // if (this.exit == Edge.Left)
-            dur = this.change_width(0, Dir.Right, timeOffset);
+            tlEndTime = this.change_width(0, Dir.Right, startTime);
         }
-        return dur;
+        return tlEndTime;
     }
 
-    public plug(timeOffset: number = null): number {
-        let dur = null;
+    public plug(startTime: number = null): number {
+        let tlEndTime = null;
         if (this.exit == Edge.Top) {
             let src = this.src.get_edge(Edge.Top);
             let dst = this.dst.get_edge(Edge.Bottom);
-            dur = this.change_height(src - dst, Dir.Up, timeOffset);
+            tlEndTime = this.change_height(src - dst, Dir.Up, startTime);
         } else if (this.exit == Edge.Right) {
             let src = this.src.get_edge(Edge.Right);
             let dst = this.dst.get_edge(Edge.Left);
-            dur = this.change_width(dst - src, Dir.Right, timeOffset);
+            tlEndTime = this.change_width(dst - src, Dir.Right, startTime);
         } else if (this.exit == Edge.Bottom) {
             let src = this.src.get_edge(Edge.Bottom);
             let dst = this.dst.get_edge(Edge.Top);
-            dur = this.change_height(dst - src, Dir.Down, timeOffset);
+            tlEndTime = this.change_height(dst - src, Dir.Down, startTime);
         } else {
-            // if (this.exit == Edge.Left)
             let src = this.src.get_edge(Edge.Left);
             let dst = this.dst.get_edge(Edge.Right);
-            dur = this.change_width(src - dst, Dir.Left, timeOffset);
+            tlEndTime = this.change_width(src - dst, Dir.Left, startTime);
         }
-        return dur;
+        return tlEndTime;
     }
 }
