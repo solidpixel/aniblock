@@ -93,6 +93,12 @@ export class AScene implements EventListenerObject {
         let svg = document.getElementById(this.id)
         svg.setAttribute('width', String(w))
         svg.setAttribute('height', String(h))
+
+        let canvas = document.createElementNS(this.ns, 'rect')
+        canvas.setAttribute('id', 'canvas')
+        canvas.setAttribute('width', '100%')
+        canvas.setAttribute('height', '100%')
+        svg.appendChild(canvas)
     }
 
     /**
