@@ -32,7 +32,8 @@ Getting Started
 Prerequisites
 -------------
 
-Aniblock builds use Node.js and NPM for package management, so make sure these are installed and available on your command line `PATH`.
+Aniblock builds use Node.js and NPM for package management, so make sure these
+are installed and available on your command line `PATH`.
 
 Check out
 ---------
@@ -50,8 +51,15 @@ Build the API documentation, JavaScript library and debug source map using:
 
     webpack
 
-Build outputs:
+Build outputs are:
 
-* `apidocs`: The library API documentation.
+* `docs`: The library API documentation.
 * `www\dist\aniblock.js`: The Aniblock library.
 * `www\dist\aniblock.js.map`: The Aniblock source map, useful for debugging.
+
+API Documentation
+=================
+
+Documentation of the Aniblock library API can be found here:
+
+* https://solidpixel.github.io/aniblock/
