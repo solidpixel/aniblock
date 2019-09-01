@@ -234,7 +234,7 @@ export class AScene implements EventListenerObject {
             text.setAttribute('class', 'AGuide')
             text.setAttribute('x', String(loc + 5))
             text.setAttribute('y', '12')
-            text.innerHTML = name + ' (' + String(loc) + ')'
+            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')'
             svg.insertBefore(text, line.nextSibling)
         }
     }
