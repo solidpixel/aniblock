@@ -1,8 +1,8 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { ABlock } from './ABlock'
-import { TimelineLite } from 'gsap/TweenMax'
+import { ABlock } from './ABlock';
+import { TimelineLite } from 'gsap/TweenMax';
 
 /**
  * The AScene provides the root element for building a diagram, and owns the
@@ -10,52 +10,52 @@ import { TimelineLite } from 'gsap/TweenMax'
  */
 export class AScene implements EventListenerObject {
     /* Namespace for creating SVG elements. */
-    private readonly ns = 'http://www.w3.org/2000/svg'
+    private readonly ns = 'http://www.w3.org/2000/svg';
 
     /* Canvas DOM element ID. */
-    private id: string
+    private id: string;
 
     /* Width of the canvas, in pixels. */
-    public readonly width: number
+    public readonly width: number;
 
     /* Height of the canvas, in pixels. */
-    public readonly height: number
+    public readonly height: number;
 
     /* True if this instance is in debug mode. */
-    private debug: boolean
+    private debug: boolean;
 
     /* List of all blocks in the scene. */
-    private blocks: any[]
+    private blocks: any[];
 
     /* Map of all horizontal (y-axis) guides in the scene. */
-    private hguides: { [id: string]: number }
+    private hguides: { [id: string]: number };
 
     /* Map of all vertical (x-axis) guides in the scene. */
-    private vguides: { [id: string]: number }
+    private vguides: { [id: string]: number };
 
     /* Is the timeline paused waiting for a key press. */
-    private isPaused: boolean
+    private isPaused: boolean;
 
     /* Debug indicator for the key press. */
-    private isPausedIndicator: ABlock[]
+    private isPausedIndicator: ABlock[];
 
     /** @hidden Animation time for show animations. */
-    public showTime: number
+    public showTime: number;
 
     /** @hidden Animation time for hide animations. */
-    public hideTime: number
+    public hideTime: number;
 
     /** @hidden Animation time for move animations. */
-    public moveTime: number
+    public moveTime: number;
 
     /** @hidden Animation time for morph animations. */
-    public morphTime: number
+    public morphTime: number;
 
     /** @hidden Animation time for link animations. */
-    public linkTime: number
+    public linkTime: number;
 
     /** @hidden The internal GSAP animation timeline. */
-    tl: TimelineLite
+    tl: TimelineLite;
 
     /**
      * Create a new scene.
@@ -69,36 +69,36 @@ export class AScene implements EventListenerObject {
      * @param debug Enable debug mode.
      */
     constructor(id: string, w: number, h: number, debug: boolean = false) {
-        this.id = id
-        this.width = w
-        this.height = h
-        this.debug = debug
+        this.id = id;
+        this.width = w;
+        this.height = h;
+        this.debug = debug;
 
-        this.blocks = []
-        this.hguides = {}
-        this.vguides = {}
+        this.blocks = [];
+        this.hguides = {};
+        this.vguides = {};
 
-        this.tl = new TimelineLite()
-        this.isPaused = false
-        this.isPausedIndicator = null
+        this.tl = new TimelineLite();
+        this.isPaused = false;
+        this.isPausedIndicator = null;
 
-        this.showTime = 1
-        this.hideTime = 1
-        this.moveTime = 1
-        this.morphTime = 1
-        this.linkTime = 1
+        this.showTime = 1;
+        this.hideTime = 1;
+        this.moveTime = 1;
+        this.morphTime = 1;
+        this.linkTime = 1;
 
-        document.addEventListener('keydown', this)
+        document.addEventListener('keydown', this);
 
-        let svg = document.getElementById(this.id)
-        svg.setAttribute('width', String(w))
-        svg.setAttribute('height', String(h))
+        let svg = document.getElementById(this.id);
+        svg.setAttribute('width', String(w));
+        svg.setAttribute('height', String(h));
 
-        let canvas = document.createElementNS(this.ns, 'rect')
-        canvas.setAttribute('id', 'canvas')
-        canvas.setAttribute('width', '100%')
-        canvas.setAttribute('height', '100%')
-        svg.appendChild(canvas)
+        let canvas = document.createElementNS(this.ns, 'rect');
+        canvas.setAttribute('id', 'canvas');
+        canvas.setAttribute('width', '100%');
+        canvas.setAttribute('height', '100%');
+        svg.appendChild(canvas);
     }
 
     /**
@@ -116,31 +116,31 @@ export class AScene implements EventListenerObject {
      */
     configure(params: any) {
         if (params.timeScale != undefined) {
-            this.tl.timeScale(params.timeScale)
+            this.tl.timeScale(params.timeScale);
         }
 
         if (params.loop != undefined) {
-            this.tl.eventCallback('onComplete', this.complete_callback, null, this)
+            this.tl.eventCallback('onComplete', this.complete_callback, null, this);
         }
 
         if (params.showTime != undefined) {
-            this.showTime = params.showTime
+            this.showTime = params.showTime;
         }
 
         if (params.hideTime != undefined) {
-            this.hideTime = params.hideTime
+            this.hideTime = params.hideTime;
         }
 
         if (params.moveTime != undefined) {
-            this.moveTime = params.moveTime
+            this.moveTime = params.moveTime;
         }
 
         if (params.morphTime != undefined) {
-            this.morphTime = params.morphTime
+            this.morphTime = params.morphTime;
         }
 
         if (params.linkTime != undefined) {
-            this.linkTime = params.linkTime
+            this.linkTime = params.linkTime;
         }
     }
 
@@ -154,30 +154,30 @@ export class AScene implements EventListenerObject {
      */
     public add_hguide(name: string, loc: any) {
         if (typeof loc == 'string') {
-            loc = Number(loc.match(/\d+/)[0]) / 100
-            loc = this.height * loc
+            loc = Number(loc.match(/\d+/)[0]) / 100;
+            loc = this.height * loc;
         }
 
-        this.hguides[name] = loc
+        this.hguides[name] = loc;
 
         if (this.debug) {
-            let svg = document.getElementById(this.id)
-            let line = document.createElementNS(this.ns, 'line')
-            line.setAttribute('class', 'AGuide')
-            line.setAttribute('x1', '0')
-            line.setAttribute('x2', String(this.width))
-            line.setAttribute('y1', String(loc + 0.5))
-            line.setAttribute('y2', String(loc + 0.5))
+            let svg = document.getElementById(this.id);
+            let line = document.createElementNS(this.ns, 'line');
+            line.setAttribute('class', 'AGuide');
+            line.setAttribute('x1', '0');
+            line.setAttribute('x2', String(this.width));
+            line.setAttribute('y1', String(loc + 0.5));
+            line.setAttribute('y2', String(loc + 0.5));
 
-            let canvas = document.getElementById('canvas')
-            svg.insertBefore(line, canvas.nextSibling)
+            let canvas = document.getElementById('canvas');
+            svg.insertBefore(line, canvas.nextSibling);
 
-            let text = document.createElementNS(this.ns, 'text')
-            text.setAttribute('class', 'AGuide')
-            text.setAttribute('x', '5')
-            text.setAttribute('y', String(loc + 12))
-            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')'
-            svg.insertBefore(text, line.nextSibling)
+            let text = document.createElementNS(this.ns, 'text');
+            text.setAttribute('class', 'AGuide');
+            text.setAttribute('x', '5');
+            text.setAttribute('y', String(loc + 12));
+            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')';
+            svg.insertBefore(text, line.nextSibling);
         }
     }
 
@@ -192,11 +192,11 @@ export class AScene implements EventListenerObject {
      */
     public add_hguide_rel(name: string, parent: string, loc: any): void {
         if (typeof loc == 'string') {
-            loc = Number(loc.match(/-?\d+/)[0]) / 100
-            loc = this.height * loc
+            loc = Number(loc.match(/-?\d+/)[0]) / 100;
+            loc = this.height * loc;
         }
 
-        this.add_hguide(name, this.hguides[parent] + loc)
+        this.add_hguide(name, this.hguides[parent] + loc);
     }
 
     /**
@@ -205,7 +205,7 @@ export class AScene implements EventListenerObject {
      * @param name The name of the guide.
      */
     public get_hguide(name: string): number {
-        return this.hguides[name]
+        return this.hguides[name];
     }
 
     /**
@@ -218,30 +218,30 @@ export class AScene implements EventListenerObject {
      */
     public add_vguide(name: string, loc: any) {
         if (typeof loc == 'string') {
-            loc = Number(loc.match(/\d+/)[0]) / 100
-            loc = this.width * loc
+            loc = Number(loc.match(/\d+/)[0]) / 100;
+            loc = this.width * loc;
         }
 
-        this.vguides[name] = loc
+        this.vguides[name] = loc;
 
         if (this.debug) {
-            let svg = document.getElementById(this.id)
-            let line = document.createElementNS(this.ns, 'line')
-            line.setAttribute('class', 'AGuide')
-            line.setAttribute('x1', String(loc + 0.5))
-            line.setAttribute('x2', String(loc + 0.5))
-            line.setAttribute('y1', '0')
-            line.setAttribute('y2', String(this.height))
+            let svg = document.getElementById(this.id);
+            let line = document.createElementNS(this.ns, 'line');
+            line.setAttribute('class', 'AGuide');
+            line.setAttribute('x1', String(loc + 0.5));
+            line.setAttribute('x2', String(loc + 0.5));
+            line.setAttribute('y1', '0');
+            line.setAttribute('y2', String(this.height));
 
-            let canvas = document.getElementById('canvas')
-            svg.insertBefore(line, canvas.nextSibling)
+            let canvas = document.getElementById('canvas');
+            svg.insertBefore(line, canvas.nextSibling);
 
-            let text = document.createElementNS(this.ns, 'text')
-            text.setAttribute('class', 'AGuide')
-            text.setAttribute('x', String(loc + 5))
-            text.setAttribute('y', '12')
-            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')'
-            svg.insertBefore(text, line.nextSibling)
+            let text = document.createElementNS(this.ns, 'text');
+            text.setAttribute('class', 'AGuide');
+            text.setAttribute('x', String(loc + 5));
+            text.setAttribute('y', '12');
+            text.innerHTML = name + ' (' + String(Math.round(loc)) + ')';
+            svg.insertBefore(text, line.nextSibling);
         }
     }
 
@@ -256,11 +256,11 @@ export class AScene implements EventListenerObject {
      */
     public add_vguide_rel(name: string, parent: string, loc: any): void {
         if (typeof loc == 'string') {
-            loc = Number(loc.match(/-?\d+/)[0]) / 100
-            loc = this.width * loc
+            loc = Number(loc.match(/-?\d+/)[0]) / 100;
+            loc = this.width * loc;
         }
 
-        this.add_vguide(name, this.vguides[parent] + loc)
+        this.add_vguide(name, this.vguides[parent] + loc);
     }
 
     /**
@@ -269,7 +269,7 @@ export class AScene implements EventListenerObject {
      * @param name The name of the guide.
      */
     public get_vguide(name: string): number {
-        return this.vguides[name]
+        return this.vguides[name];
     }
 
     /**
@@ -278,9 +278,9 @@ export class AScene implements EventListenerObject {
      * @param element The block to add.
      */
     public add_block(element: ABlock) {
-        this.blocks.push(element)
-        let svg = document.getElementById(this.id)
-        element.generate_svg(svg)
+        this.blocks.push(element);
+        let svg = document.getElementById(this.id);
+        element.generate_svg(svg);
     }
 
     /**
@@ -289,16 +289,16 @@ export class AScene implements EventListenerObject {
      * @param time The number of seconds to idle.
      */
     public add_idle(time: number): void {
-        this.tl.set({}, {}, '+=' + String(time))
+        this.tl.set({}, {}, '+=' + String(time));
     }
 
     /**
      * Skip all animations and jump to the current head of the timeline.
      */
     public fastforward(): void {
-        this.tl.addLabel('ffwd')
-        this.tl.seek('ffwd')
-        this.tl.removeLabel('ffwd')
+        this.tl.addLabel('ffwd');
+        this.tl.seek('ffwd');
+        this.tl.removeLabel('ffwd');
     }
 
     /** @hidden
@@ -309,12 +309,12 @@ export class AScene implements EventListenerObject {
      */
     public handleEvent(event): void {
         if (event.type == 'keydown' && this.isPaused) {
-            this.isPaused = false
+            this.isPaused = false;
             if (this.debug) {
-                this.isPausedIndicator[0].hide_now()
-                this.isPausedIndicator[1].hide_now()
+                this.isPausedIndicator[0].hide_now();
+                this.isPausedIndicator[1].hide_now();
             }
-            this.tl.play()
+            this.tl.play();
         }
     }
 
@@ -324,10 +324,10 @@ export class AScene implements EventListenerObject {
      * This enables sensitivity to keypress events.
      */
     private resume_callback(): void {
-        this.isPaused = true
+        this.isPaused = true;
         if (this.debug) {
-            this.isPausedIndicator[0].show_now()
-            this.isPausedIndicator[1].show_now()
+            this.isPausedIndicator[0].show_now();
+            this.isPausedIndicator[1].show_now();
         }
     }
 
@@ -337,7 +337,7 @@ export class AScene implements EventListenerObject {
      * This enables sensitivity to keypress events.
      */
     private complete_callback(): void {
-        this.tl.restart()
+        this.tl.restart();
     }
 
     /** @hidden
@@ -351,10 +351,10 @@ export class AScene implements EventListenerObject {
      */
     public add_wait(event): void {
         if (this.debug && this.isPausedIndicator == null) {
-            var ind0 = new ABlock(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12)
-            var ind1 = new ABlock(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12)
-            this.isPausedIndicator = [ind0, ind1]
+            var ind0 = new ABlock(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12);
+            var ind1 = new ABlock(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12);
+            this.isPausedIndicator = [ind0, ind1];
         }
-        this.tl.addPause('+=0', this.resume_callback, null, this)
+        this.tl.addPause('+=0', this.resume_callback, null, this);
     }
 }

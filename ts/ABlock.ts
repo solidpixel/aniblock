@@ -1,9 +1,9 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { AScene } from './AScene'
-import { ALink } from './ALink'
-import { Sine } from 'gsap/TweenMax'
+import { AScene } from './AScene';
+import { ALink } from './ALink';
+import { Sine } from 'gsap/TweenMax';
 
 export enum Dir {
     Up = 1,
@@ -32,49 +32,52 @@ export enum ZOrder {
  *   <img src="media://sample.gif" alt="A sample Aniblock animation" />
  */
 export class ABlock {
-    public baseType: String
+    public baseType: String;
 
     /** Namespace for creating SVG elements. */
-    protected readonly ns = 'http://www.w3.org/2000/svg'
+    protected readonly ns = 'http://www.w3.org/2000/svg';
 
     /** Simple z-order: top (for blocks), bottom (for links). */
-    private zOrder: ZOrder
+    private zOrder: ZOrder;
 
     /** @hidden The DOM ID of the SVG element. */
-    protected id: string
+    protected id: string;
 
     /** @hidden The DOM class of the SVG element. */
-    private cls: string
+    private cls: string;
 
     /** @hidden The label string. */
-    private label: string
+    private label: string;
 
     /** @hidden The label line height in pixels. */
-    private labelSize: number
+    private labelSize: number;
 
     /** @hidden The starting X coordinate. */
-    protected x: number
+    protected x: number;
 
     /** @hidden The starting Y coordinate. */
-    protected y: number
+    protected y: number;
 
     /** @hidden The width of the block. */
-    protected w: number
+    protected w: number;
 
     /** @hidden The height of the block. */
-    protected h: number
+    protected h: number;
 
     /** @hidden The current X coordinate. */
-    protected xOffset: number
+    protected xOffset: number;
 
     /** @hidden The current Y coordinate. */
-    protected yOffset: number
+    protected yOffset: number;
 
     /** @hidden List of links for which is block is the primary source. */
-    private links: ALink[]
+    private links: ALink[];
 
     /** @hidden The parent scene that owns this block. */
-    protected scene: AScene
+    protected scene: AScene;
+
+    /** @hidden True if this block is visible. */
+    protected isVisible: boolean;
 
     /**
      * Create a new block.
@@ -103,59 +106,60 @@ export class ABlock {
         h: number,
         z: ZOrder = ZOrder.Top
     ) {
-        this.scene = scene
-        this.id = id
-        this.cls = cls
-        this.label = label
-        this.labelSize = null
-        this.links = []
+        this.scene = scene;
+        this.id = id;
+        this.cls = cls;
+        this.label = label;
+        this.labelSize = null;
+        this.links = [];
 
-        this.w = w
-        this.h = h
+        this.w = w;
+        this.h = h;
 
         if (typeof x == 'string') {
-            x = scene.get_vguide(x)
+            x = scene.get_vguide(x);
         }
 
         if (typeof y == 'string') {
-            y = scene.get_hguide(y)
+            y = scene.get_hguide(y);
         }
 
-        this.x = x
-        this.y = y
-        this.xOffset = this.x
-        this.yOffset = this.y
-        this.zOrder = z
-        this.baseType = 'Block'
-        scene.add_block(this)
+        this.x = x;
+        this.y = y;
+        this.xOffset = this.x;
+        this.yOffset = this.y;
+        this.zOrder = z;
+        this.baseType = 'Block';
+        this.isVisible = false;
+        scene.add_block(this);
     }
 
     /**
      * @returns The current X coordinate.
      */
     public get_x(): number {
-        return this.xOffset
+        return this.xOffset;
     }
 
     /**
      * @returns The current Y coordinate.
      */
     public get_y(): number {
-        return this.yOffset
+        return this.yOffset;
     }
 
     /**
      * @returns The current width.
      */
     public get_w(): number {
-        return this.w
+        return this.w;
     }
 
     /**
      * @returns The current height.
      */
     public get_h(): number {
-        return this.h
+        return this.h;
     }
 
     /**
@@ -166,20 +170,20 @@ export class ABlock {
      * @param label The string for the current line.
      */
     private generate_text(lines: number, index: number, label: string): SVGTextElement {
-        let text = document.createElementNS(this.ns, 'text')
-        let xCoord = String(this.x)
+        let text = document.createElementNS(this.ns, 'text');
+        let xCoord = String(this.x);
 
-        let yCenter = this.y + 2
-        let yBase = (this.labelSize * (lines - 1)) / 2
-        let yInc = this.labelSize * index
-        let yCoord = String(yCenter - yBase + yInc)
+        let yCenter = this.y + 2;
+        let yBase = (this.labelSize * (lines - 1)) / 2;
+        let yInc = this.labelSize * index;
+        let yCoord = String(yCenter - yBase + yInc);
 
-        text.setAttribute('x', xCoord)
-        text.setAttribute('y', yCoord)
-        text.setAttribute('dominant-baseline', 'middle')
-        text.setAttribute('text-anchor', 'middle')
-        text.innerHTML = label
-        return text
+        text.setAttribute('x', xCoord);
+        text.setAttribute('y', yCoord);
+        text.setAttribute('dominant-baseline', 'middle');
+        text.setAttribute('text-anchor', 'middle');
+        text.innerHTML = label;
+        return text;
     }
 
     /**
@@ -192,54 +196,59 @@ export class ABlock {
      * @returns The SVG group for the collection of elements.
      */
     public generate_svg(svg: HTMLElement): SVGElement {
-        let group = document.createElementNS(this.ns, 'g')
-        group.setAttribute('id', this.id)
-        group.setAttribute('class', String(this.cls))
+        let group = document.createElementNS(this.ns, 'g');
+        group.setAttribute('id', this.id);
+        group.setAttribute('class', String(this.cls));
 
         // Work out where to add the block in the SVG
         if (this.zOrder == ZOrder.Bottom) {
-            let guide = document.querySelectorAll('text.AGuide:last-of-type')
+            let guide = document.querySelectorAll('text.AGuide:last-of-type');
             if (guide.length != 0) {
-                svg.insertBefore(group, guide[0].nextSibling)
+                svg.insertBefore(group, guide[0].nextSibling);
             } else {
-                let canvas = document.getElementById('canvas')
-                svg.insertBefore(group, canvas.nextSibling)
+                let canvas = document.getElementById('canvas');
+                svg.insertBefore(group, canvas.nextSibling);
             }
         } else {
-            svg.appendChild(group)
+            svg.appendChild(group);
         }
 
         // Create the block
-        let rect = document.createElementNS(this.ns, 'rect')
-        rect.setAttribute('class', 'ABlock')
-        rect.setAttribute('x', String(this.x - this.w / 2))
-        rect.setAttribute('y', String(this.y - this.h / 2))
-        rect.setAttribute('width', String(this.w))
-        rect.setAttribute('height', String(this.h))
-        group.appendChild(rect)
+        let rect = document.createElementNS(this.ns, 'rect');
+        rect.setAttribute('class', 'ABlock');
+        rect.setAttribute('x', String(this.x - this.w / 2));
+        rect.setAttribute('y', String(this.y - this.h / 2));
+        rect.setAttribute('width', String(this.w));
+        rect.setAttribute('height', String(this.h));
+
+        let perimeter = this.w * 2 + this.h * 2 + 20;
+        rect.style.strokeDasharray = String(perimeter);
+        rect.style.strokeDashoffset = String(perimeter);
+
+        group.appendChild(rect);
 
         if (this.label == null) {
-            return
+            return;
         }
 
         // Create the text
-        let text = document.createElementNS(this.ns, 'text')
+        let text = document.createElementNS(this.ns, 'text');
 
         // ... this is a dummy element to get the font size
-        group.appendChild(text)
-        let style = window.getComputedStyle(text)
-        let fontSize = style.getPropertyValue('font-size')
-        this.labelSize = Number(fontSize.match(/\d+/)[0])
-        group.removeChild(text)
+        group.appendChild(text);
+        let style = window.getComputedStyle(text);
+        let fontSize = style.getPropertyValue('font-size');
+        this.labelSize = Number(fontSize.match(/\d+/)[0]);
+        group.removeChild(text);
 
-        let lines = this.label.split('\n')
+        let lines = this.label.split('\n');
         for (let i in lines) {
-            let j = Number(i)
-            let text = this.generate_text(lines.length, j, lines[j])
-            group.appendChild(text)
+            let j = Number(i);
+            let text = this.generate_text(lines.length, j, lines[j]);
+            group.appendChild(text);
         }
 
-        return group
+        return group;
     }
 
     /**
@@ -252,33 +261,35 @@ export class ABlock {
      * @returns The time offset string.
      */
     protected get_timeoffset(timeOffset: number): string {
-        let timeStr = null
+        let timeStr = null;
         if (timeOffset) {
             if (timeOffset > 0) {
-                timeStr = '+=' + String(timeOffset)
+                timeStr = '+=' + String(timeOffset);
             } else {
-                timeStr = '-=' + String(-timeOffset)
+                timeStr = '-=' + String(-timeOffset);
             }
         }
-        return timeStr
+        return timeStr;
     }
 
     /**
      * Instantly show this block (irrespective of animation timeline).
      */
     public show_now(): void {
-        let rectId = '#' + this.id + ' rect'
-        let node = document.querySelector(rectId) as HTMLElement
-        node.style.fillOpacity = '1'
+        let rectId = '#' + this.id + ' rect';
+        let node = document.querySelector(rectId) as HTMLElement;
+        node.style.fillOpacity = '1';
+        this.isVisible = true;
     }
 
     /**
      * Instantly hide this block (irrespective of animation timeline).
      */
     public hide_now(): void {
-        let rectId = '#' + this.id + ' rect'
-        let node = document.querySelector(rectId) as HTMLElement
-        node.style.fillOpacity = '0'
+        let rectId = '#' + this.id + ' rect';
+        let node = document.querySelector(rectId) as HTMLElement;
+        node.style.fillOpacity = '0';
+        this.isVisible = false;
     }
 
     /**
@@ -293,29 +304,30 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public show(timeOffset: number = null): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
-        let grpId = '#' + this.id
-        let rectId = '#' + this.id + ' rect.ABlock'
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
+        let grpId = '#' + this.id;
+        let rectId = '#' + this.id + ' rect.ABlock';
 
-        let node = document.querySelector(rectId)
-        let style = window.getComputedStyle(node)
-        let stroke = style.getPropertyValue('stroke-width')
-        let strokeSize = Number(stroke.match(/\d+/)[0])
+        let node = document.querySelector(rectId);
+        let style = window.getComputedStyle(node);
+        let stroke = style.getPropertyValue('stroke-width');
+        let strokeSize = Number(stroke.match(/\d+/)[0]);
 
-        let duration = null
+        let duration = null;
         if (strokeSize > 0) {
-            let time = this.scene.showTime
-            tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, timeStr)
-            let offset = '-=' + time * 0.75
-            tl.to(grpId, time * 0.66, { fillOpacity: 1 }, offset)
-            duration = time
+            let time = this.scene.showTime;
+            tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, timeStr);
+            let offset = '-=' + time * 0.75;
+            tl.to(grpId, time * 0.66, { fillOpacity: 1 }, offset);
+            duration = time;
         } else {
-            tl.to(grpId, 0, { fillOpacity: 1 }, timeStr)
-            duration = 0
+            tl.to(grpId, 0, { fillOpacity: 1 }, timeStr);
+            duration = 0;
         }
 
-        return duration
+        this.isVisible = true;
+        return duration;
     }
 
     /**
@@ -330,29 +342,29 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public hide(timeOffset: number = null): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
-        let grpId = '#' + this.id
-        let rectId = '#' + this.id + ' rect'
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
+        let grpId = '#' + this.id;
+        let rectId = '#' + this.id + ' rect';
 
-        let node = document.querySelector(rectId)
-        let style = window.getComputedStyle(node)
-        let stroke = style.getPropertyValue('stroke-width')
-        let strokeSize = Number(stroke.match(/\d+/)[0])
+        let node = document.querySelector(rectId);
+        let style = window.getComputedStyle(node);
+        let stroke = style.getPropertyValue('stroke-width');
+        let strokeSize = Number(stroke.match(/\d+/)[0]);
 
-        let duration = null
+        let duration = null;
         if (strokeSize > 0) {
-            let time = this.scene.hideTime
-            tl.to(grpId, time * 0.66, { fillOpacity: 0 }, timeStr)
-            let offset = '-=' + time
-            tl.to(rectId, time, { strokeDashoffset: '100%', ease: Sine.easeOut }, offset)
-            duration = time
+            let time = this.scene.hideTime;
+            tl.to(grpId, time * 0.66, { fillOpacity: 0 }, timeStr);
+            let offset = '-=' + time;
+            tl.to(rectId, time, { strokeDashoffset: '100%', ease: Sine.easeOut }, offset);
+            duration = time;
         } else {
-            tl.to(grpId, 0, { fillOpacity: 0 }, timeStr)
-            duration = 0
+            tl.to(grpId, 0, { fillOpacity: 0 }, timeStr);
+            duration = 0;
         }
 
-        return duration
+        return duration;
     }
 
     /**
@@ -365,22 +377,22 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public move_by_x(offset: number, timeOffset: number = null, isMorph: boolean = false): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
-        let grpId = '#' + this.id
-        this.xOffset += offset
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
+        let grpId = '#' + this.id;
+        this.xOffset += offset;
 
-        let isLink = this.baseType == 'Link'
+        let isLink = this.baseType == 'Link';
         if (isLink) {
-            var time = this.scene.linkTime
+            var time = this.scene.linkTime;
         } else if (isMorph) {
-            var time = this.scene.morphTime
+            var time = this.scene.morphTime;
         } else {
-            var time = this.scene.moveTime
+            var time = this.scene.moveTime;
         }
-        tl.to(grpId, time, { x: this.xOffset - this.x, ease: Sine.easeOut }, timeStr)
-        this.update_links(-time)
-        return time
+        tl.to(grpId, time, { x: this.xOffset - this.x, ease: Sine.easeOut }, timeStr);
+        this.update_links(-time);
+        return time;
     }
 
     /**
@@ -394,10 +406,10 @@ export class ABlock {
      */
     public move_to_x(x: any, timeOffset: number = null): number {
         if (typeof x == 'string') {
-            x = this.scene.get_vguide(x)
+            x = this.scene.get_vguide(x);
         }
-        let newOffset = x - this.xOffset
-        return this.move_by_x(newOffset, timeOffset)
+        let newOffset = x - this.xOffset;
+        return this.move_by_x(newOffset, timeOffset);
     }
 
     /**
@@ -410,23 +422,23 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public move_by_y(offset: number, timeOffset: number = null, isMorph: boolean = false): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
 
-        let grpId = '#' + this.id
-        this.yOffset += offset
-        let isLink = this.baseType == 'Link'
+        let grpId = '#' + this.id;
+        this.yOffset += offset;
+        let isLink = this.baseType == 'Link';
 
         if (isLink) {
-            var time = this.scene.linkTime
+            var time = this.scene.linkTime;
         } else if (isMorph) {
-            var time = this.scene.morphTime
+            var time = this.scene.morphTime;
         } else {
-            var time = this.scene.moveTime
+            var time = this.scene.moveTime;
         }
-        tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, timeStr)
-        this.update_links(-time)
-        return time
+        tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, timeStr);
+        this.update_links(-time);
+        return time;
     }
 
     /**
@@ -440,10 +452,10 @@ export class ABlock {
      */
     public move_to_y(y: any, timeOffset: number = null): number {
         if (typeof y == 'string') {
-            y = this.scene.get_hguide(y)
+            y = this.scene.get_hguide(y);
         }
-        let newOffset = y - this.yOffset
-        return this.move_by_y(newOffset, timeOffset)
+        let newOffset = y - this.yOffset;
+        return this.move_by_y(newOffset, timeOffset);
     }
 
     /**
@@ -458,44 +470,60 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public change_width(w: number, direction: Dir, timeOffset: number = null): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
 
-        let rctId = '#' + this.id + ' rect'
-        let textId = '#' + this.id + ' text'
-        let deltaW = w - this.w
-        let deltaW2 = deltaW / 2
-        this.w = w
+        let rctId = '#' + this.id + ' rect';
+        let textId = '#' + this.id + ' text';
+        let deltaW = w - this.w;
+        let deltaW2 = deltaW / 2;
+        this.w = w;
 
         // Adjust origin point (in middle of rectangle)
-        this.x += deltaW2
-        this.xOffset += deltaW2
+        this.x += deltaW2;
+        this.xOffset += deltaW2;
 
-        let isLink = this.baseType == 'Link'
+        let isLink = this.baseType == 'Link';
         if (isLink) {
-            var time = this.scene.linkTime
+            var time = this.scene.linkTime;
         } else {
-            var time = this.scene.morphTime
+            var time = this.scene.morphTime;
         }
 
+        let perimeter = this.w * 2 + this.h * 2 + 20;
         if ((deltaW > 0 && direction == Dir.Left) || (deltaW < 0 && direction == Dir.Right)) {
-            let deltaT = this.move_by_x(-deltaW, timeOffset, true)
-            tl.to(rctId, time, { width: w, ease: Sine.easeOut }, '-=' + String(deltaT))
+            let deltaT = this.move_by_x(-deltaW, timeOffset, true);
+            tl.to(
+                rctId,
+                time,
+                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
+                '-=' + String(deltaT)
+            );
         } else if (direction == Dir.Center) {
-            let deltaT = this.move_by_x(-deltaW2, timeOffset, true)
-            tl.to(rctId, time, { width: w, ease: Sine.easeOut }, '-=' + String(deltaT))
+            let deltaT = this.move_by_x(-deltaW2, timeOffset, true);
+            tl.to(
+                rctId,
+                time,
+                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
+                '-=' + String(deltaT)
+            );
         } else {
-            tl.to(rctId, time, { width: w, ease: Sine.easeOut }, timeStr)
+            tl.to(
+                rctId,
+                time,
+                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
+                timeStr
+            );
         }
 
-        let lines = document.querySelectorAll(textId)
+        let lines = document.querySelectorAll(textId);
         for (let i = 0; i < lines.length; i++) {
-            let node = lines[i]
-            tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, '-=' + String(time))
+            let node = lines[i];
+            tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, '-=' + String(time));
         }
 
-        this.update_links(-time)
-        return time
+        this.update_links(-time);
+        return time;
     }
 
     /**
@@ -510,38 +538,54 @@ export class ABlock {
      * @returns The length of this animation in seconds.
      */
     public change_height(h: number, direction: Dir, timeOffset: number = null): number {
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
 
-        let rctId = '#' + this.id + ' rect'
+        let rctId = '#' + this.id + ' rect';
 
-        let deltaH = h - this.h
-        let deltaH2 = deltaH / 2
-        this.h = h
+        let deltaH = h - this.h;
+        let deltaH2 = deltaH / 2;
+        this.h = h;
 
         // Adjust origin point (in middle of rectangle)
-        this.y += deltaH2
-        this.yOffset += deltaH2
+        this.y += deltaH2;
+        this.yOffset += deltaH2;
 
-        let isLink = this.baseType == 'Link'
+        let isLink = this.baseType == 'Link';
         if (isLink) {
-            var time = this.scene.linkTime
+            var time = this.scene.linkTime;
         } else {
-            var time = this.scene.morphTime
+            var time = this.scene.morphTime;
         }
 
+        let perimeter = this.w * 2 + this.h * 2 + 20;
         if ((deltaH > 0 && direction == Dir.Up) || (deltaH < 0 && direction == Dir.Down)) {
-            let deltaT = this.move_by_y(-deltaH, timeOffset, true)
-            tl.to(rctId, time, { height: h, ease: Sine.easeOut }, '-=' + String(deltaT))
+            let deltaT = this.move_by_y(-deltaH, timeOffset, true);
+            tl.to(
+                rctId,
+                time,
+                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
+                '-=' + String(deltaT)
+            );
         } else if (direction == Dir.Center) {
-            let deltaT = this.move_by_y(-deltaH2, timeOffset, true)
-            tl.to(rctId, time, { height: h, ease: Sine.easeOut }, '-=' + String(deltaT))
+            let deltaT = this.move_by_y(-deltaH2, timeOffset, true);
+            tl.to(
+                rctId,
+                time,
+                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
+                '-=' + String(deltaT)
+            );
         } else {
-            tl.to(rctId, time, { height: h, ease: Sine.easeOut }, timeStr)
+            tl.to(
+                rctId,
+                time,
+                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
+                timeStr
+            );
         }
 
-        this.update_links(-time)
-        return time
+        this.update_links(-time);
+        return time;
     }
 
     /**
@@ -556,9 +600,9 @@ export class ABlock {
         for (let i = 0; i < this.links.length; i++) {
             // Force update animations to use block timing so the link
             // stays in sync with the block it is connected to.
-            this.links[i].baseType = 'Block'
-            this.links[i].update(timeOffset)
-            this.links[i].baseType = 'Link'
+            this.links[i].baseType = 'Block';
+            this.links[i].update(timeOffset);
+            this.links[i].baseType = 'Link';
         }
     }
 
@@ -570,7 +614,7 @@ export class ABlock {
      * @param link The new link to add.
      */
     public add_link(link: ALink): void {
-        this.links.push(link)
+        this.links.push(link);
     }
 
     /**
@@ -583,16 +627,16 @@ export class ABlock {
      * @returns The edge coordinate in pixels.
      */
     public get_edge(edge: Edge): number {
-        let edgeVal = null
+        let edgeVal = null;
         if (edge == Edge.Top) {
-            edgeVal = this.yOffset - this.h / 2
+            edgeVal = this.yOffset - this.h / 2;
         } else if (edge == Edge.Right) {
-            edgeVal = this.xOffset + this.w / 2
+            edgeVal = this.xOffset + this.w / 2;
         } else if (edge == Edge.Bottom) {
-            edgeVal = this.yOffset + this.h / 2
+            edgeVal = this.yOffset + this.h / 2;
         } else if (edge == Edge.Left) {
-            edgeVal = this.xOffset - this.w / 2
+            edgeVal = this.xOffset - this.w / 2;
         }
-        return edgeVal
+        return edgeVal;
     }
 }

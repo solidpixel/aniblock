@@ -7,7 +7,7 @@ var blkHM = 70;
 var blkHS = 50;
 
 // Set up the Canvas
-var sc = new ABlk.AScene('animation', 1280, 720, true);
+var sc = new ABlk.AScene('animation', 960, 540, true);
 
 sc.add_vguide('c', '50%');
 sc.add_vguide_rel('c-1', 'c', -(blkW-20));

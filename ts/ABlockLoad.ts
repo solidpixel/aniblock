@@ -1,18 +1,18 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { AScene } from './AScene'
-import { ALink } from './ALink'
-import { ABlock, Dir, ZOrder } from './ABlock'
-import { Sine } from 'gsap/TweenMax'
+import { AScene } from './AScene';
+import { ALink } from './ALink';
+import { ABlock, Dir, ZOrder } from './ABlock';
+import { Sine } from 'gsap/TweenMax';
 
 /**
  * The ABlock provides the main building block for the diagrams, representing
  * a physical component in the device.
  */
 export class ABlockLoad extends ABlock {
-    private isMeterVisible: boolean
-    private currentIndex: number
+    private isMeterVisible: boolean;
+    private currentIndex: number;
 
     /**
      * Create a new block.
@@ -41,9 +41,9 @@ export class ABlockLoad extends ABlock {
         h: number,
         z: ZOrder = ZOrder.Top
     ) {
-        super(scene, id, cls, label, x, y, w, h, z)
-        this.isMeterVisible = false
-        this.currentIndex = 0
+        super(scene, id, cls, label, x, y, w, h, z);
+        this.isMeterVisible = false;
+        this.currentIndex = 0;
     }
 
     /*
@@ -54,27 +54,27 @@ export class ABlockLoad extends ABlock {
      * @param svg: The parent SVG element to add to.
      */
     public generate_svg(svg: HTMLElement): SVGElement {
-        let group = super.generate_svg(svg)
+        let group = super.generate_svg(svg);
 
         // Create the load meter
-        let rect = document.createElementNS(this.ns, 'rect')
-        rect.setAttribute('class', 'ALoadMeter')
-        rect.setAttribute('x', String(this.x + this.w / 2 + 11))
-        rect.setAttribute('y', String(this.y + this.h / 2))
-        rect.setAttribute('width', String(6))
-        rect.setAttribute('height', String(0))
-        group.appendChild(rect)
+        let rect = document.createElementNS(this.ns, 'rect');
+        rect.setAttribute('class', 'ALoadMeter');
+        rect.setAttribute('x', String(this.x + this.w / 2 + 11));
+        rect.setAttribute('y', String(this.y + this.h / 2));
+        rect.setAttribute('width', String(6));
+        rect.setAttribute('height', String(0));
+        group.appendChild(rect);
 
         // Create the load meter
-        rect = document.createElementNS(this.ns, 'rect')
-        rect.setAttribute('class', 'ALoad')
-        rect.setAttribute('x', String(this.x + this.w / 2 + 10))
-        rect.setAttribute('y', String(this.y - this.h / 2))
-        rect.setAttribute('width', String(8))
-        rect.setAttribute('height', String(this.h))
-        group.appendChild(rect)
+        rect = document.createElementNS(this.ns, 'rect');
+        rect.setAttribute('class', 'ALoad');
+        rect.setAttribute('x', String(this.x + this.w / 2 + 10));
+        rect.setAttribute('y', String(this.y - this.h / 2));
+        rect.setAttribute('width', String(8));
+        rect.setAttribute('height', String(this.h));
+        group.appendChild(rect);
 
-        return group
+        return group;
     }
 
     /**
@@ -89,19 +89,19 @@ export class ABlockLoad extends ABlock {
      * @returns The length of this animation in seconds.
      */
     public show_load(timeOffset: number = null): number {
-        this.isMeterVisible = true
+        this.isMeterVisible = true;
 
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
-        let time = 1
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
+        let time = 1;
 
-        let rectId = '#' + this.id + ' rect.ALoad'
-        tl.to(rectId, time, { strokeOpacity: 1 }, timeStr)
+        let rectId = '#' + this.id + ' rect.ALoad';
+        tl.to(rectId, time, { strokeOpacity: 1 }, timeStr);
 
-        let rectId2 = '#' + this.id + ' rect.ALoadMeter'
-        tl.to(rectId2, time, { fillOpacity: 1, strokeOpacity: 1 }, '-=1')
+        let rectId2 = '#' + this.id + ' rect.ALoadMeter';
+        tl.to(rectId2, time, { fillOpacity: 1, strokeOpacity: 1 }, '-=1');
 
-        return time
+        return time;
     }
 
     /**
@@ -113,28 +113,28 @@ export class ABlockLoad extends ABlock {
         timeOffset: number = null,
         update: boolean = false
     ): number {
-        let rand = Math.random() * range * 2
-        let randLoad = load - range + rand
-        randLoad = Math.max(randLoad, 0)
-        randLoad = Math.min(randLoad, 100)
-        randLoad = randLoad / 100.0
+        let rand = Math.random() * range * 2;
+        let randLoad = load - range + rand;
+        randLoad = Math.max(randLoad, 0);
+        randLoad = Math.min(randLoad, 100);
+        randLoad = randLoad / 100.0;
 
-        let tl = this.scene.tl
+        let tl = this.scene.tl;
         if (update) {
-            var timeStr = tl.time()
+            var timeStr = tl.time();
         } else {
-            var timeStr = this.get_timeoffset(timeOffset)
+            var timeStr = this.get_timeoffset(timeOffset);
         }
-        let rectId = '#' + this.id + ' rect.ALoadMeter'
+        let rectId = '#' + this.id + ' rect.ALoadMeter';
 
-        let red = Math.floor(randLoad * 255.0)
-        let green = Math.floor((1.0 - randLoad) * 255.0)
-        let color = 'rgb(' + String(red) + ',' + String(green) + ',0)'
-        let newH = this.h * randLoad
-        let newY = -newH
+        let red = Math.floor(randLoad * 255.0);
+        let green = Math.floor((1.0 - randLoad) * 255.0);
+        let color = 'rgb(' + String(red) + ',' + String(green) + ',0)';
+        let newH = this.h * randLoad;
+        let newY = -newH;
 
-        let time = this.isMeterVisible ? 1 : 0
-        time = update ? time * 0.5 : time
+        let time = this.isMeterVisible ? 1 : 0;
+        time = update ? time * 0.5 : time;
         tl.to(
             rectId,
             time,
@@ -147,14 +147,14 @@ export class ABlockLoad extends ABlock {
                 onCompleteParams: [load, range],
             },
             timeStr
-        )
-        return time
+        );
+        return time;
     }
 
     private complete_callback(load: number, range: number) {
         if (range != 0) {
-            let tl = this.scene.tl
-            this.set_load(load, range, null, true)
+            let tl = this.scene.tl;
+            this.set_load(load, range, null, true);
         }
     }
 
@@ -162,17 +162,17 @@ export class ABlockLoad extends ABlock {
      * Set load ...
      */
     public hide_load(timeOffset: number = null): number {
-        this.isMeterVisible = false
+        this.isMeterVisible = false;
 
-        let tl = this.scene.tl
-        let timeStr = this.get_timeoffset(timeOffset)
+        let tl = this.scene.tl;
+        let timeStr = this.get_timeoffset(timeOffset);
 
-        let time = 1
-        let rectId = '#' + this.id + ' rect.ALoad'
-        tl.to(rectId, time, { fillOpacity: 0, strokeOpacity: 0 }, timeStr)
+        let time = 1;
+        let rectId = '#' + this.id + ' rect.ALoad';
+        tl.to(rectId, time, { fillOpacity: 0, strokeOpacity: 0 }, timeStr);
 
-        let rectId2 = '#' + this.id + ' rect.ALoadMeter'
-        tl.to(rectId2, time, { fillOpacity: 0, strokeOpacity: 0 }, '-=1')
-        return time
+        let rectId2 = '#' + this.id + ' rect.ALoadMeter';
+        tl.to(rectId2, time, { fillOpacity: 0, strokeOpacity: 0 }, '-=1');
+        return time;
     }
 }

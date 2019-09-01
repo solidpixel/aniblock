@@ -2,7 +2,7 @@
  * Aniblock Copyright (c) 2019, Pete Harris
  */
 
-import { AScene } from './AScene'
+import { AScene } from './AScene';
 
 /**
  * The APosition class provides a simple utility for creating distances based
@@ -10,7 +10,7 @@ import { AScene } from './AScene'
  * literals, percentages, and guides.
  */
 export class APosition {
-    public pos: number
+    public pos: number;
 
     /**
      * Create a new position.
@@ -25,22 +25,22 @@ export class APosition {
      */
     constructor(scene: AScene, axis: string, format: string) {
         if (axis != 'x' && axis != 'y') {
-            throw new Error('APosition: Bad axis ' + axis)
+            throw new Error('APosition: Bad axis ' + axis);
         }
 
-        let tokens = format.split(/\s+/)
-        this.pos = 0
+        let tokens = format.split(/\s+/);
+        this.pos = 0;
 
         if (tokens.length == 0) {
-            throw new Error('APosition: Bad format ' + format)
+            throw new Error('APosition: Bad format ' + format);
         }
 
-        this.pos = this.parse_value(scene, axis, tokens[0])
+        this.pos = this.parse_value(scene, axis, tokens[0]);
 
         for (let i = 1; i < tokens.length; i += 2) {
-            let op = this.parse_operator(tokens[i])
-            let val = this.parse_value(scene, axis, tokens[i + 1])
-            this.pos = op(this.pos, val)
+            let op = this.parse_operator(tokens[i]);
+            let val = this.parse_value(scene, axis, tokens[i + 1]);
+            this.pos = op(this.pos, val);
         }
     }
 
@@ -55,19 +55,19 @@ export class APosition {
      */
     private parse_value(scene: AScene, axis: string, token: string): number {
         if (token.match(/^\d+$/)) {
-            return Number(token)
+            return Number(token);
         } else if (token.match(/^\d+%$/)) {
-            let percent = Number(token.match(/\d+/)[0]) / 100.0
+            let percent = Number(token.match(/\d+/)[0]) / 100.0;
             if (axis == 'x') {
-                return scene.width * percent
+                return scene.width * percent;
             } else {
-                return scene.height * percent
+                return scene.height * percent;
             }
         } else {
             if (axis == 'x') {
-                return scene.get_vguide(token)
+                return scene.get_vguide(token);
             } else {
-                return scene.get_hguide(token)
+                return scene.get_hguide(token);
             }
         }
     }
@@ -82,14 +82,14 @@ export class APosition {
     private parse_operator(token: string): any {
         if (token.match(/^\+$/)) {
             return function(a: number, b: number): number {
-                return a + b
-            }
+                return a + b;
+            };
         } else if (token.match(/^-$/)) {
             return function(a: number, b: number): number {
-                return a - b
-            }
+                return a - b;
+            };
         }
 
-        throw new Error('APosition: Bad operator ' + token)
+        throw new Error('APosition: Bad operator ' + token);
     }
 }
