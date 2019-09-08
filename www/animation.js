@@ -25,27 +25,27 @@ sc.add_hguide('mif', 'bus + BLK_HM + 20');
 sc.add_hguide('ext', 'mif + BLK_HS + 40');
 
 // Show the CPU
-var cpu = new ABlk.BlockLoad(sc, 'bCPU1', 's1', 'CPU', 'c', 'pro', blkW, blkHL);
+var cpu = new ABlk.BlockLoad(sc, 'CPU', 'c', 'pro', blkW, blkHL, 's1');
 cpu.show();
 cpu.show_load();
 cpu.set_load(10, 5);
 
 // Show the DRAM
-var dram = new ABlk.Block(sc, 'bDRAM', 's4', 'DRAM', 'c', 'ext', blkW, blkHS);
+var dram = new ABlk.Block(sc, 'DRAM', 'c', 'ext', blkW, blkHS, 's4');
 dram.show();
 
 // Link CPU and DRAM to memory bus
-var bus = new ABlk.Block(sc, 'bBUS', 'ALink', 'Memory Bus', 'c', 'bus', blkW, 40);
+var bus = new ABlk.Block(sc, 'Memory Bus', 'c', 'bus', blkW, 40, 'ALink');
 bus.show();
 
-var cpuLnk = new ABlk.Link(sc, 'lCPU1', null, null, cpu, bus, ABlk.Edge.Bottom, lnkW, false);
-var dramLnk = new ABlk.Link(sc, 'lDRAM', null, null, dram, bus, ABlk.Edge.Top, lnkW, false);
+var cpuLnk = new ABlk.Link(sc, cpu, bus, ABlk.Edge.Bottom, lnkW, false);
+var dramLnk = new ABlk.Link(sc, dram, bus, ABlk.Edge.Top, lnkW, false);
 bookmark = cpuLnk.plug();
 dramLnk.plug(bookmark);
 
 // Add DMC
 dramLnk.unplug();
-var dmc = new ABlk.Block(sc, 'bDMC', 's4', 'Memory\nController', 'c', 'mif', blkW, blkHM);
+var dmc = new ABlk.Block(sc, 'Memory\nController', 'c', 'mif', blkW, blkHM, 's4');
 dmc.show();
 dramLnk.plug();
 
@@ -54,11 +54,11 @@ bus.change_width(460, ABlk.Dir.Center);
 bookmark = dmc.move_to_x('c-1');
 dram.move_to_x('c-1', bookmark);
 
-var smc = new ABlk.Block(sc, 'bSMC', 's4', 'Flash\nController', 'c+1', 'mif', blkW, blkHM);
+var smc = new ABlk.Block(sc, 'Flash\nController', 'c+1', 'mif', blkW, blkHM, 's4');
 smc.show();
 
-var flash = new ABlk.Block(sc, 'bFLS', 's4', 'Flash', 'c+1', 'ext', blkW, blkHS);
+var flash = new ABlk.Block(sc, 'Flash', 'c+1', 'ext', blkW, blkHS, 's4');
 flash.show();
 
-var flashLnk = new ABlk.Link(sc, 'lFLS', null, null, flash, bus, ABlk.Edge.Top, lnkW, false);
+var flashLnk = new ABlk.Link(sc, flash, bus, ABlk.Edge.Top, lnkW, false);
 flashLnk.plug();

@@ -12,14 +12,12 @@ export class Link extends Block {
 
     constructor(
         scene: Scene,
-        id: string,
-        cls: string,
-        label: string,
         src: Block,
         dst: Block,
         exit: Edge,
         dim: number,
-        plug: boolean = true
+        plug: boolean = true,
+        cls: string = null
     ) {
         let top = 0;
         let bottom = 0;
@@ -70,7 +68,7 @@ export class Link extends Block {
         let x = left + w / 2;
         let y = top + h / 2;
 
-        super(scene, id, cls, label, x, y, w, h, ZOrder.Bottom);
+        super(scene, null, x, y, w, h, cls, ZOrder.Bottom);
         this.exit = exit;
         this.src = src;
         this.dst = dst;

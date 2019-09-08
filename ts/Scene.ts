@@ -18,6 +18,9 @@ export class Scene implements EventListenerObject {
     /* Canvas DOM element ID. */
     private readonly id: string;
 
+    /* Canvas DOM element ID. */
+    private subid: number;
+
     /* Width of the canvas, in pixels. */
     public readonly width: number;
 
@@ -76,6 +79,7 @@ export class Scene implements EventListenerObject {
      */
     constructor(id: string, w: number, h: number, debug: boolean = false) {
         this.id = id;
+        this.subid = 0;
         this.width = w;
         this.height = h;
         this.debug = debug;
@@ -149,6 +153,17 @@ export class Scene implements EventListenerObject {
         if (params.linkTime != undefined) {
             this.linkTime = params.linkTime;
         }
+    }
+
+    /**
+     * @hidden
+     *
+     * Generate a new ID for naming a block.
+     *
+     * @returns A new ID name.
+     */
+    public get_new_id(): string {
+        return this.id + '_auto_' + String(this.subid++);
     }
 
     /**
@@ -355,8 +370,8 @@ export class Scene implements EventListenerObject {
      */
     public add_wait(): void {
         if (this.debug && this.isPausedIndicator == null) {
-            var ind0 = new Block(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12);
-            var ind1 = new Block(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12);
+            var ind0 = new Block(this, null, 6, 10, 5, 12, 'AGuide');
+            var ind1 = new Block(this, null, 13, 10, 5, 12, 'AGuide');
             this.isPausedIndicator = [ind0, ind1];
         }
         this.tl.addPause('+=0', this.resume_callback, null, this);

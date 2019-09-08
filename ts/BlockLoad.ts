@@ -18,8 +18,6 @@ export class BlockLoad extends Block {
      * Create a new block.
      *
      * @param scene The parent scene.
-     * @param id The DOM ID for this block.
-     * @param cls The DOM class (or class list) for this block.
      * @param label The label string for this block. Note that this may be
      *              a multi-line string; encode newlines in the input string.
      * @param x The starting X coordinate. May be a number or a string, where
@@ -28,20 +26,20 @@ export class BlockLoad extends Block {
      *          the string is the name of a horizontal guide.
      * @param w The starting width.
      * @param h The starting height.
+     * @param cls The DOM class (or class list) for this block.
      * @param z The Z-order for the block (default "top").
      */
     constructor(
         scene: Scene,
-        id: string,
-        cls: string,
         label: string,
         x: any,
         y: any,
         w: number,
         h: number,
+        cls: string = null,
         z: ZOrder = ZOrder.Top
     ) {
-        super(scene, id, cls, label, x, y, w, h, z);
+        super(scene, label, x, y, w, h, cls, z);
         this.isMeterVisible = false;
         this.currentIndex = 0;
     }
