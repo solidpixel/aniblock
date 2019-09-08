@@ -1,21 +1,21 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { AScene } from './AScene';
-import { ABlock, Edge, Dir, ZOrder } from './ABlock';
+import { Scene } from './Scene';
+import { Block, Edge, Dir, ZOrder } from './Block';
 
-export class ALink extends ABlock {
+export class Link extends Block {
     private exit: Edge;
-    private src: ABlock;
-    private dst: ABlock;
+    private src: Block;
+    private dst: Block;
 
     constructor(
-        scene: AScene,
+        scene: Scene,
         id: string,
         cls: string,
         label: string,
-        src: ABlock,
-        dst: ABlock,
+        src: Block,
+        dst: Block,
         exit: Edge,
         dim: number,
         plug: boolean = true

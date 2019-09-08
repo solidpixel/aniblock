@@ -1,9 +1,9 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { ABlock } from './ABlock';
+import { Block } from './Block';
 import { TimelineLite } from 'gsap/TweenMax';
-import { APosition } from './APosition';
+import { Position } from './Position';
 
 /**
  * An AScene is the root element used for constructing an animation.
@@ -11,7 +11,7 @@ import { APosition } from './APosition';
  * Each AScene wraps a single SVG element in the document, and the animation process will create new
  * elements inside the SVG to provide the element of the diagram.
  */
-export class AScene implements EventListenerObject {
+export class Scene implements EventListenerObject {
     /* Namespace for creating SVG elements. */
     private readonly ns = 'http://www.w3.org/2000/svg';
 
@@ -43,7 +43,7 @@ export class AScene implements EventListenerObject {
     private isPaused: boolean;
 
     /* Debug indicator for the key press. */
-    private isPausedIndicator: ABlock[];
+    private isPausedIndicator: Block[];
 
     /** @hidden Animation time for show animations. */
     public showTime: number;
@@ -164,7 +164,7 @@ export class AScene implements EventListenerObject {
             throw new Error('AScene: Constant name collision "' + name + '"');
         }
 
-        let epos = new APosition(this, 'k', value);
+        let epos = new Position(this, 'k', value);
         this.constants[name] = epos.pos;
         console.log();
     }
@@ -192,7 +192,7 @@ export class AScene implements EventListenerObject {
             throw new Error('AScene: HGuide name collision "' + name + '"');
         }
 
-        let epos = new APosition(this, 'y', loc);
+        let epos = new Position(this, 'y', loc);
         loc = epos.pos;
 
         this.hguides[name] = loc;
@@ -241,7 +241,7 @@ export class AScene implements EventListenerObject {
             throw new Error('AScene: VGuide name collision "' + name + '"');
         }
 
-        let epos = new APosition(this, 'x', loc);
+        let epos = new Position(this, 'x', loc);
         loc = epos.pos;
 
         this.vguides[name] = loc;
@@ -281,7 +281,7 @@ export class AScene implements EventListenerObject {
      *
      * @param element The block to add.
      */
-    public add_block(element: ABlock) {
+    public add_block(element: Block) {
         this.blocks.push(element);
         let svg = document.getElementById(this.id);
         element.generate_svg(svg);
@@ -355,8 +355,8 @@ export class AScene implements EventListenerObject {
      */
     public add_wait(): void {
         if (this.debug && this.isPausedIndicator == null) {
-            var ind0 = new ABlock(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12);
-            var ind1 = new ABlock(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12);
+            var ind0 = new Block(this, 'AGuidePI1', 'AGuide', null, 6, 10, 5, 12);
+            var ind1 = new Block(this, 'AGuidePI2', 'AGuide', null, 13, 10, 5, 12);
             this.isPausedIndicator = [ind0, ind1];
         }
         this.tl.addPause('+=0', this.resume_callback, null, this);

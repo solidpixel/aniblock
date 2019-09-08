@@ -2,14 +2,16 @@
  * Aniblock Copyright (c) 2019, Pete Harris
  */
 
-import { AScene } from './AScene';
+import { Scene } from './Scene';
 
 /**
- * The APosition class provides a simple utility for creating distances based
- * on simple computations consisting of additions and subtractions applied to
- * literals, percentages, and guides.
+ * A utility class to create values based on parsing a simple expression string.
+ *
+ * It can be useful to define locations of elements on the screen in terms of a computed position
+ * relative to the position and/or sizes of other elements on the screen. To allow a compact syntax
+ * for this, this class provides a parser which will parse a simple expression.
  */
-export class APosition {
+export class Position {
     public pos: number;
 
     /**
@@ -23,7 +25,7 @@ export class APosition {
      *               integer percentage literals, or the symbolic name of a
      *               guides. Operators may be "-" or "+".
      */
-    constructor(scene: AScene, axis: string, format: string | number) {
+    constructor(scene: Scene, axis: string, format: string | number) {
         if (axis != 'x' && axis != 'y' && axis != 'k') {
             throw new Error('APosition: Bad axis ' + axis);
         }
@@ -61,7 +63,7 @@ export class APosition {
      *
      * @returns The parsed position, in pixels.
      */
-    private parse_value(scene: AScene, axis: string, token: string): number {
+    private parse_value(scene: Scene, axis: string, token: string): number {
         if (token.match(/^\d+$/)) {
             return Number(token);
         } else if (token.match(/^\d+%$/)) {

@@ -1,8 +1,8 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { AScene } from './AScene';
-import { ALink } from './ALink';
+import { Scene } from './Scene';
+import { Link } from './Link';
 import { Sine } from 'gsap/TweenMax';
 
 export enum Dir {
@@ -31,7 +31,7 @@ export enum ZOrder {
  *
  *   <img src="media://sample.gif" alt="A sample Aniblock animation" />
  */
-export class ABlock {
+export class Block {
     public baseType: String;
 
     /** Namespace for creating SVG elements. */
@@ -71,10 +71,10 @@ export class ABlock {
     protected yOffset: number;
 
     /** @hidden List of links for which is block is the primary source. */
-    private links: ALink[];
+    private links: Link[];
 
     /** @hidden The parent scene that owns this block. */
-    protected scene: AScene;
+    protected scene: Scene;
 
     /** @hidden True if this block is visible. */
     protected isVisible: boolean;
@@ -96,7 +96,7 @@ export class ABlock {
      * @param z The Z-order for the block (default "top").
      */
     constructor(
-        scene: AScene,
+        scene: Scene,
         id: string,
         cls: string,
         label: string,
@@ -597,7 +597,7 @@ export class ABlock {
      *
      * @param link The new link to add.
      */
-    public add_link(link: ALink): void {
+    public add_link(link: Link): void {
         this.links.push(link);
     }
 

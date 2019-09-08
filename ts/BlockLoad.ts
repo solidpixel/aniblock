@@ -1,16 +1,16 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
-import { AScene } from './AScene';
-import { ALink } from './ALink';
-import { ABlock, Dir, ZOrder } from './ABlock';
+import { Scene } from './Scene';
+import { Link } from './Link';
+import { Block, Dir, ZOrder } from './Block';
 import { Sine } from 'gsap/TweenMax';
 
 /**
  * The ABlock provides the main building block for the diagrams, representing
  * a physical component in the device.
  */
-export class ABlockLoad extends ABlock {
+export class BlockLoad extends Block {
     private isMeterVisible: boolean;
     private currentIndex: number;
 
@@ -31,7 +31,7 @@ export class ABlockLoad extends ABlock {
      * @param z The Z-order for the block (default "top").
      */
     constructor(
-        scene: AScene,
+        scene: Scene,
         id: string,
         cls: string,
         label: string,

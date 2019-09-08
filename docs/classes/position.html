@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>APosition | aniblock</title>
+	<title>Position | aniblock</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="aposition.html">APosition</a>
+					<a href="position.html">Position</a>
 				</li>
 			</ul>
-			<h1>Class APosition</h1>
+			<h1>Class Position</h1>
 		</div>
 	</div>
 </header>
@@ -67,17 +67,18 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The APosition class provides a simple utility for creating distances based
-							on simple computations consisting of additions and subtractions applied to
-						literals, percentages, and guides.</p>
+						<p>A utility class to create values based on parsing a simple expression string.</p>
 					</div>
+					<p>It can be useful to define locations of elements on the screen in terms of a computed position
+						relative to the position and/or sizes of other elements on the screen. To allow a compact syntax
+					for this, this class provides a parser which will parse a simple expression.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">APosition</span>
+						<span class="target">Position</span>
 					</li>
 				</ul>
 			</section>
@@ -88,13 +89,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="aposition.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="position.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aposition.html#pos" class="tsd-kind-icon">pos</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="position.html#pos" class="tsd-kind-icon">pos</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,13 +107,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new APosition<span class="tsd-signature-symbol">(</span>scene<span class="tsd-signature-symbol">: </span><a href="ascene.html" class="tsd-signature-type">AScene</a>, axis<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="aposition.html" class="tsd-signature-type">APosition</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Position<span class="tsd-signature-symbol">(</span>scene<span class="tsd-signature-symbol">: </span><a href="scene.html" class="tsd-signature-type">Scene</a>, axis<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="position.html" class="tsd-signature-type">Position</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/APosition.ts#L13">APosition.ts:13</a></li>
+									<li>Defined in Position.ts:15</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -123,7 +124,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>scene: <a href="ascene.html" class="tsd-signature-type">AScene</a></h5>
+									<h5>scene: <a href="scene.html" class="tsd-signature-type">Scene</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>The scene to source any guides from.</p>
@@ -151,7 +152,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="aposition.html" class="tsd-signature-type">APosition</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="position.html" class="tsd-signature-type">Position</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -164,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">pos<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/2db2a8c/ts/APosition.ts#L13">APosition.ts:13</a></li>
+							<li>Defined in Position.ts:15</li>
 						</ul>
 					</aside>
 				</section>
@@ -190,31 +191,31 @@
 						<a href="../enums/zorder.html" class="tsd-kind-icon">ZOrder</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="ablock.html" class="tsd-kind-icon">ABlock</a>
+						<a href="block.html" class="tsd-kind-icon">Block</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="ablockload.html" class="tsd-kind-icon">ABlock<wbr>Load</a>
+						<a href="blockload.html" class="tsd-kind-icon">Block<wbr>Load</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="alink.html" class="tsd-kind-icon">ALink</a>
+						<a href="link.html" class="tsd-kind-icon">Link</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="aposition.html" class="tsd-kind-icon">APosition</a>
+						<a href="position.html" class="tsd-kind-icon">Position</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="aposition.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="position.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="aposition.html#pos" class="tsd-kind-icon">pos</a>
+								<a href="position.html#pos" class="tsd-kind-icon">pos</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
-						<a href="ascene.html" class="tsd-kind-icon">AScene</a>
+						<a href="scene.html" class="tsd-kind-icon">Scene</a>
 					</li>
 				</ul>
 			</nav>
