@@ -15,6 +15,16 @@ small subset of what GSAP is capable of directly though the Aniblock API; this
 is a deliberate attempt to keep the API as simple as possible.
 
 
+Status
+======
+
+Aniblock is still being developed towards a first stable release, so while the
+current API is definitely usable please beware that the documentation is rather
+thin and many API changes I am making are not backwards compatible.
+
+I am aiming for a first stable release towards the end of 2019.
+
+
 License
 =======
 
