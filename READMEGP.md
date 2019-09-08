@@ -11,6 +11,6 @@ below:
 Getting Started
 ===============
 
-This site contains the API documentation for the Aniblock library. For
-documentation about checking out and building the library please see the
+This site contains the API documentation for using the Aniblock library.
+For documentation about checking out and building the library please see the
 [Aniblock Github Project](https://github.com/solidpixel/aniblock/)

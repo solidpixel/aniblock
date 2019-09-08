@@ -186,6 +186,10 @@ export class Block {
         return text;
     }
 
+    public get_block_class() {
+        return 'ABlock';
+    }
+
     /**
      * @hidden
      *
@@ -215,7 +219,7 @@ export class Block {
 
         // Create the block
         let rect = document.createElementNS(this.ns, 'rect');
-        rect.setAttribute('class', 'ABlock');
+        rect.setAttribute('class', this.get_block_class());
         rect.setAttribute('x', String(this.x - this.w / 2));
         rect.setAttribute('y', String(this.y - this.h / 2));
         rect.setAttribute('width', String(this.w));

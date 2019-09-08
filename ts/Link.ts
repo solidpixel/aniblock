@@ -82,6 +82,10 @@ export class Link extends Block {
         }
     }
 
+    public get_block_class() {
+        return 'ALink';
+    }
+
     /** @hidden */
     public update(startTime: number = null): number {
         if (this.exit == Edge.Top) {

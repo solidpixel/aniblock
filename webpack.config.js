@@ -1,6 +1,7 @@
 const path = require('path');
 var webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 var prettierPlugin = require('prettier-webpack-plugin');
 var typedocPlugin = require('typedoc-webpack-plugin');
 
@@ -48,5 +49,9 @@ module.exports = {
       media: 'media'
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin([{
+        from: path.resolve(__dirname, 'ts', 'style.css'),
+        to: path.resolve(__dirname, 'www', 'dist', 'aniblock.css')
+    }])
   ],
 };
