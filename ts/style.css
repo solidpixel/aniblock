@@ -1,3 +1,4 @@
+/* Basic core setup */
 svg.aniblock {
     fill-opacity: 0;
     stroke-dasharray: 100%;
@@ -19,6 +20,7 @@ svg.aniblock text {
     font-size: 25px;
 }
 
+/* Guide component setup */
 svg.aniblock line.AGuide {
     fill-opacity: 1;
     stroke: rgb(235, 197, 230);
@@ -37,6 +39,35 @@ svg.aniblock g.AGuide rect.ABlock {
     fill: rgb(211, 162, 204);
 }
 
+/* Default style for a Block */
+svg.aniblock rect.ABlock {
+    fill: rgb(250, 250, 250);
+    stroke: rgb(63, 121, 147);
+    stroke-width: 6px;
+}
+
+svg.aniblock text.ABlock {
+    fill: rgb(63, 121, 147);
+}
+
+/* Default style for a Link and Blocks with Link style */
+svg.aniblock .ALink rect.ABlock {
+    fill: rgb(191, 200, 202);
+    stroke: rgb(191, 200, 202);
+    stroke-width: 6px;
+}
+
+svg.aniblock .ALink text.ABlock {
+    fill: rgb(250, 250, 250);
+    stroke-width: 0px;
+}
+
+svg.aniblock rect.ALink {
+    fill: rgb(191, 200, 202);
+    stroke-width: 0px;
+}
+
+/* Default style for a Block Load Meter */
 svg.aniblock rect.ALoad {
     stroke: rgb(120, 122, 122);
     fill: rgba(255, 255, 255, 0);
@@ -48,22 +79,6 @@ svg.aniblock rect.ALoad {
 }
 
 svg.aniblock rect.ALoadMeter {
-    fill: rgb(0, 255, 0);
     fill-opacity: 0;
-    stroke-width: 0px;
-}
-
-svg.aniblock rect.ABlock {
-    fill: rgb(250, 250, 250);
-    stroke: rgb(104, 111, 112);
-    stroke-width: 6px;
-}
-
-svg.aniblock text {
-    fill: rgb(85, 88, 88);
-}
-
-svg.aniblock rect.ALink {
-    fill: rgb(147, 155, 156);
     stroke-width: 0px;
 }

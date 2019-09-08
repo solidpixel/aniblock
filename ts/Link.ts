@@ -1,6 +1,7 @@
 /*
  * Aniblock Copyright (c) 2019, Pete Harris
  */
+
 import { Scene } from './Scene';
 import { Block, Edge, Dir, ZOrder } from './Block';
 
@@ -82,7 +83,14 @@ export class Link extends Block {
         }
     }
 
-    public get_block_class() {
+    /**
+     * @hidden
+     *
+     * Get the DOM class used to represent the rect in this block.
+     *
+     * @returns The DOM class name.
+     */
+    public get_block_class(): string {
         return 'ALink';
     }
 

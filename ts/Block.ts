@@ -178,6 +178,7 @@ export class Block {
         let yInc = this.labelSize * index;
         let yCoord = String(yCenter - yBase + yInc);
 
+        text.setAttribute('class', this.get_block_class());
         text.setAttribute('x', xCoord);
         text.setAttribute('y', yCoord);
         text.setAttribute('dominant-baseline', 'middle');
@@ -186,7 +187,14 @@ export class Block {
         return text;
     }
 
-    public get_block_class() {
+    /**
+     * @hidden
+     *
+     * Get the DOM class used to represent the rect in this block.
+     *
+     * @returns The DOM class name.
+     */
+    public get_block_class(): string {
         return 'ABlock';
     }
 
@@ -202,7 +210,9 @@ export class Block {
     public generate_svg(svg: HTMLElement): SVGElement {
         let group = document.createElementNS(this.ns, 'g');
         group.setAttribute('id', this.id);
-        group.setAttribute('class', String(this.cls));
+        if (this.cls != null) {
+            group.setAttribute('class', String(this.cls));
+        }
 
         // Work out where to add the block in the SVG
         if (this.zOrder == ZOrder.Bottom) {

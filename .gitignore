@@ -1,3 +1,4 @@
+docs/media/*.md
 js
 node_modules
 www/dist
