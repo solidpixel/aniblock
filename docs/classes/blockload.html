@@ -134,13 +134,17 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="block.html">Block</a>.<a href="block.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/BlockLoad.ts#L15">BlockLoad.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/BlockLoad.ts#L12">BlockLoad.ts:12</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new block.</p>
+									<p>Create a new block with load meter.</p>
 								</div>
+								<p>Note that new blocks are created in a hidden state; call the
+									<a href="blockload.html#show"><code>show()</code></a> method to animate the main block appearing. The load
+									meter itself is a separate entity which must be shown by calling
+								<a href="blockload.html#show_load">show_load()</a>.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -156,8 +160,8 @@
 									<h5>label: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The label string for this block. Note that this may be
-											a multi-line string; encode newlines in the input string.</p>
+											<p>The label string for this block. This may be a multi-line
+											string, with lines separated by <code>\n</code> characters.</p>
 										</div>
 									</div>
 								</li>
@@ -165,8 +169,7 @@
 									<h5>x: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The starting X coordinate. May be a number or a string, where
-											the string is the name of a vertical guide.</p>
+											<p>The starting X coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 										</div>
 									</div>
 								</li>
@@ -174,8 +177,7 @@
 									<h5>y: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The starting Y coordinate. May be a number or a string, where
-											the string is the name of a horizontal guide.</p>
+											<p>The starting Y coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 										</div>
 									</div>
 								</li>
@@ -199,7 +201,9 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cls: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The DOM class (or class list) for this block.</p>
+											<p>The DOM class, or class list, for this block. Supplying this
+												parameter is optional, but will be needed in order to apply
+											custom styles to subsets of the blocks in the diagram.</p>
 										</div>
 									</div>
 								</li>
@@ -222,7 +226,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#change_height">change_height</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L630">Block.ts:630</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L630">Block.ts:630</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +270,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#change_width">change_width</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L561">Block.ts:561</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L561">Block.ts:561</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +317,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Block.generate_svg</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/BlockLoad.ts#L52">BlockLoad.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/BlockLoad.ts#L53">BlockLoad.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -337,7 +341,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#get_h">get_h</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L229">Block.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L229">Block.ts:229</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +368,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#get_w">get_w</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L214">Block.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L214">Block.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -391,7 +395,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#get_x">get_x</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L187">Block.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L187">Block.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -415,7 +419,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#get_y">get_y</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L199">Block.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L199">Block.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -439,7 +443,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L421">Block.ts:421</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L421">Block.ts:421</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -476,21 +480,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/BlockLoad.ts#L163">BlockLoad.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/BlockLoad.ts#L117">BlockLoad.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set load ...</p>
+									<p>Animate the load meter disappearing.</p>
 								</div>
+								<p>TODO: Add hide_load animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The start time of this animation.</p>
 						</li>
 					</ul>
 				</section>
@@ -505,7 +516,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#hide_now">hide_now</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L360">Block.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L360">Block.ts:360</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -528,7 +539,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#move_by_x">move_by_x</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L459">Block.ts:459</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L459">Block.ts:459</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -573,7 +584,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#move_by_y">move_by_y</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L511">Block.ts:511</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L511">Block.ts:511</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -618,7 +629,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#move_to_x">move_to_x</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L493">Block.ts:493</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L493">Block.ts:493</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -660,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#move_to_y">move_to_y</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L544">Block.ts:544</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L544">Block.ts:544</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -701,30 +712,48 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/BlockLoad.ts#L108">BlockLoad.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/BlockLoad.ts#L148">BlockLoad.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set load ...</p>
+									<p>Set the current parameterization for the load meter.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>load: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The average load.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> range: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The variable range vs the average load. The load meter will
+											animate a variable load which fluctuates randomly between
+										<code>load - range</code> and <code>load + range</code>.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> update: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Set to <code>true</code> in callbacks to reuse the same code to
+										render the fluctuations; users should never set this.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The start time of this animation.</p>
 						</li>
 					</ul>
 				</section>
@@ -739,7 +768,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#show">show</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L381">Block.ts:381</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L381">Block.ts:381</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -776,23 +805,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/BlockLoad.ts#L87">BlockLoad.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/BlockLoad.ts#L88">BlockLoad.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Animate this block appearing.</p>
+									<p>Animate the load meter appearing.</p>
 								</div>
-								<p>If the block has a zero width or zero height the show animation is
-								instant with no tweening.</p>
+								<p>TODO: Add show_load animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
@@ -812,7 +841,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="block.html">Block</a>.<a href="block.html#show_now">show_now</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L350">Block.ts:350</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Block.ts#L350">Block.ts:350</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
