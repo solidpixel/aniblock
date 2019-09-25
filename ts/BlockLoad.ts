@@ -1,5 +1,5 @@
 /*
- * Aniblock Copyright (c) 2019, Pete Harris
+ * Aniblock: Copyright (c) 2019, Pete Harris
  */
 import { Scene } from './Scene';
 import { Link } from './Link';
@@ -27,7 +27,6 @@ export class BlockLoad extends Block {
      * @param w The starting width.
      * @param h The starting height.
      * @param cls The DOM class (or class list) for this block.
-     * @param z The Z-order for the block (default "top").
      */
     constructor(
         scene: Scene,
@@ -36,10 +35,9 @@ export class BlockLoad extends Block {
         y: any,
         w: number,
         h: number,
-        cls: string = null,
-        z: ZOrder = ZOrder.Top
+        cls: string = null
     ) {
-        super(scene, label, x, y, w, h, cls, z);
+        super(scene, label, x, y, w, h, cls);
         this.isMeterVisible = false;
         this.currentIndex = 0;
     }
@@ -57,8 +55,8 @@ export class BlockLoad extends Block {
         // Create the load meter
         let rect = document.createElementNS(this.ns, 'rect');
         rect.setAttribute('class', 'ALoadMeter');
-        rect.setAttribute('x', String(this.x + this.w / 2 + 11));
-        rect.setAttribute('y', String(this.y + this.h / 2));
+        rect.setAttribute('x', String(this.xStart + this.w / 2 + 11));
+        rect.setAttribute('y', String(this.yStart + this.h / 2));
         rect.setAttribute('width', String(6));
         rect.setAttribute('height', String(0));
         group.appendChild(rect);
@@ -66,8 +64,8 @@ export class BlockLoad extends Block {
         // Create the load meter
         rect = document.createElementNS(this.ns, 'rect');
         rect.setAttribute('class', 'ALoad');
-        rect.setAttribute('x', String(this.x + this.w / 2 + 10));
-        rect.setAttribute('y', String(this.y - this.h / 2));
+        rect.setAttribute('x', String(this.xStart + this.w / 2 + 10));
+        rect.setAttribute('y', String(this.yStart - this.h / 2));
         rect.setAttribute('width', String(8));
         rect.setAttribute('height', String(this.h));
         group.appendChild(rect);

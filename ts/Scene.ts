@@ -1,5 +1,5 @@
 /*
- * Aniblock Copyright (c) 2019, Pete Harris
+ * Aniblock: Copyright (c) 2019, Pete Harris
  */
 import { Block } from './Block';
 import { TimelineLite } from 'gsap/TweenMax';
@@ -179,8 +179,7 @@ export class Scene implements EventListenerObject {
             throw new Error('AScene: Constant name collision "' + name + '"');
         }
 
-        let epos = new Position(this, 'k', value);
-        this.constants[name] = epos.pos;
+        this.constants[name] = Position(this, 'k', value);
         console.log();
     }
 
@@ -207,8 +206,7 @@ export class Scene implements EventListenerObject {
             throw new Error('AScene: HGuide name collision "' + name + '"');
         }
 
-        let epos = new Position(this, 'y', loc);
-        loc = epos.pos;
+        loc = Position(this, 'y', loc);
 
         this.hguides[name] = loc;
 
@@ -256,9 +254,7 @@ export class Scene implements EventListenerObject {
             throw new Error('AScene: VGuide name collision "' + name + '"');
         }
 
-        let epos = new Position(this, 'x', loc);
-        loc = epos.pos;
-
+        loc = Position(this, 'x', loc);
         this.vguides[name] = loc;
 
         if (this.debug) {

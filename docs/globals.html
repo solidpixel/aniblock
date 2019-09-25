@@ -79,11 +79,110 @@
 								<li class="tsd-kind-class"><a href="classes/block.html" class="tsd-kind-icon">Block</a></li>
 								<li class="tsd-kind-class"><a href="classes/blockload.html" class="tsd-kind-icon">Block<wbr>Load</a></li>
 								<li class="tsd-kind-class"><a href="classes/link.html" class="tsd-kind-icon">Link</a></li>
-								<li class="tsd-kind-class"><a href="classes/position.html" class="tsd-kind-icon">Position</a></li>
 								<li class="tsd-kind-class"><a href="classes/scene.html" class="tsd-kind-icon">Scene</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="globals.html#position" class="tsd-kind-icon">Position</a></li>
+							</ul>
+						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="position" class="tsd-anchor"></a>
+					<h3>Position</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">Position<span class="tsd-signature-symbol">(</span>scene<span class="tsd-signature-symbol">: </span><a href="classes/scene.html" class="tsd-signature-type">Scene</a>, axis<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, format<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Position.ts#L73">Position.ts:73</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A utility to create numeric values based on parsing an expression string.</p>
+								</div>
+								<p>It is often useful to define positions of elements in a diagram in terms
+									of symbolic locations, and offsets from them, rather than absolute pixel
+									coordinates. Aniblock supports a compact expression syntax which allows
+									users to define positions using a small expression string. The <a href="globals.html#position">Position</a>
+									function provides the means to convert those expressions into numeric
+								values.</p>
+								<a href="#expression-string-format" id="expression-string-format" style="color: inherit; text-decoration: none;">
+									<h1>Expression string format</h1>
+								</a>
+								<p>Expressions consist of one or more tokens separated by whitespace.</p>
+								<p>Tokens come in two types:</p>
+								<ul>
+									<li>values : define a numeric value, either literal or symbolic.</li>
+									<li>operators : define a mathematical operator to perform.</li>
+								</ul>
+								<p>Value type tokens must be separated by an operator type token.</p>
+								<p>Operator tokens must only occur between two value type tokens.</p>
+								<a href="#value-tokens" id="value-tokens" style="color: inherit; text-decoration: none;">
+									<h2>Value tokens</h2>
+								</a>
+								<p>Value tokens define a literal or symbolic numeric value. Valid values are:</p>
+								<ul>
+									<li><code>&lt;int&gt;</code> : integer literals (may be negative).</li>
+									<li><code>&lt;int&gt;%</code> : percentage literals (may be negative, can exceed 100%).</li>
+									<li><code>&lt;str&gt;</code> : symbolic name of a guide or constant.</li>
+								</ul>
+								<p>Integer literals are used directly as pixel coordinates.</p>
+								<p>Percentage literals are interpreted as a percentage of the parent scene
+								size, and converted into absolute pixel coordinates.</p>
+								<p>Symbolic names are converted into absolute pixel coordinates by looking up
+									any pre-defined guides and constants in the parent scene. Guides are axis
+								specific, so <code>Positions</code> are created in the context of a specific axis.</p>
+								<a href="#operator-tokens" id="operator-tokens" style="color: inherit; text-decoration: none;">
+									<h2>Operator tokens</h2>
+								</a>
+								<p>Operator tokens define how value tokens are combined. Valid operators are:</p>
+								<ul>
+									<li><code>+</code> : addition.</li>
+									<li><code>-</code> : subtraction.</li>
+								</ul>
+								<p>Operators are strictly interpreted left-to-right; there is no operator
+								precedence or support for parentheses.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scene: <a href="classes/scene.html" class="tsd-signature-type">Scene</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The scene to source any constants and guides from.</p>
+									</div>
+								</li>
+								<li>
+									<h5>axis: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The axis to source any named guides from.</p>
+										<ul>
+											<li><code>x</code>: expression may use constants and vertical guides.</li>
+											<li><code>y</code>: expression may use constants and horizontal guides.</li>
+											<li><code>k</code>: pseudo-axis for defining constants; expression may use constants.</li>
+										</ul>
+									</div>
+								</li>
+								<li>
+									<h5>format: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The expression string, or a number which will be passed
+										directly though without conversion.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -116,10 +215,10 @@
 						<a href="classes/link.html" class="tsd-kind-icon">Link</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/position.html" class="tsd-kind-icon">Position</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="classes/scene.html" class="tsd-kind-icon">Scene</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#position" class="tsd-kind-icon">Position</a>
 					</li>
 				</ul>
 			</nav>

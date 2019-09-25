@@ -1,5 +1,5 @@
 /*
- * Aniblock Copyright (c) 2019, Pete Harris
+ * Aniblock: Copyright (c) 2019, Pete Harris
  */
 
 import { Scene } from './Scene';
@@ -68,7 +68,7 @@ export class Link extends Block {
         let x = left + w / 2;
         let y = top + h / 2;
 
-        super(scene, null, x, y, w, h, cls, ZOrder.Bottom);
+        super(scene, null, x, y, w, h, cls);
         this.exit = exit;
         this.src = src;
         this.dst = dst;
@@ -84,12 +84,23 @@ export class Link extends Block {
     /**
      * @hidden
      *
-     * Get the DOM class used to represent the rect in this block.
+     * Get the default DOM class used for the main SVG `rect` element.
      *
      * @returns The DOM class name.
      */
     public get_block_class(): string {
         return 'ALink';
+    }
+
+    /**
+     * @hidden
+     *
+     * Get the Z-Order of this element.
+     *
+     * @returns The ZOrder of this block.
+     */
+    public get_block_zorder(): ZOrder {
+        return ZOrder.Bottom;
     }
 
     /** @hidden */
@@ -103,7 +114,7 @@ export class Link extends Block {
             } else {
                 this.change_height(newH, Dir.Down, startTime);
             }
-            let dX = this.src.get_x() - this.xOffset;
+            let dX = this.src.get_x() - this.x;
             this.move_by_x(dX, startTime);
         } else if (this.exit == Edge.Right) {
             let src = this.src.get_edge(Edge.Right);
@@ -114,7 +125,7 @@ export class Link extends Block {
             } else {
                 this.change_width(newW, Dir.Left, startTime);
             }
-            let dY = this.src.get_y() - this.yOffset;
+            let dY = this.src.get_y() - this.y;
             this.move_by_y(dY, startTime);
         } else if (this.exit == Edge.Bottom) {
             let src = this.src.get_edge(Edge.Bottom);
@@ -125,7 +136,7 @@ export class Link extends Block {
             } else {
                 this.change_height(newH, Dir.Up, startTime);
             }
-            let dX = this.src.get_x() - this.xOffset;
+            let dX = this.src.get_x() - this.x;
             this.move_by_x(dX, startTime);
         } else {
             // if (this.exit == Edge.Left)
@@ -137,7 +148,7 @@ export class Link extends Block {
             } else {
                 this.change_width(newW, Dir.Right, startTime);
             }
-            let dY = this.src.get_y() - this.yOffset;
+            let dY = this.src.get_y() - this.y;
             this.move_by_y(dY, startTime);
         }
         return startTime;

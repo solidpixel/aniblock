@@ -1,5 +1,5 @@
 /*
- * Aniblock Copyright (c) 2019, Pete Harris
+ * Aniblock: Copyright (c) 2019, Pete Harris
  */
 
 export { Scene } from './Scene';

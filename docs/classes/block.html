@@ -67,10 +67,12 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The ABlock provides the main building block for the diagrams, representing
-						a physical component in the device.</p>
+						<p>The Block provides the main building block for the diagrams.</p>
 					</div>
-					<img src="../media/sample.gif" alt="A sample Aniblock animation" />
+					<p>A <a href="block.html">Block</a> represents a single component in the diagrams, typically
+						visually represented by a rectangle with a label and an outline stroke.
+					Blocks may be connected to other blocks using <a href="link.html">Link</a> elements.</p>
+					<p>TODO: Insert figure of a block appearing.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -97,13 +99,6 @@
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="block.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="block.html#basetype" class="tsd-kind-icon">base<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="block.html#ns" class="tsd-kind-icon">ns</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -134,19 +129,21 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Block<span class="tsd-signature-symbol">(</span>scene<span class="tsd-signature-symbol">: </span><a href="scene.html" class="tsd-signature-type">Scene</a>, label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, h<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, cls<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, z<span class="tsd-signature-symbol">?: </span><a href="../enums/zorder.html" class="tsd-signature-type">ZOrder</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="block.html" class="tsd-signature-type">Block</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Block<span class="tsd-signature-symbol">(</span>scene<span class="tsd-signature-symbol">: </span><a href="scene.html" class="tsd-signature-type">Scene</a>, label<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, h<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, cls<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="block.html" class="tsd-signature-type">Block</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:80</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L130">Block.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Create a new block.</p>
 								</div>
+								<p>Note that new blocks are created in a hidden state; call the
+								<a href="block.html#show"><code>show()</code></a> method to animate the block appearing.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -162,26 +159,24 @@
 									<h5>label: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The label string for this block. Note that this may be
-											a multi-line string; encode newlines in the input string.</p>
+											<p>The label string for this block. This may be a multi-line
+											string, with lines separated by <code>\n</code> characters.</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5>x: <span class="tsd-signature-type">any</span></h5>
+									<h5>x: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The starting X coordinate. May be a number or a string, where
-											the string is the name of a vertical guide.</p>
+											<p>The starting X coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5>y: <span class="tsd-signature-type">any</span></h5>
+									<h5>y: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The starting Y coordinate. May be a number or a string, where
-											the string is the name of a horizontal guide.</p>
+											<p>The starting Y coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 										</div>
 									</div>
 								</li>
@@ -205,15 +200,9 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cls: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The DOM class (or class list) for this block.</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> z: <a href="../enums/zorder.html" class="tsd-signature-type">ZOrder</a><span class="tsd-signature-symbol"> =&nbsp;ZOrder.Top</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The Z-order for the block (default &quot;top&quot;).</p>
+											<p>The DOM class, or class list, for this block. Supplying this
+												parameter is optional, but will be needed in order to apply
+											custom styles to subsets of the blocks in the diagram.</p>
 										</div>
 									</div>
 								</li>
@@ -221,34 +210,6 @@
 							<h4 class="tsd-returns-title">Returns <a href="block.html" class="tsd-signature-type">Block</a></h4>
 						</li>
 					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="basetype" class="tsd-anchor"></a>
-					<h3>base<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">base<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">String</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in Block.ts:35</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="ns" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> ns</h3>
-					<div class="tsd-signature tsd-kind-icon">ns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"http://www.w3.org/2000/svg"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;http://www.w3.org/2000/svg&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in Block.ts:38</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Namespace for creating SVG elements.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -263,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:536</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L630">Block.ts:630</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -279,20 +240,20 @@
 								<li>
 									<h5>direction: <a href="../enums/dir.html" class="tsd-signature-type">Dir</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The direction of the height change: ((u)p, (c)enter,
-										or (d)own).</p>
+										<p>The direction of the height change.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The start time of this animation.s.</p>
+							<p>The start time of this animation.</p>
 						</li>
 					</ul>
 				</section>
@@ -306,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:467</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L561">Block.ts:561</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -325,15 +286,15 @@
 								<li>
 									<h5>direction: <a href="../enums/dir.html" class="tsd-signature-type">Dir</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The direction of the width change: ((l)eft, (c)enter,
-										or (r)ight).</p>
+										<p>The direction of the width change.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
@@ -352,13 +313,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:160</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L229">Block.ts:229</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The current height.</p>
+							<p>The current height, as seen at the end of the timeline.</p>
+							<p>This returns the width of the fill area, excluding any stroke that has
+								been applied. SVG strokes are centered on the edge of the fill area, so
+								the height of the overall shape will be increased by one stroke width
+							(half for the top edge, and half for the bottom edge).</p>
+							<p>Note that this does not return the current dimension on screen, as the
+							timeline play head may not yet be at the end of the timeline.</p>
 						</li>
 					</ul>
 				</section>
@@ -372,13 +339,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:153</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L214">Block.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The current width.</p>
+							<p>The current width, as seen at the end of the timeline.</p>
+							<p>This returns the width of the fill area, excluding any stroke that has
+								been applied. SVG strokes are centered on the edge of the fill area, so
+								the width of the overall shape will be increased by one stroke width
+							(half for the left edge, and half for the right edge).</p>
+							<p>Note that this does not return the current dimension on screen, as the
+							timeline play head may not yet be at the end of the timeline.</p>
 						</li>
 					</ul>
 				</section>
@@ -392,13 +365,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:139</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L187">Block.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The current X coordinate.</p>
+							<p>The current X coordinate, as seen at the end of the timeline.</p>
+							<p>Coordinates are returned from the center of the block.</p>
+							<p>Note that this does not return the current coordinate on screen, as
+							the timeline play head may not yet be at the end of the timeline.</p>
 						</li>
 					</ul>
 				</section>
@@ -412,13 +388,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:146</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L199">Block.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The current Y coordinate.</p>
+							<p>The current Y coordinate, as seen at the end of the timeline.</p>
+							<p>Coordinates are returned from the center of the block.</p>
+							<p>Note that this does not return the current coordinate on screen, as
+							the timeline play head may not yet be at the end of the timeline.</p>
 						</li>
 					</ul>
 				</section>
@@ -432,23 +411,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:335</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L421">Block.ts:421</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Animate this block disappearing.</p>
 								</div>
-								<p>If the block has a zero width or zero height the show animation is
-								instant with no tweening.</p>
+								<p>If the block has a zero width or height the animation is instant with no
+								intermediate tweening.</p>
+								<p>TODO: Add hide animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
@@ -467,12 +448,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:280</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L360">Block.ts:360</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Instantly hide this block (irrespective of animation timeline).</p>
+									<p>Instantly hide this block, irrespective of animation timeline.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -489,13 +470,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:370</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L459">Block.ts:459</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Animate this block moving left or right by a relative pixel count.</p>
 								</div>
+								<p>TODO: Add move_x animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -508,8 +490,9 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 								<li>
@@ -531,13 +514,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:418</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L511">Block.ts:511</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Animate this block moving up or down by a relative pixel count.</p>
 								</div>
+								<p>TODO: Add move_by_y animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -550,8 +534,9 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 								<li>
@@ -567,38 +552,40 @@
 					<a name="move_to_x" class="tsd-anchor"></a>
 					<h3>move_<wbr>to_<wbr>x</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">move_<wbr>to_<wbr>x<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">move_<wbr>to_<wbr>x<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:401</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L493">Block.ts:493</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Animate this block moving to an absolute X coordinate.</p>
 								</div>
+								<p>TODO: Add move_to_x animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>x: <span class="tsd-signature-type">any</span></h5>
+									<h5>x: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The X coordinate; a pixel count or a vertical guide.</p>
+										<p>The X coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The time offset to apply, in seconds, relative to the
-										current end of the timeline (may be negative).</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The length of this animation in seconds.</p>
+							<p>The start time of this animation.</p>
 						</li>
 					</ul>
 				</section>
@@ -606,38 +593,40 @@
 					<a name="move_to_y" class="tsd-anchor"></a>
 					<h3>move_<wbr>to_<wbr>y</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">move_<wbr>to_<wbr>y<span class="tsd-signature-symbol">(</span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">move_<wbr>to_<wbr>y<span class="tsd-signature-symbol">(</span>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, startTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:448</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L544">Block.ts:544</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Animate this block moving to an absolute U coordinate.</p>
+									<p>Animate this block moving to an absolute Y coordinate.</p>
 								</div>
+								<p>TODO: Add move_to_y animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>y: <span class="tsd-signature-type">any</span></h5>
+									<h5>y: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The Y coordinate; a pixel count or a horizontal guide.</p>
+										<p>The Y coordinate; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The time offset to apply, in seconds, relative to the
-										current end of the timeline (may be negative).</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>The length of this animation in seconds.</p>
+							<p>The start time of this animation.</p>
 						</li>
 					</ul>
 				</section>
@@ -651,23 +640,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:298</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L381">Block.ts:381</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Animate this block appearing.</p>
 								</div>
-								<p>If the block has a zero width or zero height the show animation is
-								instant with no tweening.</p>
+								<p>If the block has a zero width or height the animation is instant with no
+								intermediate tweening.</p>
+								<p>TODO: Add show animation.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> startTime: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The start time on the animation timeline, in seconds, or null if the
-										animation should be appended to the end of the timeline.</p>
+										<p>The start time on the animation timeline, in seconds,
+											or <code>null</code> if the animation should be appended to the
+										end of the timeline.</p>
 									</div>
 								</li>
 							</ul>
@@ -686,12 +677,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Block.ts:270</li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/5d91caf/ts/Block.ts#L350">Block.ts:350</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Instantly show this block (irrespective of animation timeline).</p>
+									<p>Instantly show this block, irrespective of animation timeline.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -726,12 +717,6 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="block.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="block.html#basetype" class="tsd-kind-icon">base<wbr>Type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="block.html#ns" class="tsd-kind-icon">ns</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="block.html#change_height" class="tsd-kind-icon">change_<wbr>height</a>
@@ -786,10 +771,10 @@
 						<a href="link.html" class="tsd-kind-icon">Link</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="position.html" class="tsd-kind-icon">Position</a>
-					</li>
-					<li class=" tsd-kind-class">
 						<a href="scene.html" class="tsd-kind-icon">Scene</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#position" class="tsd-kind-icon">Position</a>
 					</li>
 				</ul>
 			</nav>

@@ -1,44 +1,94 @@
 /*
- * Aniblock Copyright (c) 2019, Pete Harris
+ * Aniblock: Copyright (c) 2019, Pete Harris
  */
 import { Scene } from './Scene';
 import { Link } from './Link';
+import { Position } from './Position';
 import { Sine } from 'gsap/TweenMax';
 
+/**
+ * An enumeration defining how a block should grow when changing size.
+ */
 export enum Dir {
+    /**
+     * Grow upwards.
+     */
     Up = 1,
+    /**
+     * Grow downwards.
+     */
     Down,
+    /**
+     * Grow up/down or left/right while keeping the center point fixed.
+     */
     Center,
+    /**
+     * Grow to the left.
+     */
     Left,
+    /**
+     * Grow to the right.
+     */
     Right,
 }
 
+/**
+ * An enumeration of block edge names.
+ */
 export enum Edge {
+    /**
+     * Top edge.
+     */
     Top = 1,
+    /**
+     * Bottom edge.
+     */
     Bottom,
+    /**
+     * Left edge.
+     */
     Left,
+    /**
+     * Right edge.
+     */
     Right,
 }
 
+/**
+ * An enumeration of depth ordering.
+ *
+ * Note that Aniblock provides no support for controlling depth ordering of
+ * individual elements, beyond their creation order by the user of the library.
+ * In general blocks are rendered to the top layer, and links between blocks
+ * are rendered to the bottom layer. To avoid rendering issues it is
+ * recommended that animations do not contain block overlap.
+ */
 export enum ZOrder {
+    /**
+     * Add elements to the top of the canvas.
+     */
     Top = 1,
+    /**
+     * Add elements to the bottom of the canvas.
+     */
     Bottom,
 }
 
 /**
- * The ABlock provides the main building block for the diagrams, representing
- * a physical component in the device.
+ * The Block provides the main building block for the diagrams.
  *
- *   <img src="media://sample.gif" alt="A sample Aniblock animation" />
+ * A [[Block]] represents a single component in the diagrams, typically
+ * visually represented by a rectangle with a label and an outline stroke.
+ * Blocks may be connected to other blocks using [[Link]] elements.
+ *
+ * TODO: Insert figure of a block appearing.
  */
 export class Block {
+    /** @hidden The base type used to determine rendering method. */
     public baseType: String;
 
-    /** Namespace for creating SVG elements. */
+    /** @hidden Namespace for creating SVG elements. */
     protected readonly ns = 'http://www.w3.org/2000/svg';
-
-    /** Simple z-order: top (for blocks), bottom (for links). */
-    private zOrder: ZOrder;
 
     /** @hidden The DOM ID of the SVG element. */
     protected id: string;
@@ -49,28 +99,28 @@ export class Block {
     /** @hidden The label string. */
     private label: string;
 
-    /** @hidden The label line height in pixels. */
+    /** @hidden The label line height. */
     private labelSize: number;
 
-    /** @hidden The starting X coordinate. */
+    /** @hidden The starting X coordinate of the block center. */
+    protected xStart: number;
+
+    /** @hidden The starting Y coordinate of the block center. */
+    protected yStart: number;
+
+    /** @hidden The current X coordinate of the block center. */
     protected x: number;
 
-    /** @hidden The starting Y coordinate. */
+    /** @hidden The current Y coordinate of the block center. */
     protected y: number;
 
-    /** @hidden The width of the block. */
+    /** @hidden The width of the block, excluding strokes. */
     protected w: number;
 
-    /** @hidden The height of the block. */
+    /** @hidden The height of the block, excluding strokes. */
     protected h: number;
 
-    /** @hidden The current X coordinate. */
-    protected xOffset: number;
-
-    /** @hidden The current Y coordinate. */
-    protected yOffset: number;
-
-    /** @hidden List of links for which is block is the primary source. */
+    /** @hidden List of links for which this block is the primary source. */
     private links: Link[];
 
     /** @hidden The parent scene that owns this block. */
@@ -82,27 +132,28 @@ export class Block {
     /**
      * Create a new block.
      *
+     * Note that new blocks are created in a hidden state; call the
+     * [[show|`show()`]] method to animate the block appearing.
+     *
      * @param scene The parent scene.
-     * @param label The label string for this block. Note that this may be
-     *              a multi-line string; encode newlines in the input string.
-     * @param x The starting X coordinate. May be a number or a string, where
-     *          the string is the name of a vertical guide.
-     * @param y The starting Y coordinate. May be a number or a string, where
-     *          the string is the name of a horizontal guide.
+     * @param label The label string for this block. This may be a multi-line
+     *              string, with lines separated by `\n` characters.
+     * @param x The starting X coordinate; any input accepted by [[Position]].
+     * @param y The starting Y coordinate; any input accepted by [[Position]].
      * @param w The starting width.
      * @param h The starting height.
-     * @param cls The DOM class (or class list) for this block.
-     * @param z The Z-order for the block (default "top").
+     * @param cls The DOM class, or class list, for this block. Supplying this
+     *            parameter is optional, but will be needed in order to apply
+     *            custom styles to subsets of the blocks in the diagram.
      */
     constructor(
         scene: Scene,
         label: string,
-        x: any,
-        y: any,
+        x: number | string,
+        y: number | string,
         w: number,
         h: number,
-        cls: string = null,
-        z: ZOrder = ZOrder.Top
+        cls: string = null
     ) {
         this.scene = scene;
         this.id = scene.get_new_id();
@@ -115,47 +166,65 @@ export class Block {
         this.w = w;
         this.h = h;
 
-        if (typeof x == 'string') {
-            x = scene.get_vguide(x);
-        }
+        this.xStart = Position(scene, 'x', x);
+        this.yStart = Position(scene, 'y', y);
+        this.x = this.xStart;
+        this.y = this.yStart;
 
-        if (typeof y == 'string') {
-            y = scene.get_hguide(y);
-        }
-
-        this.x = x;
-        this.y = y;
-        this.xOffset = this.x;
-        this.yOffset = this.y;
-        this.zOrder = z;
         this.baseType = 'Block';
         this.isVisible = false;
         scene.add_block(this);
     }
 
     /**
-     * @returns The current X coordinate.
+     * @returns The current X coordinate, as seen at the end of the timeline.
+     *
+     * Coordinates are returned from the center of the block.
+     *
+     * Note that this does not return the current coordinate on screen, as
+     * the timeline play head may not yet be at the end of the timeline.
      */
     public get_x(): number {
-        return this.xOffset;
+        return this.x;
     }
 
     /**
-     * @returns The current Y coordinate.
+     * @returns The current Y coordinate, as seen at the end of the timeline.
+     *
+     * Coordinates are returned from the center of the block.
+     *
+     * Note that this does not return the current coordinate on screen, as
+     * the timeline play head may not yet be at the end of the timeline.
      */
     public get_y(): number {
-        return this.yOffset;
+        return this.y;
     }
 
     /**
-     * @returns The current width.
+     * @returns The current width, as seen at the end of the timeline.
+     *
+     * This returns the width of the fill area, excluding any stroke that has
+     * been applied. SVG strokes are centered on the edge of the fill area, so
+     * the width of the overall shape will be increased by one stroke width
+     * (half for the left edge, and half for the right edge).
+     *
+     * Note that this does not return the current dimension on screen, as the
+     * timeline play head may not yet be at the end of the timeline.
      */
     public get_w(): number {
         return this.w;
     }
 
     /**
-     * @returns The current height.
+     * @returns The current height, as seen at the end of the timeline.
+     *
+     * This returns the width of the fill area, excluding any stroke that has
+     * been applied. SVG strokes are centered on the edge of the fill area, so
+     * the height of the overall shape will be increased by one stroke width
+     * (half for the top edge, and half for the bottom edge).
+     *
+     * Note that this does not return the current dimension on screen, as the
+     * timeline play head may not yet be at the end of the timeline.
      */
     public get_h(): number {
         return this.h;
@@ -170,9 +239,9 @@ export class Block {
      */
     private generate_text(lines: number, index: number, label: string): SVGTextElement {
         let text = document.createElementNS(this.ns, 'text');
-        let xCoord = String(this.x);
+        let xCoord = String(this.xStart);
 
-        let yCenter = this.y + 2;
+        let yCenter = this.yStart + 2;
         let yBase = (this.labelSize * (lines - 1)) / 2;
         let yInc = this.labelSize * index;
         let yCoord = String(yCenter - yBase + yInc);
@@ -189,12 +258,23 @@ export class Block {
     /**
      * @hidden
      *
-     * Get the DOM class used to represent the rect in this block.
+     * Get the default DOM class used for the main SVG `rect` element.
      *
      * @returns The DOM class name.
      */
     public get_block_class(): string {
         return 'ABlock';
+    }
+
+    /**
+     * @hidden
+     *
+     * Get the Z-Order of this element.
+     *
+     * @returns The ZOrder of this block.
+     */
+    public get_block_zorder(): ZOrder {
+        return ZOrder.Top;
     }
 
     /**
@@ -214,7 +294,7 @@ export class Block {
         }
 
         // Work out where to add the block in the SVG
-        if (this.zOrder == ZOrder.Bottom) {
+        if (this.get_block_zorder() == ZOrder.Bottom) {
             let guide = document.querySelectorAll('text.AGuide:last-of-type');
             if (guide.length != 0) {
                 svg.insertBefore(group, guide[0].nextSibling);
@@ -229,8 +309,8 @@ export class Block {
         // Create the block
         let rect = document.createElementNS(this.ns, 'rect');
         rect.setAttribute('class', this.get_block_class());
-        rect.setAttribute('x', String(this.x - this.w / 2));
-        rect.setAttribute('y', String(this.y - this.h / 2));
+        rect.setAttribute('x', String(this.xStart - this.w / 2));
+        rect.setAttribute('y', String(this.yStart - this.h / 2));
         rect.setAttribute('width', String(this.w));
         rect.setAttribute('height', String(this.h));
 
@@ -247,7 +327,7 @@ export class Block {
         // Create the text
         let text = document.createElementNS(this.ns, 'text');
 
-        // ... this is a dummy element to get the font size
+        // Note: this is a dummy element to get the font size
         group.appendChild(text);
         let style = window.getComputedStyle(text);
         let fontSize = style.getPropertyValue('font-size');
@@ -265,7 +345,7 @@ export class Block {
     }
 
     /**
-     * Instantly show this block (irrespective of animation timeline).
+     * Instantly show this block, irrespective of animation timeline.
      */
     public show_now(): void {
         let rectId = '#' + this.id + ' rect';
@@ -275,7 +355,7 @@ export class Block {
     }
 
     /**
-     * Instantly hide this block (irrespective of animation timeline).
+     * Instantly hide this block, irrespective of animation timeline.
      */
     public hide_now(): void {
         let rectId = '#' + this.id + ' rect';
@@ -287,11 +367,14 @@ export class Block {
     /**
      * Animate this block appearing.
      *
-     * If the block has a zero width or zero height the show animation is
-     * instant with no tweening.
+     * If the block has a zero width or height the animation is instant with no
+     * intermediate tweening.
      *
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * TODO: Add show animation.
+     *
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
      * @returns The start time of this animation.
      */
@@ -324,11 +407,14 @@ export class Block {
     /**
      * Animate this block disappearing.
      *
-     * If the block has a zero width or zero height the show animation is
-     * instant with no tweening.
+     * If the block has a zero width or height the animation is instant with no
+     * intermediate tweening.
      *
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * TODO: Add hide animation.
+     *
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
      * @returns The start time of this animation.
      */
@@ -361,9 +447,12 @@ export class Block {
     /**
      * Animate this block moving left or right by a relative pixel count.
      *
+     * TODO: Add move_x animation.
+     *
      * @param offset The pixel offset relative to the current position.
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
      * @returns The start time of this animation.
      */
@@ -373,7 +462,7 @@ export class Block {
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
-        this.xOffset += offset;
+        this.x += offset;
 
         let isLink = this.baseType == 'Link';
         if (isLink) {
@@ -384,7 +473,7 @@ export class Block {
             var time = this.scene.moveTime;
         }
 
-        tl.to(grpId, time, { x: this.xOffset - this.x, ease: Sine.easeOut }, startTime);
+        tl.to(grpId, time, { x: this.x - this.xStart, ease: Sine.easeOut }, startTime);
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -392,26 +481,30 @@ export class Block {
     /**
      * Animate this block moving to an absolute X coordinate.
      *
-     * @param x The X coordinate; a pixel count or a vertical guide.
-     * @param startTime The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * TODO: Add move_to_x animation.
      *
-     * @returns The length of this animation in seconds.
+     * @param x The X coordinate; any input accepted by [[Position]].
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
+     *
+     * @returns The start time of this animation.
      */
-    public move_to_x(x: any, startTime: number = null): number {
-        if (typeof x == 'string') {
-            x = this.scene.get_vguide(x);
-        }
-        let newOffset = x - this.xOffset;
+    public move_to_x(x: number | string, startTime: number = null): number {
+        x = Position(this.scene, 'x', x);
+        let newOffset = x - this.x;
         return this.move_by_x(newOffset, startTime);
     }
 
     /**
      * Animate this block moving up or down by a relative pixel count.
      *
+     * TODO: Add move_by_y animation.
+     *
      * @param offset The pixel offset relative to the current position.
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
      * @returns The start time of this animation.
      */
@@ -421,7 +514,7 @@ export class Block {
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
-        this.yOffset += offset;
+        this.y += offset;
         let isLink = this.baseType == 'Link';
 
         if (isLink) {
@@ -431,25 +524,26 @@ export class Block {
         } else {
             var time = this.scene.moveTime;
         }
-        tl.to(grpId, time, { y: this.yOffset - this.y, ease: Sine.easeOut }, startTime);
+        tl.to(grpId, time, { y: this.y - this.yStart, ease: Sine.easeOut }, startTime);
         this.update_links(startTime);
         return tlEndTime;
     }
 
     /**
-     * Animate this block moving to an absolute U coordinate.
+     * Animate this block moving to an absolute Y coordinate.
      *
-     * @param y The Y coordinate; a pixel count or a horizontal guide.
-     * @param startTime The time offset to apply, in seconds, relative to the
-     *                   current end of the timeline (may be negative).
+     * TODO: Add move_to_y animation.
      *
-     * @returns The length of this animation in seconds.
+     * @param y The Y coordinate; any input accepted by [[Position]].
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
+     *
+     * @returns The start time of this animation.
      */
-    public move_to_y(y: any, startTime: number = null): number {
-        if (typeof y == 'string') {
-            y = this.scene.get_hguide(y);
-        }
-        let newOffset = y - this.yOffset;
+    public move_to_y(y: number | string, startTime: number = null): number {
+        y = Position(this.scene, 'y', y);
+        let newOffset = y - this.y;
         return this.move_by_y(newOffset, startTime);
     }
 
@@ -457,10 +551,10 @@ export class Block {
      * Animate this block changing width.
      *
      * @param w The new width.
-     * @param direction The direction of the width change: ((l)eft, (c)enter,
-     *                  or (r)ight).
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * @param direction The direction of the width change.
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
      * @returns The start time of this animation.
      */
@@ -476,8 +570,8 @@ export class Block {
         this.w = w;
 
         // Adjust origin point (in middle of rectangle)
+        this.xStart += deltaW2;
         this.x += deltaW2;
-        this.xOffset += deltaW2;
 
         let isLink = this.baseType == 'Link';
         if (isLink) {
@@ -526,12 +620,12 @@ export class Block {
      * Animate this block changing height.
      *
      * @param w The new width.
-     * @param direction The direction of the height change: ((u)p, (c)enter,
-     *                  or (d)own).
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * @param direction The direction of the height change.
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      *
-     * @returns The start time of this animation.s.
+     * @returns The start time of this animation.
      */
     public change_height(h: number, direction: Dir, startTime: number = null): number {
         let tl = this.scene.tl;
@@ -545,8 +639,8 @@ export class Block {
         this.h = h;
 
         // Adjust origin point (in middle of rectangle)
+        this.yStart += deltaH2;
         this.y += deltaH2;
-        this.yOffset += deltaH2;
 
         let isLink = this.baseType == 'Link';
         if (isLink) {
@@ -590,8 +684,9 @@ export class Block {
      *
      * Update all links owned by this block to move with the block.
      *
-     * @param startTime The start time on the animation timeline, in seconds, or null if the
-     *                  animation should be appended to the end of the timeline.
+     * @param startTime The start time on the animation timeline, in seconds,
+     *                  or `null` if the animation should be appended to the
+     *                  end of the timeline.
      */
     public update_links(startTime: number = null): void {
         for (let i = 0; i < this.links.length; i++) {
@@ -626,13 +721,13 @@ export class Block {
     public get_edge(edge: Edge): number {
         let edgeVal = null;
         if (edge == Edge.Top) {
-            edgeVal = this.yOffset - this.h / 2;
+            edgeVal = this.y - this.h / 2;
         } else if (edge == Edge.Right) {
-            edgeVal = this.xOffset + this.w / 2;
+            edgeVal = this.x + this.w / 2;
         } else if (edge == Edge.Bottom) {
-            edgeVal = this.yOffset + this.h / 2;
+            edgeVal = this.y + this.h / 2;
         } else if (edge == Edge.Left) {
-            edgeVal = this.xOffset - this.w / 2;
+            edgeVal = this.x - this.w / 2;
         }
         return edgeVal;
     }
