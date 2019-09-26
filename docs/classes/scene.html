@@ -67,10 +67,15 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An AScene is the root element used for constructing an animation.</p>
+						<p>A <a href="scene.html">Scene</a> is the root element used for constructing an animation.</p>
 					</div>
-					<p>Each AScene wraps a single SVG element in the document, and the animation process will create new
-					elements inside the SVG to provide the element of the diagram.</p>
+					<p>Each <a href="scene.html">Scene</a> instance wraps a single SVG element in the document, and the
+						animation process will create and move new elements inside this container.
+						It is recommended that the element used is simply an empty placeholder, for
+					example:</p>
+					<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"animation"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></code></pre>
+					<p>Any existing child elements of the SVG container will be removed when
+					the scene instance is constructed.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -98,19 +103,12 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scene.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scene.html#width" class="tsd-kind-icon">width</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_block" class="tsd-kind-icon">add_<wbr>block</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_constant" class="tsd-kind-icon">add_<wbr>constant</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_hguide" class="tsd-kind-icon">add_<wbr>hguide</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_idle" class="tsd-kind-icon">add_<wbr>idle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_pause" class="tsd-kind-icon">add_<wbr>pause</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#add_vguide" class="tsd-kind-icon">add_<wbr>vguide</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#configure" class="tsd-kind-icon">configure</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scene.html#fastforward" class="tsd-kind-icon">fastforward</a></li>
@@ -134,15 +132,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L67">Scene.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L76">Scene.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new scene.</p>
+									<p>Create a new <a href="scene.html">Scene</a>.</p>
 								</div>
-								<p>In debug mode additional visual helpers are enabled, for example
-								any guides are visually shown on the canvas.</p>
+								<p>If debug mode is enable then additional visual helpers are added, for
+								example any user-defined guides are visually represented in the diagram.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -150,7 +148,7 @@
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The ID of the placeholder DOM element.</p>
+											<p>The ID of the SVG container element in the document.</p>
 										</div>
 									</div>
 								</li>
@@ -185,61 +183,7 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L28">Scene.ts:28</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L25">Scene.ts:25</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="add_block" class="tsd-anchor"></a>
-					<h3>add_<wbr>block</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>block<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="block.html" class="tsd-signature-type">Block</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L295">Scene.ts:295</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a new block to the scene.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>element: <a href="block.html" class="tsd-signature-type">Block</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The block to add.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="add_constant" class="tsd-anchor"></a>
 					<h3>add_<wbr>constant</h3>
@@ -250,12 +194,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L176">Scene.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L188">Scene.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add a new constant for guide computations.</p>
+									<p>Add a new constant for position computations.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -263,14 +207,13 @@
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The name of the constant.</p>
+										<p>The name of the constant; cannot start with a numeric digit.</p>
 									</div>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The value of the constant, which may be an expression involving other constants
-										that have already been defined.</p>
+										<p>The constant value; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 									</div>
 								</li>
 							</ul>
@@ -288,28 +231,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L203">Scene.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L223">Scene.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add a horizontal (y-axis) drawing guide.</p>
+									<p>Add a horizontal (Y axis) drawing guide.</p>
 								</div>
+								<p>Note that guides can also be used as symbolic locations in <a href="../globals.html#position">Position</a>
+									computations, allowing positions to be defined as offsets relative to an
+								existing guide.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The name of the guide.</p>
+										<p>The name of the guide; cannot start with a numeric digit.</p>
 									</div>
 								</li>
 								<li>
 									<h5>loc: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The location of the guide, specified as either a number which
-											gives the position in pixels, or a string which gives the position
-										as a percentage.</p>
+										<p>The guide position; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 									</div>
 								</li>
 							</ul>
@@ -321,18 +265,18 @@
 					<a name="add_idle" class="tsd-anchor"></a>
 					<h3>add_<wbr>idle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add_<wbr>idle<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add_<wbr>idle<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L306">Scene.ts:306</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L313">Scene.ts:313</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add an idle period to the end of the timeline.</p>
+									<p>Add an idle period to the animation to the end of the timeline.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,6 +288,33 @@
 									</div>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The start time of this animation.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="add_pause" class="tsd-anchor"></a>
+					<h3>add_<wbr>pause</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add_<wbr>pause<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L328">Scene.ts:328</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a pause for user keypress to the end of the timeline.</p>
+								</div>
+								<p>Note that the pause is an asynchronous event; it is queued and will
+								be triggered at the point that the timeline &quot;plays&quot; this event.</p>
+								<p>When the <a href="scene.html">Scene</a> is constructed in <code>debug</code> mode a pause indicator will
+								be shown in the top left of the screen.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -358,28 +329,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L251">Scene.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L263">Scene.ts:263</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add a vertical (x-axis) drawing guide.</p>
+									<p>Add a vertical (X axis) drawing guide.</p>
 								</div>
+								<p>Note that guides can also be used as symbolic locations in <a href="../globals.html#position">Position</a>
+									computations, allowing positions to be defined as offsets relative to an
+								existing guide.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The name of the guide.</p>
+										<p>The name of the guide; cannot start with a numeric digit.</p>
 									</div>
 								</li>
 								<li>
 									<h5>loc: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The location of the guide, specified as either a number which
-											gives the position in pixels, or a string which gives the position
-										as a percentage.</p>
+										<p>The guide position; any input accepted by <a href="../globals.html#position">Position</a>.</p>
 									</div>
 								</li>
 							</ul>
@@ -397,21 +369,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L128">Scene.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L152">Scene.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Configure global settings for this animation. Any of the following
-									parameters can be specified:</p>
+									<p>Configure global settings for this scene.</p>
 								</div>
+								<p>If required, this should be called immediately after construction. Any
+								subset of the following parameters can be specified:</p>
 								<ul>
-									<li>timeScale: Animation playback speed multiplier.</li>
-									<li>showTime: Duration of show animations, in seconds.</li>
-									<li>hideTime: Duration of hide animations, in seconds.</li>
-									<li>moveTime: Duration of move animations, in seconds.</li>
-									<li>morphTime: Duration of morph animations, in seconds.</li>
-									<li>loop: Boolean indicating if the animation should loop.</li>
+									<li><code>timeScale</code>: Animation playback speed multiplier.</li>
+									<li><code>showTime</code>: Duration of show animations, in seconds.</li>
+									<li><code>hideTime</code>: Duration of hide animations, in seconds.</li>
+									<li><code>moveTime</code>: Duration of move animations, in seconds.</li>
+									<li><code>morphTime</code>: Duration of morph animations, in seconds.</li>
+									<li><code>loop</code>: Boolean indicating if the animation should loop.</li>
 								</ul>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -419,7 +392,7 @@
 								<li>
 									<h5>params: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>A parameter object.</p>
+										<p>A parameter mapping object.</p>
 									</div>
 								</li>
 							</ul>
@@ -437,13 +410,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L313">Scene.ts:313</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L349">Scene.ts:349</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Skip all animations and jump to the current head of the timeline.</p>
+									<p>Skip all animations and jump to the head of the timeline.</p>
 								</div>
+								<p>This has two main uses:</p>
+								<ul>
+									<li>In release builds it can be used to jump a diagram directly into
+									a constructed state.</li>
+									<li>In debug builds it can be used to jump a diagram to the interesting
+									part that is under development, skipping already completed work.</li>
+								</ul>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
@@ -459,12 +439,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L191">Scene.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L209">Scene.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get a constant value.</p>
+									<p>Get the value of a symbolic constant.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -472,11 +452,12 @@
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The name of the constant.</p>
+										<p>The symbolic name of the constant.</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The numeric value of the named symbolic constant.</p>
 						</li>
 					</ul>
 				</section>
@@ -490,7 +471,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L239">Scene.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L249">Scene.ts:249</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -508,6 +489,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The Y coordinate of the named guide.</p>
 						</li>
 					</ul>
 				</section>
@@ -521,7 +503,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/9ac944d/ts/Scene.ts#L286">Scene.ts:286</a></li>
+									<li>Defined in <a href="https://github.com/solidpixel/aniblock/blob/4642cca/ts/Scene.ts#L289">Scene.ts:289</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -539,6 +521,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The X coordinate of the named guide.</p>
 						</li>
 					</ul>
 				</section>
@@ -560,9 +543,6 @@
 					<li class=" tsd-kind-enum">
 						<a href="../enums/edge.html" class="tsd-kind-icon">Edge</a>
 					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/zorder.html" class="tsd-kind-icon">ZOrder</a>
-					</li>
 					<li class=" tsd-kind-class">
 						<a href="block.html" class="tsd-kind-icon">Block</a>
 					</li>
@@ -580,15 +560,6 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="scene.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scene.html#height" class="tsd-kind-icon">height</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scene.html#width" class="tsd-kind-icon">width</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scene.html#add_block" class="tsd-kind-icon">add_<wbr>block</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="scene.html#add_constant" class="tsd-kind-icon">add_<wbr>constant</a>
 							</li>
@@ -597,6 +568,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="scene.html#add_idle" class="tsd-kind-icon">add_<wbr>idle</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="scene.html#add_pause" class="tsd-kind-icon">add_<wbr>pause</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="scene.html#add_vguide" class="tsd-kind-icon">add_<wbr>vguide</a>

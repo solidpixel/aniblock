@@ -11,23 +11,24 @@ import { Sine } from 'gsap/TweenMax';
  */
 export enum Dir {
     /**
-     * Grow upwards.
+     * Grow upwards, keeping the bottom edge fixed on the canvas.
      */
     Up = 1,
     /**
-     * Grow downwards.
+     * Grow downwards, keeping the top edge fixed on the canvas.
      */
     Down,
     /**
-     * Grow up/down or left/right while keeping the center point fixed.
+     * Grow up/down or left/right, depending on animation, while keeping the
+     * center point fixed on the canvas.
      */
     Center,
     /**
-     * Grow to the left.
+     * Grow to the left, keeping the right edge fixed on the canvas.
      */
     Left,
     /**
-     * Grow to the right.
+     * Grow to the right, keeping the left edge fixed on the canvas.
      */
     Right,
 }
@@ -55,6 +56,8 @@ export enum Edge {
 }
 
 /**
+ * @hidden
+ *
  * An enumeration of depth ordering.
  *
  * Note that Aniblock provides no support for controlling depth ordering of
@@ -299,7 +302,7 @@ export class Block {
             if (guide.length != 0) {
                 svg.insertBefore(group, guide[0].nextSibling);
             } else {
-                let canvas = document.getElementById('canvas');
+                let canvas = svg.getElementsByClassName('canvas')[0];
                 svg.insertBefore(group, canvas.nextSibling);
             }
         } else {
