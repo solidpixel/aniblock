@@ -117,7 +117,7 @@ elements we create are created in the context of a specific Scene instance.
 var sc = new ABlk.Scene('animation', 400, 160);
 ```
 
-This line creates a new `Scene` instance, wrapping the SVN element with an `id`
+This line creates a new `Scene` instance, wrapping the SVG element with an `id`
 of `animation` in the HTML file. This scene is created with a fixed size of
 400x160 pixels, and cannot be resized once created.
 
