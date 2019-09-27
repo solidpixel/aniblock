@@ -1,4 +1,5 @@
 docs/media/*.md
+docs/media/tutorial*.gif
 js
 node_modules
 www/dist

@@ -81,4 +81,4 @@ Documentation of the Aniblock library API can be found here.
 Tutorials
 ---------
 
-* [Getting started](./tutorials/01_setup/tutorial.md)
+* [Getting started](./tutorials/01_helloworld/tutorial.md)

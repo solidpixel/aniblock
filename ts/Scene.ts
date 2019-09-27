@@ -304,6 +304,15 @@ export class Scene implements EventListenerObject {
     }
 
     /**
+     * Get the current end time of the timeline.
+     *
+     * @returns The end time of the timeline in seconds.
+     */
+    public get_end_time(): number {
+        return this.tl.endTime();
+    }
+
+    /**
      * Add an idle period to the animation to the end of the timeline.
      *
      * @param time The number of seconds to idle.
