@@ -281,6 +281,15 @@ export class Block {
     }
 
     /**
+     * Get the perimeter size of this element.
+     *
+     * @returns The perimeter in pixels (plus a little padding)
+     */
+    private get_perimeter(): number {
+        return this.w * 2 + this.h * 2 + 20;
+    }
+
+    /**
      * @hidden
      *
      * Generate SVG elements for the block.
@@ -317,7 +326,7 @@ export class Block {
         rect.setAttribute('width', String(this.w));
         rect.setAttribute('height', String(this.h));
 
-        let perimeter = this.w * 2 + this.h * 2 + 20;
+        let perimeter = this.get_perimeter();
         rect.style.strokeDasharray = String(perimeter);
         rect.style.strokeDashoffset = String(perimeter);
 
@@ -438,7 +447,8 @@ export class Block {
             let time = this.scene.hideTime;
             tl.to(grpId, time * 0.66, { fillOpacity: 0 }, startTime);
             let offset = '-=' + time;
-            tl.to(rectId, time, { strokeDashoffset: '100%', ease: Sine.easeOut }, offset);
+            let dashOffset = this.get_perimeter();
+            tl.to(rectId, time, { strokeDashoffset: dashOffset, ease: Sine.easeOut }, offset);
         } else {
             tl.to(grpId, 0, { fillOpacity: 0 }, startTime);
         }
@@ -583,7 +593,7 @@ export class Block {
             var time = this.scene.morphTime;
         }
 
-        let perimeter = this.w * 2 + this.h * 2 + 20;
+        let perimeter = this.get_perimeter();
         if ((deltaW > 0 && direction == Dir.Left) || (deltaW < 0 && direction == Dir.Right)) {
             this.move_by_x(-deltaW, startTime, true);
             tl.to(
@@ -652,7 +662,7 @@ export class Block {
             var time = this.scene.morphTime;
         }
 
-        let perimeter = this.w * 2 + this.h * 2 + 20;
+        let perimeter = this.get_perimeter();
         if ((deltaH > 0 && direction == Dir.Up) || (deltaH < 0 && direction == Dir.Down)) {
             this.move_by_y(-deltaH, startTime, true);
             tl.to(
