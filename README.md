@@ -65,11 +65,20 @@ Build outputs are:
 
 * `docs`: The library API documentation.
 * `www\dist\aniblock.js`: The Aniblock library.
+* `www\dist\aniblock.css`: The Aniblock main CSS styles.
 * `www\dist\aniblock.js.map`: The Aniblock source map, useful for debugging.
 
-API Documentation
-=================
+Documentation
+=============
 
-Documentation of the Aniblock library API can be found here:
+API Documentation
+-----------------
+
+Documentation of the Aniblock library API can be found here.
 
 * https://solidpixel.github.io/aniblock/
+
+Tutorials
+---------
+
+* [Getting started](./tutorials/01_setup/tutorial.md)
