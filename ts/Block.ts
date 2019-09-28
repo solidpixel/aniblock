@@ -117,6 +117,12 @@ export class Block {
     /** @hidden The current Y coordinate of the block center. */
     protected y: number;
 
+    /** @hidden The starting width of the block. */
+    protected wStart: number;
+
+    /** @hidden The starting height of the block. */
+    protected hStart: number;
+
     /** @hidden The width of the block, excluding strokes. */
     protected w: number;
 
@@ -166,6 +172,8 @@ export class Block {
         this.labelSize = null;
         this.links = [];
 
+        this.wStart = w;
+        this.hStart = h;
         this.w = w;
         this.h = h;
 
@@ -255,6 +263,7 @@ export class Block {
         text.setAttribute('dominant-baseline', 'middle');
         text.setAttribute('text-anchor', 'middle');
         text.innerHTML = label;
+
         return text;
     }
 
@@ -352,6 +361,12 @@ export class Block {
             let text = this.generate_text(lines.length, j, lines[j]);
             group.appendChild(text);
         }
+
+        // Apply a small rotation to force browser rendering to not pixel snap
+        // the font rendering, which looks terrible when animated ...
+        let tl = this.scene.tl;
+        let textid = '#' + this.id + ' text';
+        tl.set(textid, { force3D: true, rotation: 0.1 });
 
         return group;
     }
@@ -593,6 +608,7 @@ export class Block {
             var time = this.scene.morphTime;
         }
 
+        // Adjust the rectangle dimensions
         let perimeter = this.get_perimeter();
         if ((deltaW > 0 && direction == Dir.Left) || (deltaW < 0 && direction == Dir.Right)) {
             this.move_by_x(-deltaW, startTime, true);
@@ -619,10 +635,12 @@ export class Block {
             );
         }
 
+        // Adjust the text position
+        let textDX = (this.w - this.wStart) / 2;
         let lines = document.querySelectorAll(textId);
         for (let i = 0; i < lines.length; i++) {
             let node = lines[i];
-            tl.to(node, time, { x: deltaW2, ease: Sine.easeOut }, startTime);
+            tl.to(node, time, { x: textDX, ease: Sine.easeOut }, startTime);
         }
 
         this.update_links(startTime);
@@ -646,7 +664,7 @@ export class Block {
         startTime = startTime == null ? tlEndTime : startTime;
 
         let rctId = '#' + this.id + ' rect';
-
+        let textId = '#' + this.id + ' text';
         let deltaH = h - this.h;
         let deltaH2 = deltaH / 2;
         this.h = h;
@@ -662,6 +680,7 @@ export class Block {
             var time = this.scene.morphTime;
         }
 
+        // Adjust the rectangle dimensions
         let perimeter = this.get_perimeter();
         if ((deltaH > 0 && direction == Dir.Up) || (deltaH < 0 && direction == Dir.Down)) {
             this.move_by_y(-deltaH, startTime, true);
@@ -686,6 +705,14 @@ export class Block {
                 { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
                 startTime
             );
+        }
+
+        // Adjust the text position
+        let textDH = (this.h - this.hStart) / 2;
+        let lines = document.querySelectorAll(textId);
+        for (let i = 0; i < lines.length; i++) {
+            let node = lines[i];
+            tl.to(node, time, { y: textDH, ease: Sine.easeOut }, startTime);
         }
 
         this.update_links(startTime);
