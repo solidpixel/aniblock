@@ -599,7 +599,6 @@ export class Block {
 
         // Adjust origin point (in middle of rectangle)
         this.xStart += deltaW2;
-        let xOrig = this.x;
         this.x += deltaW2;
 
         let isLink = this.baseType == 'Link';
