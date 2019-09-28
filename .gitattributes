@@ -1,0 +1,16 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files for line ending normalization
+LICENSE text
+*.css text
+*.html text
+*.js text
+*.json text
+*.md text
+*.ts text
+
+# Explicitly declare binary files to avoid modifications
+*.gif binary
+*.jpg binary
+*.png binary
