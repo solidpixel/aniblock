@@ -3,14 +3,13 @@ Tutorial 02: Block Animation
 
 In this tutorial we'll look at the five main types of block animation that
 are available: show, hide, moves, changes in width, and changes in height.
-For sake of brevity we include the show and hide animations in the sections
-for the other three, as they are both relatively simple.
+For sake of brevity I include the show and hide animations in the sections
+explaining the others, as they are relatively simple.
 
 Full source code for this sample can be found [here](./).
 
-_**Note:** The source code for this sample is a good example for how to create
-and animate multiple separate `Scenes` simultaneously by using multiple `svg`
-containers._
+_**Note:** The source code for this sample shows how to create and animate
+multiple `Scenes` simultaneously by using multiple `svg` containers._
 
 Move animations
 ===============
@@ -23,7 +22,7 @@ One of the most important animations in a diagram is the ability to move
        alt="Demonstration of Aniblock block move animations" />
 </p>
 
-The sample code for this animation is here:
+The sample code for this animation is:
 
 ```javascript
 // Size parameters
@@ -57,9 +56,10 @@ What's going on?
 The animation components in this sample are reasonably simple to understand:
 
 * The `show()` call animates the block appearing.
-* The `move_to_*()` calls are moves to an absolute coordinate in the diagram.
-* The `move_by_*()` calls are moves by a relative offset to the current
-  location.
+* The `move_to_*()` calls are moves the center of the block to an absolute
+  coordinate in the diagram.
+* The `move_by_*()` calls are moves by a coordinate offset relative to the
+  current position of the block.
 * The `hide()` call animates the block disappearing.
 
 The most important thing to remember with moves is that the origin for the
@@ -79,7 +79,7 @@ In width:
        alt="Demonstration of Aniblock block move animations" />
 </p>
 
-... for which the sample code for this animation is here:
+... for which the sample code is:
 
 ```javascript
 // Grow and shrink left
@@ -102,7 +102,7 @@ blkA.change_width(bw, ABlk.Dir.Center);
        alt="Demonstration of Aniblock block move animations" />
 </p>
 
-... for which the sample code for this animation is here:
+... for which the sample code is:
 
 ```javascript
 // Grow and shrink up
@@ -129,9 +129,9 @@ Again, these animations are reasonably intuitive to understand:
   new value.
 
 The only new concept to understand here is how to interpret the directions
-that are provided which explain how to grow or shrink the block shape. These
-should be interpreted as the direction in which the center of mass the block
-has moved once the animation has completed.
+that define how to grow or shrink the block shape. These should be interpreted
+as the direction in which the center of mass the block has moved once the
+animation has completed.
 
 For example if you grow a block in the the `Up` direction then the bottom edge
 will stay still and the top edge will move upwards, pushing the center of mass
