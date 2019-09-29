@@ -8,7 +8,7 @@ In this first tutorial I will run though the obligatory creation of the simple
   <img src="../../media/tutorial_01.gif" alt="Aniblock Hello World" />
 </p>
 
-Source code for this sample can be found [here](./).
+Full source code for this sample can be found [here](./).
 
 
 Animation creation
