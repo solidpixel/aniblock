@@ -82,3 +82,4 @@ Tutorials
 ---------
 
 * [Getting started](./tutorials/01_helloworld/tutorial.md)
+* [Block animation](./tutorials/02_blockanimation/tutorial.md)
