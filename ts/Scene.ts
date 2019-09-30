@@ -188,7 +188,7 @@ export class Scene implements EventListenerObject {
     public add_constant(name: string, value: string | number): void {
         // Constants must match a valid name pattern
         if (!name.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
-            throw new Error('AScene: VGuide name is invalid "' + name + '"');
+            throw new Error('AScene: Constant name is invalid "' + name + '"');
         }
 
         // Constants must be unique in all namespaces namespace
@@ -223,7 +223,7 @@ export class Scene implements EventListenerObject {
     public add_hguide(name: string, loc: string | number): void {
         // Guides must match a valid name pattern
         if (!name.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
-            throw new Error('AScene: VGuide name is invalid "' + name + '"');
+            throw new Error('AScene: HGuide name is invalid "' + name + '"');
         }
 
         // Guides must be unique in both their orientation and constants namespace
