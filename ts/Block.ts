@@ -139,7 +139,7 @@ export class Block {
     protected isVisible: boolean;
 
     /**
-     * Create a new block.
+     * Create a new [[Block]].
      *
      * Note that new blocks are created in a hidden state; call the
      * [[show|`show()`]] method to animate the block appearing.
@@ -411,21 +411,12 @@ export class Block {
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
-        let rectId = '#' + this.id + ' rect.ABlock';
+        let rectId = '#' + this.id + ' rect.' + this.get_block_class();
 
-        let node = document.querySelector(rectId);
-        let style = window.getComputedStyle(node);
-        let stroke = style.getPropertyValue('stroke-width');
-        let strokeSize = Number(stroke.match(/\d+/)[0]);
-
-        if (strokeSize > 0) {
-            let time = this.scene.showTime;
-            tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, startTime);
-            let offset = '-=' + time * 0.75;
-            tl.to(grpId, time * 0.66, { fillOpacity: 1 }, offset);
-        } else {
-            tl.to(grpId, 0, { fillOpacity: 1 }, startTime);
-        }
+        let time = this.scene.showTime;
+        tl.to(rectId, time, { strokeDashoffset: 0, ease: Sine.easeOut }, startTime);
+        let offset = '-=' + time * 0.75;
+        tl.to(grpId, time * 0.66, { fillOpacity: 1 }, offset);
 
         this.isVisible = true;
         return tlEndTime;
