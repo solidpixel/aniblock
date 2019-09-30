@@ -10,6 +10,28 @@ export class Link extends Block {
     private src: Block;
     private dst: Block;
 
+    /**
+     * Create a new [[Link]].
+     *
+     * New links can be constructed in either a plugged or an unplugged state.
+     *
+     * * To make a plugged link visible use a [[show|show()]] animation.
+     * * To make an unplugged link visible use a [[plug|plug()]] animation.
+     *
+     * One a link is plugged - either at construction or via a manual plug
+     * operation - it can be hidden using either a [[hide|hide()]] or
+     * an [[unplug|unplug()]] animation depending on the desired effect.
+     *
+     * @param scene The parent scene.
+     * @param src The source [[Block]].
+     * @param dst The destination [[Block]].
+     * @param exit The edge via which to leave the source.
+     * @param dim The link width.
+     * @param plug Start in a plugged state?
+     * @param cls The DOM class, or class list, for this block. Supplying this
+     *            parameter is optional, but will be needed in order to apply
+     *            custom styles to subsets of the blocks in the diagram.
+     */
     constructor(
         scene: Scene,
         src: Block,
@@ -24,37 +46,22 @@ export class Link extends Block {
         let left = 0;
         let right = 0;
 
+        // Determine block extents in the direction of travel
         if (exit == Edge.Top) {
             bottom = src.get_edge(Edge.Top);
-            if (plug) {
-                top = dst.get_edge(Edge.Bottom);
-            } else {
-                top = bottom;
-            }
+            top = plug ? dst.get_edge(Edge.Bottom) : bottom;
         } else if (exit == Edge.Right) {
             left = src.get_edge(Edge.Right);
-            if (plug) {
-                right = dst.get_edge(Edge.Left);
-            } else {
-                right = left;
-            }
+            right = plug ? dst.get_edge(Edge.Left) : left;
         } else if (exit == Edge.Bottom) {
             top = src.get_edge(Edge.Bottom);
-            if (plug) {
-                bottom = dst.get_edge(Edge.Top);
-            } else {
-                bottom = top;
-            }
-        } else {
-            // if (exit == Edge.Left)
+            bottom = plug ? dst.get_edge(Edge.Top) : top;
+        } /* if (exit == Edge.Left) */ else {
             right = src.get_edge(Edge.Left);
-            if (plug) {
-                left = dst.get_edge(Edge.Right);
-            } else {
-                left = right;
-            }
+            left = plug ? dst.get_edge(Edge.Right) : right;
         }
 
+        // Determine block extents in the "other" direction
         if (exit == Edge.Top || exit == Edge.Bottom) {
             left = src.get_x() - dim / 2;
             right = left + dim;
@@ -75,6 +82,8 @@ export class Link extends Block {
         this.baseType = 'Link';
         this.src.add_link(this);
 
+        // If we are going to show using a plug() animation then immediately
+        // set opacity to 1 so we don't fade in while plugging ...
         if (!plug) {
             let grpId = '#' + this.id;
             this.scene.tl.to(grpId, 0, { fillOpacity: 1 });
