@@ -16,8 +16,8 @@ sc.add_constant('BLK_HM', blkHM);
 sc.add_constant('BLK_HS', blkHS);
 
 sc.add_vguide('c', '50%');
-sc.add_vguide('c-1', 'c - BLK_W + 20');
-sc.add_vguide('c+1', 'c + BLK_W - 20');
+sc.add_vguide('c_m1', 'c - BLK_W + 20');
+sc.add_vguide('c_p1', 'c + BLK_W - 20');
 
 sc.add_hguide('bus', '45%');
 sc.add_hguide('pro', 'bus - BLK_HL - 25');
@@ -51,13 +51,13 @@ dramLnk.plug();
 
 // Add SMC
 bus.change_width(460, ABlk.Dir.Center);
-bookmark = dmc.move_to_x('c-1');
-dram.move_to_x('c-1', bookmark);
+bookmark = dmc.move_to_x('c_m1');
+dram.move_to_x('c_m1', bookmark);
 
-var smc = new ABlk.Block(sc, 'Flash\nController', 'c+1', 'mif', blkW, blkHM, 's4');
+var smc = new ABlk.Block(sc, 'Flash\nController', 'c_p1', 'mif', blkW, blkHM, 's4');
 smc.show();
 
-var flash = new ABlk.Block(sc, 'Flash', 'c+1', 'ext', blkW, blkHS, 's4');
+var flash = new ABlk.Block(sc, 'Flash', 'c_p1', 'ext', blkW, blkHS, 's4');
 flash.show();
 
 var flashLnk = new ABlk.Link(sc, flash, bus, ABlk.Edge.Top, lnkW, false);
