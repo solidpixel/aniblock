@@ -1,5 +1,5 @@
-Tutorial 01: Hello World
-========================
+Tutorial 1: Hello World
+=======================
 
 In this first tutorial I will run though the obligatory creation of the simple
 "Hello World" animated block diagram shown below:

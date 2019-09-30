@@ -1,5 +1,5 @@
-Tutorial 02: Block Animation
-============================
+Tutorial 2: Block Animation
+===========================
 
 In this tutorial we'll look at the five main types of block animation that
 are available: show, hide, moves, changes in width, and changes in height.
