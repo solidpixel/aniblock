@@ -314,7 +314,14 @@ export class Block {
             group.setAttribute('class', String(this.cls));
         }
 
-        // Work out where to add the block in the SVG
+        // Work out where to add the block in the SVG. SVG images are rendered
+        // in element order from bottom to top, so we have to insert in an
+        // appropriate place to get the correct layering.
+
+        // If this is a "Bottom" element we need to insert at the start of the
+        // SVG child list so it's rendered before later elements, but insert
+        // after the canvas and after any guides so they are always underneath
+        // the diagram.
         if (this.get_block_zorder() == ZOrder.Bottom) {
             let guide = document.querySelectorAll('text.AGuide:last-of-type');
             if (guide.length != 0) {
@@ -323,6 +330,8 @@ export class Block {
                 let canvas = svg.getElementsByClassName('canvas')[0];
                 svg.insertBefore(group, canvas.nextSibling);
             }
+            // Else add the end of the SVG child list (draw last, on top of
+            // everything else) ...
         } else {
             svg.appendChild(group);
         }
@@ -341,32 +350,32 @@ export class Block {
 
         group.appendChild(rect);
 
-        if (this.label == null) {
-            return;
-        }
+        // If we have a label then create the text
+        if (this.label) {
+            // Create the text
+            let text = document.createElementNS(this.ns, 'text');
 
-        // Create the text
-        let text = document.createElementNS(this.ns, 'text');
-
-        // Note: this is a dummy element to get the font size
-        group.appendChild(text);
-        let style = window.getComputedStyle(text);
-        let fontSize = style.getPropertyValue('font-size');
-        this.labelSize = Number(fontSize.match(/\d+/)[0]);
-        group.removeChild(text);
-
-        let lines = this.label.split('\n');
-        for (let i in lines) {
-            let j = Number(i);
-            let text = this.generate_text(lines.length, j, lines[j]);
+            // Note: this is a dummy element to get the font size
             group.appendChild(text);
-        }
+            let style = window.getComputedStyle(text);
+            let fontSize = style.getPropertyValue('font-size');
+            this.labelSize = Number(fontSize.match(/\d+/)[0]);
+            group.removeChild(text);
 
-        // Apply a small rotation to force browser rendering to not pixel snap
-        // the font rendering, which looks terrible when animated ...
-        let tl = this.scene.tl;
-        let textid = '#' + this.id + ' text';
-        tl.set(textid, { force3D: true, rotation: 0.1 });
+            // Generate separate SVG elements per line of text
+            let lines = this.label.split('\n');
+            for (let i in lines) {
+                let j = Number(i);
+                let text = this.generate_text(lines.length, j, lines[j]);
+                group.appendChild(text);
+            }
+
+            // Apply a small rotation to force browser rendering to not pixel
+            // snap the font rendering, which looks terrible when animated ...
+            let tl = this.scene.tl;
+            let textid = '#' + this.id + ' text';
+            tl.set(textid, { force3D: true, rotation: 0.1 });
+        }
 
         return group;
     }
@@ -444,20 +453,11 @@ export class Block {
         let grpId = '#' + this.id;
         let rectId = '#' + this.id + ' rect';
 
-        let node = document.querySelector(rectId);
-        let style = window.getComputedStyle(node);
-        let stroke = style.getPropertyValue('stroke-width');
-        let strokeSize = Number(stroke.match(/\d+/)[0]);
-
-        if (strokeSize > 0) {
-            let time = this.scene.hideTime;
-            tl.to(grpId, time * 0.66, { fillOpacity: 0 }, startTime);
-            let offset = '-=' + time;
-            let dashOffset = this.get_perimeter();
-            tl.to(rectId, time, { strokeDashoffset: dashOffset, ease: Sine.easeOut }, offset);
-        } else {
-            tl.to(grpId, 0, { fillOpacity: 0 }, startTime);
-        }
+        let time = this.scene.hideTime;
+        tl.to(grpId, time * 0.66, { fillOpacity: 0 }, startTime);
+        let offset = '-=' + time;
+        let dashOffset = this.get_perimeter();
+        tl.to(rectId, time, { strokeDashoffset: dashOffset, ease: Sine.easeOut }, offset);
 
         this.isVisible = false;
         return tlEndTime;
@@ -543,6 +543,7 @@ export class Block {
         } else {
             var time = this.scene.moveTime;
         }
+
         tl.to(grpId, time, { y: this.y - this.yStart, ease: Sine.easeOut }, startTime);
         this.update_links(startTime);
         return tlEndTime;
@@ -593,38 +594,17 @@ export class Block {
         this.x += deltaW2;
 
         let isLink = this.baseType == 'Link';
-        if (isLink) {
-            var time = this.scene.linkTime;
-        } else {
-            var time = this.scene.morphTime;
-        }
+        let time = isLink ? this.scene.linkTime : this.scene.morphTime;
 
         // Adjust the rectangle dimensions
-        let perimeter = this.get_perimeter();
         if ((deltaW > 0 && direction == Dir.Left) || (deltaW < 0 && direction == Dir.Right)) {
             this.move_by_x(-deltaW, startTime, true);
-            tl.to(
-                rctId,
-                time,
-                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
         } else if (direction == Dir.Center) {
             this.move_by_x(-deltaW2, startTime, true);
-            tl.to(
-                rctId,
-                time,
-                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
-        } else {
-            tl.to(
-                rctId,
-                time,
-                { width: w, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
         }
+
+        let perim = this.get_perimeter();
+        tl.to(rctId, time, { width: w, strokeDasharray: perim, ease: Sine.easeOut }, startTime);
 
         // Adjust the text position
         let textDX = (this.w - this.wStart) / 2;
@@ -634,6 +614,7 @@ export class Block {
             tl.to(node, time, { x: textDX, ease: Sine.easeOut }, startTime);
         }
 
+        // Update any links for this block
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -665,38 +646,17 @@ export class Block {
         this.y += deltaH2;
 
         let isLink = this.baseType == 'Link';
-        if (isLink) {
-            var time = this.scene.linkTime;
-        } else {
-            var time = this.scene.morphTime;
-        }
+        let time = isLink ? this.scene.linkTime : this.scene.morphTime;
 
         // Adjust the rectangle dimensions
-        let perimeter = this.get_perimeter();
         if ((deltaH > 0 && direction == Dir.Up) || (deltaH < 0 && direction == Dir.Down)) {
             this.move_by_y(-deltaH, startTime, true);
-            tl.to(
-                rctId,
-                time,
-                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
         } else if (direction == Dir.Center) {
             this.move_by_y(-deltaH2, startTime, true);
-            tl.to(
-                rctId,
-                time,
-                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
-        } else {
-            tl.to(
-                rctId,
-                time,
-                { height: h, strokeDasharray: perimeter, ease: Sine.easeOut },
-                startTime
-            );
         }
+
+        let perim = this.get_perimeter();
+        tl.to(rctId, time, { height: h, strokeDasharray: perim, ease: Sine.easeOut }, startTime);
 
         // Adjust the text position
         let textDH = (this.h - this.hStart) / 2;
@@ -706,6 +666,7 @@ export class Block {
             tl.to(node, time, { y: textDH, ease: Sine.easeOut }, startTime);
         }
 
+        // Update any links for this block
         this.update_links(startTime);
         return tlEndTime;
     }
@@ -750,16 +711,14 @@ export class Block {
      * @returns The edge coordinate in pixels.
      */
     public get_edge(edge: Edge): number {
-        let edgeVal = null;
         if (edge == Edge.Top) {
-            edgeVal = this.y - this.h / 2;
+            return this.y - this.h / 2;
         } else if (edge == Edge.Right) {
-            edgeVal = this.x + this.w / 2;
+            return this.x + this.w / 2;
         } else if (edge == Edge.Bottom) {
-            edgeVal = this.y + this.h / 2;
-        } else if (edge == Edge.Left) {
-            edgeVal = this.x - this.w / 2;
+            return this.y + this.h / 2;
+        } /* if (edge == Edge.Left) */ else {
+            return this.x - this.w / 2;
         }
-        return edgeVal;
     }
 }
