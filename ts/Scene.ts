@@ -72,6 +72,9 @@ export class Scene implements EventListenerObject {
     /** @hidden Animation time for link animations. */
     public linkTime: number;
 
+    /** @hidden Animation time for load meter animations. */
+    public loadMeterTime: number;
+
     /** @hidden The internal GSAP animation timeline. */
     public readonly tl: TimelineLite;
 
@@ -107,6 +110,7 @@ export class Scene implements EventListenerObject {
         this.moveTime = 1;
         this.morphTime = 1;
         this.linkTime = 1;
+        this.loadMeterTime = 1;
 
         // Check the SVG exists
         let svg = document.getElementById(this.id);
@@ -145,6 +149,7 @@ export class Scene implements EventListenerObject {
      * - `hideTime`: Duration of hide animations, in seconds.
      * - `moveTime`: Duration of move animations, in seconds.
      * - `morphTime`: Duration of morph animations, in seconds.
+     * - `loadMeterTime`: Duration of load meter animations, in seconds.
      * - `loop`: Boolean indicating if the animation should loop.
      *
      * @param params A parameter mapping object.
@@ -176,6 +181,10 @@ export class Scene implements EventListenerObject {
 
         if (params.linkTime != undefined) {
             this.linkTime = params.linkTime;
+        }
+
+        if (params.loadMeterTime != undefined) {
+            this.loadMeterTime = params.loadMeterTime;
         }
     }
 

@@ -51,6 +51,7 @@ export class BlockLoad extends Block {
      * @param svg: The parent SVG element to add to.
      */
     public generate_svg(svg: HTMLElement): SVGElement {
+        // Create the block itself
         let group = super.generate_svg(svg);
 
         // Create the load meter
@@ -90,15 +91,13 @@ export class BlockLoad extends Block {
 
         let tl = this.scene.tl;
         let tlEndTime = tl.endTime();
-        startTime = startTime == null ? tlEndTime : startTime;
 
-        let time = 1;
-
+        let time = this.scene.showTime;
         let rectId = '#' + this.id + ' rect.ALoad';
         tl.to(rectId, time, { strokeOpacity: 1 }, startTime);
 
         let rectId2 = '#' + this.id + ' rect.ALoadMeter';
-        tl.to(rectId2, time, { fillOpacity: 1, strokeOpacity: 1 }, '-=1');
+        tl.to(rectId2, time, { fillOpacity: 1, strokeOpacity: 1 }, startTime);
 
         return tlEndTime;
     }
@@ -119,14 +118,14 @@ export class BlockLoad extends Block {
 
         let tl = this.scene.tl;
         let tlEndTime = tl.endTime();
-        startTime = startTime == null ? tlEndTime : startTime;
 
-        let time = 1;
+        let time = this.scene.hideTime;
         let rectId = '#' + this.id + ' rect.ALoad';
         tl.to(rectId, time, { fillOpacity: 0, strokeOpacity: 0 }, startTime);
 
         let rectId2 = '#' + this.id + ' rect.ALoadMeter';
-        tl.to(rectId2, time, { fillOpacity: 0, strokeOpacity: 0 }, '-=1');
+        tl.to(rectId2, time, { fillOpacity: 0, strokeOpacity: 0 }, startTime);
+
         return tlEndTime;
     }
 
@@ -173,8 +172,7 @@ export class BlockLoad extends Block {
         let newH = this.h * randLoad;
         let newY = -newH;
 
-        let time = this.isMeterVisible ? 1 : 0;
-        time = update ? time * 0.5 : time;
+        let time = this.isMeterVisible ? this.scene.loadMeterTime : 0;
         tl.to(
             rectId,
             time,
