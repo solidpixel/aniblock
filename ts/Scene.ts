@@ -186,14 +186,14 @@ export class Scene implements EventListenerObject {
      * @param value The constant value; any input accepted by [[Position]].
      */
     public add_constant(name: string, value: string | number): void {
+        // Constants must match a valid name pattern
+        if (!name.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
+            throw new Error('AScene: VGuide name is invalid "' + name + '"');
+        }
+
         // Constants must be unique in all namespaces namespace
         if (name in this.constants || name in this.hguides || name in this.vguides) {
             throw new Error('AScene: Constant name collision "' + name + '"');
-        }
-
-        // Constants cannot start with a numeric digit
-        if (name.match(/^\d.*$/)) {
-            throw new Error('AScene: Constant name cannot begin with a digit "' + name + '"');
         }
 
         this.constants[name] = Position(this, 'k', value);
@@ -221,14 +221,14 @@ export class Scene implements EventListenerObject {
      * @param loc The guide position; any input accepted by [[Position]].
      */
     public add_hguide(name: string, loc: string | number): void {
+        // Guides must match a valid name pattern
+        if (!name.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
+            throw new Error('AScene: VGuide name is invalid "' + name + '"');
+        }
+
         // Guides must be unique in both their orientation and constants namespace
         if (name in this.constants || name in this.hguides) {
             throw new Error('AScene: HGuide name collision "' + name + '"');
-        }
-
-        // Guides cannot start with a numeric digit
-        if (name.match(/^\d.*$/)) {
-            throw new Error('AScene: HGuide name cannot begin with a digit "' + name + '"');
         }
 
         let pos = Position(this, 'y', loc);
@@ -261,14 +261,14 @@ export class Scene implements EventListenerObject {
      * @param loc The guide position; any input accepted by [[Position]].
      */
     public add_vguide(name: string, loc: string | number): void {
+        // Guides must match a valid name pattern
+        if (!name.match(/^[A-Za-z][A-Za-z0-9_]*$/)) {
+            throw new Error('AScene: VGuide name is invalid "' + name + '"');
+        }
+
         // Guides must be unique in both their orientation and constants namespace
         if (name in this.constants || name in this.vguides) {
             throw new Error('AScene: VGuide name collision "' + name + '"');
-        }
-
-        // Guides cannot start with a numeric digit
-        if (name.match(/^\d.*$/)) {
-            throw new Error('AScene: VGuide name cannot begin with a digit "' + name + '"');
         }
 
         let pos = Position(this, 'x', loc);
