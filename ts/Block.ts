@@ -416,7 +416,7 @@ export class Block {
      */
     public show(startTime: number = null): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
@@ -447,7 +447,7 @@ export class Block {
      */
     public hide(startTime: number = null): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
@@ -477,7 +477,7 @@ export class Block {
      */
     public move_by_x(offset: number, startTime: number = null, isMorph: boolean = false): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
@@ -529,7 +529,7 @@ export class Block {
      */
     public move_by_y(offset: number, startTime: number = null, isMorph: boolean = false): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let grpId = '#' + this.id;
@@ -580,7 +580,7 @@ export class Block {
      */
     public change_width(w: number, direction: Dir, startTime: number = null): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let rctId = '#' + this.id + ' rect';
@@ -632,7 +632,7 @@ export class Block {
      */
     public change_height(h: number, direction: Dir, startTime: number = null): number {
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         let rctId = '#' + this.id + ' rect';

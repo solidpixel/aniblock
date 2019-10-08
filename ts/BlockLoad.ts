@@ -90,7 +90,7 @@ export class BlockLoad extends Block {
         this.isMeterVisible = true;
 
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
 
         let time = this.scene.showTime;
         let rectId = '#' + this.id + ' rect.ALoad';
@@ -117,7 +117,7 @@ export class BlockLoad extends Block {
         this.isMeterVisible = false;
 
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
 
         let time = this.scene.hideTime;
         let rectId = '#' + this.id + ' rect.ALoad';
@@ -157,7 +157,7 @@ export class BlockLoad extends Block {
         randLoad = randLoad / 100.0;
 
         let tl = this.scene.tl;
-        let tlEndTime = tl.endTime();
+        let tlEndTime = tl.duration();
         startTime = startTime == null ? tlEndTime : startTime;
 
         if (update) {

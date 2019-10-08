@@ -318,7 +318,7 @@ export class Scene implements EventListenerObject {
      * @returns The end time of the timeline in seconds.
      */
     public get_end_time(): number {
-        return this.tl.endTime();
+        return this.tl.duration();
     }
 
     /**
@@ -329,7 +329,7 @@ export class Scene implements EventListenerObject {
      * @returns The start time of this animation.
      */
     public add_idle(time: number): number {
-        let tlEndTime = this.tl.endTime();
+        let tlEndTime = this.tl.duration();
         this.tl.set({}, {}, '+=' + String(time));
         return tlEndTime;
     }
@@ -365,9 +365,7 @@ export class Scene implements EventListenerObject {
      *   part that is under development, skipping already completed work.
      */
     public fastforward(): void {
-        this.tl.addLabel('ffwd');
-        this.tl.seek('ffwd');
-        this.tl.removeLabel('ffwd');
+        this.tl.seek('-=0', false);
     }
 
     /**
